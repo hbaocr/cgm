@@ -243,13 +243,14 @@ ggplot(data = glucose_raw %>% filter(time > from
   # scale_x_continuous() + 
   labs(title = "Glucose after drinking apple juice", x = "Minutes", y = "mg/dL")
 
-from <- activity_raw %>% filter(Comment == "Baguette") %>% .$Start
-ggplot(data = glucose_raw %>% filter(time > from
-                       & time < (from + hours(2))),
-       aes(x=time,y=value)) + geom_line(size=2, color = "red") + glucose_target_gg +
-  # scale_x_continuous() + 
-  labs(title = "Glucose after a baguette", x = "Minutes", y = "mg/dL")
+# from <- activity_raw %>% filter(Comment == "Baguette") %>% .$Start
+# ggplot(data = glucose_raw %>% filter(time > from
+#                        & time < (from + hours(2))),
+#        aes(x=time,y=value)) + geom_line(size=2, color = "red") + glucose_target_gg +
+#   # scale_x_continuous() + 
+#   labs(title = "Glucose after a baguette", x = "Minutes", y = "mg/dL")
 
+food_effect(foodlist = c("Baguette","Whole Wheat Bread")) %>% group_by(experiment) %>% mutate(delta = (time - min(time))/60) %>% ggplot(aes(x=delta,y=value, color = experiment)) + geom_line(size = 2) + scale_x_continuous() + labs(title = "Glucose and Bread", x = "Minutes", y = "mg/dL")
 
 
 
