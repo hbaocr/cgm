@@ -85,12 +85,14 @@ shinyServer(function(input, output) {
 
   output$glucoseLevelsPlot <- renderPlot({
 
-    glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))
+    startDate <- lubridate::as_datetime(input$date1) #input$date_range[1]
+    endDate <- lubridate::as_datetime(input$date2) # input$date_range[2]
+    glucose <- dplyr::filter(glucose, time >= startDate  & time <= endDate + lubridate::hours(6))
     # activity <- dplyr::filter(activity_raw, Start >= input$date_range[1] &
     #                             Start <= input$date_range[2] + lubridate::hours(6))
     # activity$Activity <- factor(activity$Activity)
     #
-    cgm_display(input$date_range[1],input$date_range[2],activity_raw,glucose_raw)
+    cgm_display(startDate,endDate,activity_raw,glucose_raw)
 
   })
 
