@@ -8,6 +8,7 @@ library(RPostgreSQL)
 library(tidyverse)
 
 # Define UI for application that draws a histogram
+
 shinyUI(
   
   fluidPage(
@@ -87,7 +88,9 @@ shinyUI(
                     "Choose Date Range:",
                     min = lubridate::as_datetime("2018-12-03"), max = lubridate::now(),
                     value = c(lubridate::as_datetime("2018-12-06"), lubridate::as_datetime("2018-12-07"))
-        )
+        ),
+      dateInput("date1", "Start Date:", value = lubridate::as_datetime("2018-12-06")),
+      dateInput("date2", "End Date:", value = lubridate::as_datetime("2018-12-07"))
         
         
         
@@ -102,5 +105,6 @@ shinyUI(
         dataTableOutput('rT_file_activity_track'),
         plotOutput("glucoseLevelsPlot")
       )
+
     )
   ))

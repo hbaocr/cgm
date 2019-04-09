@@ -7,7 +7,7 @@ output: github_document
 
 See [Continous Glucose Monitoring: Start Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)
 
-I've been tracking my glucose levels 24 x 7 using a continuous glucose monitor from Abbot Labs called the [Freestyle Libre](https://www.freestylelibre.us/index.html). 
+I've been tracking my glucose levels 24 x 7 using a continuous glucose monitor from Abbott Labs called the [Freestyle Libre](https://www.freestylelibre.us/index.html). 
 
 View a Shiny version of my current data at [https://personalscience.shinyapps.io/librelink/](https://personalscience.shinyapps.io/librelink/).  [[Source](https://github.com/richardsprague/cgm/tree/master/librelink)]
 
@@ -243,13 +243,14 @@ ggplot(data = glucose_raw %>% filter(time > from
   # scale_x_continuous() + 
   labs(title = "Glucose after drinking apple juice", x = "Minutes", y = "mg/dL")
 
-from <- activity_raw %>% filter(Comment == "Baguette") %>% .$Start
-ggplot(data = glucose_raw %>% filter(time > from
-                       & time < (from + hours(2))),
-       aes(x=time,y=value)) + geom_line(size=2, color = "red") + glucose_target_gg +
-  # scale_x_continuous() + 
-  labs(title = "Glucose after a baguette", x = "Minutes", y = "mg/dL")
+# from <- activity_raw %>% filter(Comment == "Baguette") %>% .$Start
+# ggplot(data = glucose_raw %>% filter(time > from
+#                        & time < (from + hours(2))),
+#        aes(x=time,y=value)) + geom_line(size=2, color = "red") + glucose_target_gg +
+#   # scale_x_continuous() + 
+#   labs(title = "Glucose after a baguette", x = "Minutes", y = "mg/dL")
 
+food_effect(foodlist = c("Baguette","Whole Wheat Bread", "Whole Wheat w/ Reducose")) %>% group_by(experiment) %>% mutate(delta = (time - min(time))/60) %>% ggplot(aes(x=delta,y=value, color = experiment)) + geom_line(size = 2) + scale_x_continuous() + labs(title = "Glucose and Bread", x = "Minutes", y = "mg/dL")
 
 
 
