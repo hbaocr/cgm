@@ -180,8 +180,9 @@ shinyServer( function(input, output, session) {
     }
 
     #: ----only plot if both files are present-----
-    if ( !is.null(input$file_activity_track) & !is.null(input$file_glucose_measure_librelink)) {
-
+    #: ----only plot if "file_glucose_measure_librelink" are present-----
+    if ( !is.null(input$file_glucose_measure_librelink)) {
+      
       #: ----pre-process the data.tables before plotting----
       # 1, for glucose_dt
       glucose_dt[ , `Meter Timestamp` := lubridate::force_tz(`Meter Timestamp`, tzone = "US/Pacific")]
@@ -190,7 +191,7 @@ shinyServer( function(input, output, session) {
                                           hist = "Historic Glucose(mg/dL)",
                                           strip = "Strip Glucose(mg/dL)",
                                           food = "Notes")
-
+      
       glucose_dt[, value := dplyr::if_else( condition = is.na(scan), true = hist, false = scan )]
       # glucose_dt[, value := scan ]
       # glucose_dt[is.na(value), value := hist ]
@@ -201,9 +202,14 @@ shinyServer( function(input, output, session) {
       #readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2019"))
 
       # 2, for activity_dt
-      activity_dt[, Start := lubridate::force_tz(Start, tzone = "US/Pacific")]
-      activity_dt[, End := lubridate::force_tz(End, tzone = "US/Pacific")]
-
+      if (!is.null(input$file_activity_track) ) {
+        # 2, for activity_dt
+        activity_dt[, Start := lubridate::force_tz(Start, tzone = "US/Pacific")]
+        activity_dt[, End := lubridate::force_tz(End, tzone = "US/Pacific")]
+      } else {
+        activity_dt <- NULL # if no file provided, set the dt variable to NULL.
+      }
+      
       #: ----renderPlot----
       output$glucoseLevelsPlot <- renderPlot({
         #:----set the theme before plotting----
