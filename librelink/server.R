@@ -181,8 +181,8 @@ shinyServer( function(input, output, session) {
       })
     }
     
-    #: ----only plot if both files are present-----
-    if ( !is.null(input$file_activity_track) & !is.null(input$file_glucose_measure_librelink)) {
+    #: ----only plot if "file_glucose_measure_librelink" are present-----
+    if ( !is.null(input$file_glucose_measure_librelink)) {
       
       #: ----pre-process the data.tables before plotting---- 
       # 1, for glucose_dt
@@ -201,9 +201,14 @@ shinyServer( function(input, output, session) {
       # activity_raw <- dplyr::full_join(readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2018"),
       #readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2019"))
       
-      # 2, for activity_dt
-      activity_dt[, Start := lubridate::force_tz(Start, tzone = "US/Pacific")]
-      activity_dt[, End := lubridate::force_tz(End, tzone = "US/Pacific")]
+      if (!is.null(input$file_activity_track) ) {
+        # 2, for activity_dt
+        activity_dt[, Start := lubridate::force_tz(Start, tzone = "US/Pacific")]
+        activity_dt[, End := lubridate::force_tz(End, tzone = "US/Pacific")]
+      } else {
+        activity_dt <- NULL # if no file provided, set the dt variable to NULL.
+      }
+      
       
       #: ----renderPlot---- 
       output$glucoseLevelsPlot <- renderPlot({
@@ -217,6 +222,7 @@ shinyServer( function(input, output, session) {
         
         #: ----plotting---- 
         # if input$date_range changes, that will trigger renderPlot again.
+        # if activity_df = NULL, need to guarantee "cgm_display" still work.
         cgm_display(start = input$date_range[1], end = input$date_range[2], activity_df = activity_dt,
                     glucose_df = glucose_dt, ref_band = glucose_ref_band)
         

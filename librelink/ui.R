@@ -10,6 +10,18 @@ library(tidyverse)
 # Define UI for application that draws a histogram
 shinyUI(
   
+  # navbarPage("Glucose levels for https://psm.personalscience.com",
+  #            tabPanel(
+  #              "Upload files"
+  #            ),
+  #            tabPanel(
+  #              "Browse DataTable"
+  #            ),
+  #            tabPanel(
+  #              "Visualize your timeline"
+  #            )
+  # )
+  
   fluidPage(
     
     # Application title
