@@ -77,8 +77,6 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
 }
 
 
-
-
 #: ====define shinyServer()===============================================
 # Define server logic required to draw a histogram
 shinyServer( function(input, output, session) {
@@ -197,6 +195,7 @@ shinyServer( function(input, output, session) {
       # glucose_dt[, value := scan ]
       # glucose_dt[is.na(value), value := hist ]
 
+
       #libre_raw$`Meter Timestamp` <- lubridate::force_tz(libre_raw$`Meter Timestamp`, "US/Pacific")
       # activity_raw <- dplyr::full_join(readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2018"),
       #readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2019"))
@@ -222,8 +221,12 @@ shinyServer( function(input, output, session) {
         
         #: ----plotting---- 
         # if input$date_range changes, that will trigger renderPlot again.
+<<<<<<< HEAD
         # if activity_df = NULL, need to guarantee "cgm_display" still work.
         cgm_display(start = input$date_range[1], end = input$date_range[2], activity_df = activity_dt,
+=======
+        cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
+>>>>>>> 10c81dfb50781df1a2b07bb5514d903f66bdb5e3
                     glucose_df = glucose_dt, ref_band = glucose_ref_band)
         
       })
