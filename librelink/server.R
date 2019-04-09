@@ -22,7 +22,7 @@ setClass('myTimestamp')
 #: a func to convert character column to datetime tppe.
 char_to_datetime <- function(characters, tz = "US/Pacific", format = "%m/%d/%Y %H:%M" ){
   #: POSIXct is a numeric and can be operated `:=`; POSIXlt cannot.
-  # so lubridate::as_datetime will not work here, as it will return POSIXlt. 
+  # so lubridate::as_datetime will not work here, as it will return POSIXlt.
   as.POSIXct(characters, tz = tz, format = format)
 }
 
@@ -80,9 +80,9 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
 #: ====define shinyServer()===============================================
 # Define server logic required to draw a histogram
 shinyServer( function(input, output, session) {
-  
+
   psql <- dbDriver("PostgreSQL")
-  
+
   #: ----define schema.tablename and colnames (header) in each table----
   # entity names
   databaseName <- "postgres"
@@ -91,54 +91,54 @@ shinyServer( function(input, output, session) {
   # column names in each table
   colnames_librelink <- c("meter_timestamp", "record_type", "historic_glucose", "scan_glucose",
                           "non_numeric_food", "carbohydrates_gram", "carbohydrates_serving",
-                          "notes", "strip_glucose", "ketone") %>% paste(., collapse = ",") 
+                          "notes", "strip_glucose", "ketone") %>% paste(., collapse = ",")
   colnames_activity_track <- c("start_time", "end_time", "activity_category", "comment") %>% paste(., collapse = ",")
-  
+
   #: ----define saveData function----
   saveData <- function(data, table_name = table_name_librelink, colnames_table = colnames_librelink) {
     # Connect to the database
     # "psql" from GlobalEnv.
-    pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433, 
+    pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433,
                       user = "postgres", password = "sigai")
-    
+
     paranthesis_concatenated_string <- data %>% apply(., 1, paste, collapse = "','") %>% sprintf("('%s')", .) %>% paste(., collapse = ', ' ) %>% gsub("'NA'", "NULL", . )
-    
+
     # Construct the update query by looping over the data fields
     query <- sprintf( "INSERT INTO %s (%s) VALUES %s",
                       table_name,
                       colnames_table,
                       paranthesis_concatenated_string
-    ) 
-    
+    )
+
     # Submit the update query and disconnect
-    dbSendQuery(pcon, query) 
-    # dbSendQuery(pcon, query, params=data[["message"]]) 
+    dbSendQuery(pcon, query)
+    # dbSendQuery(pcon, query, params=data[["message"]])
     dbDisconnect(pcon)
   }
-  
+
   #: ----define loadData function----
   loadData <- function(table_name = table_name_librelink ) {
     # Connect to the database
-    pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433, 
+    pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433,
                       user = "postgres", password = "sigai")
     # Construct the fetching query
-    query <- sprintf("SELECT * FROM %s", table_name) 
+    query <- sprintf("SELECT * FROM %s", table_name)
     # Submit the fetch query and disconnect
     data <- dbGetQuery(pcon, query)
     dbDisconnect(pcon)
     data
   }
-  
+
   # When the Submit button is clicked, save the uploaded data
   observeEvent(input$submit, {
-    
+
     #: ----for "file_glucose_measure_librelink", it is necessary to upload----
     inFile <- input$file_glucose_measure_librelink
     #
     if (is.null(inFile))
       return(NULL)
     #
-    glucose_dt <- fread(inFile$datapath, header = input$header_1,
+    glucose_dt <- data.table::fread(inFile$datapath, header = input$header_1,
                         sep = input$sep_1, quote = input$quote_1)
     #
     datetime_value_vec <- glucose_dt[ , char_to_datetime(`Meter Timestamp`)] # convert to datetime column
@@ -155,13 +155,13 @@ shinyServer( function(input, output, session) {
       # be found.
       glucose_dt
     })
-    
-    
+
+
     #: ----for "file_activity_track", it is optional----
     inFile <- input$file_activity_track
     #
     if (!is.null(inFile)) {
-      activity_dt <- fread(inFile$datapath, header = input$header_2,
+      activity_dt <- data.table::fread(inFile$datapath, header = input$header_2,
                            sep = input$sep_2, quote = input$quote_2)
       #
       activity_dt[ , `Start` := char_to_datetime(`Start`)] # convert to datetime column
@@ -178,11 +178,11 @@ shinyServer( function(input, output, session) {
         activity_dt
       })
     }
-    
+
     #: ----only plot if both files are present-----
     if ( !is.null(input$file_activity_track) & !is.null(input$file_glucose_measure_librelink)) {
-      
-      #: ----pre-process the data.tables before plotting---- 
+
+      #: ----pre-process the data.tables before plotting----
       # 1, for glucose_dt
       glucose_dt[ , `Meter Timestamp` := lubridate::force_tz(`Meter Timestamp`, tzone = "US/Pacific")]
       glucose_dt <- glucose_dt %>% select(time = "Meter Timestamp",
@@ -190,7 +190,7 @@ shinyServer( function(input, output, session) {
                                           hist = "Historic Glucose(mg/dL)",
                                           strip = "Strip Glucose(mg/dL)",
                                           food = "Notes")
-      
+
       glucose_dt[, value := dplyr::if_else( condition = is.na(scan), true = hist, false = scan )]
       # glucose_dt[, value := scan ]
       # glucose_dt[is.na(value), value := hist ]
@@ -199,12 +199,12 @@ shinyServer( function(input, output, session) {
       #libre_raw$`Meter Timestamp` <- lubridate::force_tz(libre_raw$`Meter Timestamp`, "US/Pacific")
       # activity_raw <- dplyr::full_join(readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2018"),
       #readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2019"))
-      
+
       # 2, for activity_dt
       activity_dt[, Start := lubridate::force_tz(Start, tzone = "US/Pacific")]
       activity_dt[, End := lubridate::force_tz(End, tzone = "US/Pacific")]
-      
-      #: ----renderPlot---- 
+
+      #: ----renderPlot----
       output$glucoseLevelsPlot <- renderPlot({
         #:----set the theme before plotting----
         theme_set(theme_stata())
@@ -213,19 +213,19 @@ shinyServer( function(input, output, session) {
         #                             Start <= input$date_range[2] + lubridate::hours(6))
         # activity$Activity <- factor(activity$Activity)
         #
-        
-        #: ----plotting---- 
+
+        #: ----plotting----
         # if input$date_range changes, that will trigger renderPlot again.
         cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
                     glucose_df = glucose_dt, ref_band = glucose_ref_band)
-        
+
       })
     }
-      
+
   })
-  
- 
-  
+
+
+
   # #:----renderTable of file_glucose_measure_librelink----
   # output$rT_file_glucose_measure_librelink <- renderTable({
   #   # input$file1 will be NULL initially. After the user selects
@@ -233,37 +233,37 @@ shinyServer( function(input, output, session) {
   #   # 'size', 'type', and 'datapath' columns. The 'datapath'
   #   # column will contain the local filenames where the data can
   #   # be found.
-  #   
+  #
   #   inFile <- input$file_glucose_measure_librelink
-  #   
+  #
   #   if (is.null(inFile))
   #     return(NULL)
-  #   
+  #
   #   read.csv(inFile$datapath, header = input$header,
   #            sep = input$sep, quote = input$quote)
   # })
-  
+
   # # Show the previous responses
   # # (update with current response when Submit is clicked)
   # output$responses <- DT::renderDataTable({
   #   input$submit
   #   loadData()
-  # })     
-  
-  
-  
- 
+  # })
+
+
+
+
 
 }) # end of shinyServer.
 
-# 
+#
 # #:----from shiny tutorial pasted below----------
 #: print the table.
 #
 # # By default, the file size limit is 5MB. It can be changed by
 # # setting this option. Here we'll raise limit to 9MB.
 # options(shiny.maxRequestSize = 9*1024^2)
-# 
+#
 # function(input, output) {
 #   output$contents <- renderTable({
 #     # input$file1 will be NULL initially. After the user selects
@@ -271,12 +271,12 @@ shinyServer( function(input, output, session) {
 #     # 'size', 'type', and 'datapath' columns. The 'datapath'
 #     # column will contain the local filenames where the data can
 #     # be found.
-#     
+#
 #     inFile <- input$file1
-#     
+#
 #     if (is.null(inFile))
 #       return(NULL)
-#     
+#
 #     read.csv(inFile$datapath, header = input$header,
 #              sep = input$sep, quote = input$quote)
 #   })
