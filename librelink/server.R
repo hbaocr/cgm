@@ -129,9 +129,109 @@ shinyServer( function(input, output, session) {
     data
   }
 
-  # When the Submit button is clicked, save the uploaded data
-  observeEvent(input$submit, {
+  #: ----check whether two email string inputs are consistent, if not, report error immediately and disable submit button function----
+  # if (input$email_input_1 == input$email_input_2) {
+  #   email_check_consist_msg <- "Pass!"
+  #   output$email_check_consist_msg <- renderText({ if_else()email_check_consist_msg })
+  #   
+  # } else {
+  #   email_check_consist_msg <- "Two inputs of emails are not the same!"
+  #   output$email_check_consist_msg <- renderText({ input$caption })
+  # }
+  
+  #: define a reactive function.
+  msg_print <- reactive({
+    # boolean, whether two strings are exactly the same after trim and nchar > 0, i.e., non-empty.
+    #: define a few conditions, need unit tests here to be more robust.
+    same_flag <- str_trim(input$email_input_1) == str_trim(input$email_input_2)
+    both_non_empty_flag <- nchar(str_trim(input$email_input_1)) > 0 & nchar(str_trim(input$email_input_2)) > 0
+    any_empty_flag <- nchar(str_trim(input$email_input_1)) == 0 | nchar(str_trim(input$email_input_2)) == 0
+    #: very simple check for valid email address using regex, could be improved.
+    #contain_ata_flag <- grepl("[^@]+@[^@]+\.[^@]+", x = input$email_input_1) & grepl("[^@]+@[^@]+\.[^@]+", x = input$email_input_2) # assume every email address should contain "@".
+    contain_ata_flag <- stringr::str_detect(pattern = ("[^@]+@[^@]+\\.[^@]+"), string = input$email_input_1) & stringr::str_detect(pattern = ("[^@]+@[^@]+\\.[^@]+"), string = input$email_input_2)
+    
+    if (same_flag & both_non_empty_flag & contain_ata_flag) {
+      value_return <- "same"
+    } else if (any_empty_flag ) {
+      value_return <- "enter"
+    } else if (!contain_ata_flag) {
+      value_return <- "invalid"
+    } else {
+      value_return <- "differ"
+    }
+    
+    switch(EXPR = value_return,
+           same =  "Pass! Now you can upload your files!",
+           enter = "Please enter your emails above.",
+           differ = "Two emails are not the same! Please fix...",
+           invalid = "Invalid email address!"
+    )
+    
+  }) 
+  
+  output$email_check_consist_msg <- renderText({
+    
+    msg_print()
+    
+  })
+  
+  #: for sending value from server.r to ui.r, we need to use renderUI here to manipulate dynamic conditions, e.g., font/color pending on
+  # the value of a intermediate variable.
+  output$print_email_check_consist_msg <- renderUI({
+    uiOutput <- textOutput("email_check_consist_msg")
+    color <- switch(msg_print(),
+                    "Please enter your emails above." = "gray",
+                    "Pass! Now you can upload your files!" = "green",
+                    "red"
+                      )
+      # dplyr::if_else (msg_print() == "Pass! Now you can upload your files!",
+      #                 "green",
+      #                 "red")
+    tagList(uiOutput,
+            #: css syntax below,
+            tags$head(tags$style(
+              sprintf(
+                "#email_check_consist_msg{color: %s;
+                font-size: 16px;
+                font-style: bold;}",
+                color
+              )
+            )))
+  })
+  
+  
+  #: obsolete 
+  # output$color_font_email_check_consist_msg <- reactive({
+  #   if (msg_print() == "Pass! Now you can upload your files!"){
+  #     "green"
+  #   } else {
+  #     "red"
+  #   }
+  # })
+  # outputOptions(output, 'color_font_email_check_consist_msg', suspendWhenHidden = FALSE) # send value as option to UI
+  
 
+  #: ----detect if emails inputs "pass", return TRUE or FALSE for 'flag_fail_invalidMail_panel'.   
+  # then transferred as options to ui.r as a javascript condition.
+  output$flag_fail_invalidMail_panel <- eventReactive(input$submit,
+                                                        {
+                                                          dplyr::if_else(condition = msg_print() != "Pass! Now you can upload your files!",
+                                                                        true = TRUE,
+                                                                        false = FALSE)
+                                                        })
+  outputOptions(output, "flag_fail_invalidMail_panel", suspendWhenHidden = FALSE)  
+    
+  
+  
+  
+  #: ----When the Submit button is clicked, save the uploaded data, draw table, visualize, etc.----
+  observeEvent(input$submit, {
+   
+    #:----check if flag_fail_invalidMail_panel == TRUE, it yes, return NULL----
+    if (msg_print() != "Pass! Now you can upload your files!") {
+      return()
+    }
+    
     #: ----for "file_glucose_measure_librelink", it is necessary to upload----
     inFile <- input$file_glucose_measure_librelink
     #
