@@ -89,12 +89,26 @@ shinyServer( function(input, output, session) {
   table_name_librelink <- "raw.cgm_librelink" # always in the format of "schemaname.tablename"
   table_name_activity_track <- "raw.activity_track"
   # column names in each table
-  colnames_librelink <- c("meter_timestamp", "record_type", "historic_glucose", "scan_glucose",
+  colnames_librelink <- c("user_id", "meter", "serial_number", "meter_timestamp", "record_type", "historic_glucose", "scan_glucose",
+                          "non_numeric_rapid_acting_insulin", "rapid_acting_insulin_unit", 
                           "non_numeric_food", "carbohydrates_gram", "carbohydrates_serving",
-                          "notes", "strip_glucose", "ketone") %>% paste(., collapse = ",")
-  colnames_activity_track <- c("start_time", "end_time", "activity_category", "comment") %>% paste(., collapse = ",")
+                          "non_numeric_long_acting_insulin", "long_acting_insulin_unit",
+                          "notes", "strip_glucose", "ketone",
+                          "meal_insulin", "correction_insulin", "user_change_insulin") %>% paste(., collapse = ",")
+  colnames_activity_track <- c("user_id", "start_time", "end_time", "activity_category", "comment") %>% paste(., collapse = ",")
 
   #: ----define saveData function----
+#' saveData
+#' save data for the database table
+#' @param data an R data.frame or data.table
+#' @param table_name the remote SQL tablename
+#' @param colnames_table field names of the remote SQL table
+#'
+#' @return no return
+#' @export
+#'
+#' @examples
+#' saveData(data = librelink_dt, table_name = table_name_librelink, colnames_table = colnames_librelink)
   saveData <- function(data, table_name = table_name_librelink, colnames_table = colnames_librelink) {
     # Connect to the database
     # "psql" from GlobalEnv.
@@ -109,6 +123,7 @@ shinyServer( function(input, output, session) {
                       colnames_table,
                       paranthesis_concatenated_string
     )
+    
 
     # Submit the update query and disconnect
     dbSendQuery(pcon, query)
@@ -116,7 +131,82 @@ shinyServer( function(input, output, session) {
     dbDisconnect(pcon)
   }
 
+#: ----define saveData_user_account function----
+# a specialized version modified from the generic 'saveData' function by including embeded SQL function to generate field in addition to "data".
+#' saveData_user_account
+#' save data for the table "raw.user_account"
+#' a specialized version modified from the generic 'saveData' function by including embeded SQL function to generate field in addition to "data".
+#' @param data an R data.frame or data.table
+#' @param table_name the remote SQL tablename
+#' @param colnames_table field names of the remote SQL table
+#'
+#' @return no return
+#' @export
+#'
+#' @examples
+#' saveData_user_account(data = user_account_dt)
+  saveData_user_account <- function(data, table_name = "raw.user_account", 
+                                    colnames_table = "username, password, email, created_on, last_login") {
+    # Connect to the database
+    # "psql" from GlobalEnv.
+    pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433,
+                      user = "postgres", password = "sigai")
+    
+    #: specialized concate string just for one row input for "raw.user_account" table
+    # use email for both username and email as now.
+    paranthesis_concatenated_string <- data %>% stringr::str_glue_data("('{email}','{password}','{email}', CURRENT_TIMESTAMP(2), NULL)")
+    
+    #paranthesis_concatenated_string <- data %>% apply(., 1, paste, collapse = "','") %>% sprintf("('%s')", .) %>% paste(., collapse = ', ' ) %>% gsub("'NA'", "NULL", . )
+    # Construct the update query by looping over the data fields
+    query <- sprintf( "INSERT INTO %s (%s) VALUES %s",
+                      table_name,
+                      colnames_table,
+                      paranthesis_concatenated_string
+    )
+    #
+    
+    # 
+    # # Construct the update query by looping over the data fields
+    # query <- sprintf( "INSERT INTO %s (%s) VALUES %s",
+    #                   table_name,
+    #                   colnames_table,
+    #                   paranthesis_concatenated_string )
+    # 
+    # #
+    # query_not_from_dt <- sprintf( "INSERT INTO %s (%s) VALUES %s",
+    #                               table_name,
+    #                               colnames_others,
+    #                               "(CURRENT_TIMESTAMP(2), NULL)"
+    # )
+    
+    
+    
+    # Submit the update query and disconnect
+    dbSendQuery(pcon, query)
+    #dbSendQuery(pcon, query_not_from_dt)
+    # dbSendQuery(pcon, query, params=data[["message"]])
+    dbDisconnect(pcon)
+  }
+  
+  #: example
+  # saveData_user_account(user_account_dt)
+  
+  # ----if need to close too many dead connections----
+  #: if there are too many dead connections due to program dead in the middle (usually under dev mode)
+  # use this cmd to close all.
+  # sapply(RPostgreSQL::dbListConnections(psql), FUN = dbDisconnect)
+  
+  
   #: ----define loadData function----
+#' loadData
+#' select all rows from a remote database table and import into an R data.table
+#' @param table_name table name string as in the remote database 
+#'
+#' @return an R data.table containing all the rows from the remote table
+#' @export
+#'
+#' @examples
+#' loadData(table_name = "raw.user_account") 
   loadData <- function(table_name = table_name_librelink ) {
     # Connect to the database
     pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433,
@@ -126,9 +216,79 @@ shinyServer( function(input, output, session) {
     # Submit the fetch query and disconnect
     data <- dbGetQuery(pcon, query)
     dbDisconnect(pcon)
-    data
+    data %>% as.data.table()
   }
+  
+  # loadData(table_name = "raw.user_account") 
+  
+  #: ----define loadData_checkExistingUser function----
+#' loadData_checkExistingUser
+#' check if user existed in the database user table by searching the email
+#' @param table_name the user account table in the database
+#' @param email_fieldname_table field name for storing the email in the table
+#' @param email_to_check the email address to check
+#'
+#' @return a boolean, TRUE for found and FALSE for not.
+#' @export
+#'
+#' @examples
+#' loadData_checkExistingUser(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "xyy2006@msn.com") 
+  loadData_checkExistingUser <- function(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "xyy2006@msn.com"  ) {
+    # Connect to the database
+    pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433,
+                      user = "postgres", password = "sigai")
+    # Construct the fetching query
+    query <- stringr::str_glue("SELECT * FROM {table_name}
+                               where {email_fieldname_table} = '{email_to_check}'" )
 
+    # Submit the fetch query and disconnect
+    data <- dbGetQuery(pcon, query)
+    dbDisconnect(pcon)
+    # data
+    
+    #: criteria: a data.table with 1 row (user found) or 0 row (no such user)
+    dplyr::if_else(condition = nrow(data) > 0, true = TRUE, false = FALSE)
+  }
+  #: example
+  # loadData_checkExistingUser(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "xyy2006@msn.com")
+  # loadData_checkExistingUser(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "richard.sprague@msn.com")
+  
+  #: ----define loadData_extractExistingUserID function----
+#' loadData_checkExistingUser
+#' check if user existed in the database user table by searching the email
+#' @param table_name the user account table in the database
+#' @param email_fieldname_table field name for storing the email in the table
+#' @param email_to_check the email address to check
+#'
+#' @return user_id, a SMALLINT in database or NULL if user not exists.
+#' @export
+#'
+#' @examples
+#' loadData_extractExistingUserID(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "xyy2006@msn.com") 
+  loadData_extractExistingUserID <- function(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "xyy2006@msn.com"  ) {
+    # Connect to the database
+    pcon <- dbConnect(psql, dbname = databaseName, host = "localhost", port = 5433,
+                      user = "postgres", password = "sigai")
+    # Construct the fetching query
+    query <- stringr::str_glue("SELECT * FROM {table_name}
+                               where {email_fieldname_table} = '{email_to_check}'" )
+
+    # Submit the fetch query and disconnect
+    data <- dbGetQuery(pcon, query)
+    dbDisconnect(pcon)
+    
+    stopifnot(nrow(data) < 2 ) # return 0 row or 1 row if user exists.
+    
+    data$user_id # should return either NULL or 1 int if user exists.
+    
+    
+  }
+  #: example
+  # loadData_extractExistingUserID(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "xyy2006@msn.com")
+  # 1
+  # loadData_extractExistingUserID(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "richard.sprague@msn.com")
+  # NULL
+  
   #: ----check whether two email string inputs are consistent, if not, report error immediately and disable submit button function----
   # if (input$email_input_1 == input$email_input_2) {
   #   email_check_consist_msg <- "Pass!"
@@ -148,7 +308,7 @@ shinyServer( function(input, output, session) {
     any_empty_flag <- nchar(str_trim(input$email_input_1)) == 0 | nchar(str_trim(input$email_input_2)) == 0
     #: very simple check for valid email address using regex, could be improved.
     #contain_ata_flag <- grepl("[^@]+@[^@]+\.[^@]+", x = input$email_input_1) & grepl("[^@]+@[^@]+\.[^@]+", x = input$email_input_2) # assume every email address should contain "@".
-    contain_ata_flag <- stringr::str_detect(pattern = ("[^@]+@[^@]+\\.[^@]+"), string = input$email_input_1) & stringr::str_detect(pattern = ("[^@]+@[^@]+\\.[^@]+"), string = input$email_input_2)
+    contain_ata_flag <- stringr::str_detect(pattern = ("[^@]+@[^@]+\\.[^@]+"), string = input$email_input_1) | stringr::str_detect(pattern = ("[^@]+@[^@]+\\.[^@]+"), string = input$email_input_2)
     
     if (same_flag & both_non_empty_flag & contain_ata_flag) {
       value_return <- "same"
@@ -238,13 +398,57 @@ shinyServer( function(input, output, session) {
     if (is.null(inFile))
       return(NULL)
     #
-    glucose_dt <- data.table::fread(inFile$datapath, header = input$header_1,
-                        sep = input$sep_1, quote = input$quote_1)
+    #: 1, first row contains meta information of the user, and should be extracted first
+    # assume fixed format as "Export Patient's Glucose Data,Generated on,3/25/19,Generated by,sample,..."
+    # that will allow us to extract by index.
+    metaInfo_line <- readLines(inFile$datapath, n = 1)
+    metaInfo_line_char <- metaInfo_line %>% str_split(., pattern = ",") %>% unlist
     #
+    date_glucoseData_download <- metaInfo_line_char[3] %>% as.Date(., "%m/%d/%y")
+    user_name_dataMetaInfo <- metaInfo_line_char[5]
+    #: extract email from input$
+    user_email <- input$email_input_1
+    user_pwd <- 123456 # currently the same pwd as placeholder for every user since no login portal yet.
+    user_account_dt <- data.table(username = user_name_dataMetaInfo, 
+               password = user_pwd,
+               email = user_email # email could be used twice for now to represent both "username" and "email" in the raw.user_account table in the database.
+               #created_on = "", # omitted here, let SQL function take care in the function 'saveData_user_account'.
+               #last_login = "" # omitted here, let SQL function take care.
+               )
+    
+    #: check if user already existed in the raw.user_account by checking either username or email, using "loadData" func.
+    flag_user_exists <- loadData_checkExistingUser(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = user_account_dt$email)
+    #: if not found, upload user info by using saveData_user_account()
+    if (!flag_user_exists) {
+      saveData_user_account(data = user_account_dt, table_name = "raw.user_account", colnames_table =  "username, password, email, created_on, last_login")
+    }
+    
+
+    
+    #: 2, start from 2nd row, columnar format.
+    glucose_dt <- data.table::fread(inFile$datapath, header = input$header_1,
+                        sep = input$sep_1, quote = input$quote_1, skip = 1) # skip the 1st row as it contains metaInfo.
+    #glucose_dt <- data.table::fread("Librelink_Export_03-25-2019.csv", skip = 1) # for debugging
+    
+    #: 3, insert the user_id column into the 1st column position in the data.table
+    # a), extract the user_id_value first
+    user_id_value <- loadData_extractExistingUserID(table_name = "raw.user_account", email_fieldname_table = "email",
+                                                  email_to_check = user_account_dt$email) # should be one row returned if exists
+    # b), insert 
+    glucose_dt[,  user_id := user_id_value]
+    setkey(glucose_dt, user_id)
+    # c), column reorder
+    glucose_dt %>% setcolorder(., neworder = key(.)) # move the key to the front place.
+    
+    
     datetime_value_vec <- glucose_dt[ , char_to_datetime(`Meter Timestamp`)] # convert to datetime column
     glucose_dt[ , ("Meter Timestamp") := datetime_value_vec]
     #
     saveData(glucose_dt, table_name = table_name_librelink, colnames_table = colnames_librelink)
+    #: summary, now we dont regulate duplicate upload check in the server.r. The burden is relatively huge if we want to do it, e.g., by
+    # comparing current upload and the existing rows in the database (need loadData back into memeroy and compare), then upload the setdiff part rows.
+    # Instead, this can be accompanished by ETL stages regarding the database schema. For example, we can build 'load' stage/schema, which extract
+    # unique rows from the tables in the 'raw' stage; 'raw' stage will be periodically updated with the 'load' corresponding table to reduce oversize issue. 
     #
     #:----renderTable of file_glucose_measure_librelink----
     output$rT_file_glucose_measure_librelink <- renderDataTable({
@@ -263,6 +467,11 @@ shinyServer( function(input, output, session) {
     if (!is.null(inFile)) {
       activity_dt <- data.table::fread(inFile$datapath, header = input$header_2,
                            sep = input$sep_2, quote = input$quote_2)
+      # b), insert 
+      activity_dt[,  user_id := user_id_value]
+      setkey(activity_dt, user_id)
+      # c), column reorder
+      activity_dt %>% setcolorder(., neworder = key(.)) # move the key to the front place.
       #
       activity_dt[ , `Start` := char_to_datetime(`Start`)] # convert to datetime column
       activity_dt[ , `End` := char_to_datetime(`End`)] # convert to datetime column
@@ -287,6 +496,9 @@ shinyServer( function(input, output, session) {
       # 1, for glucose_dt
       glucose_dt[ , `Meter Timestamp` := lubridate::force_tz(`Meter Timestamp`, tzone = "US/Pacific")]
       glucose_dt <- glucose_dt %>% select(time = "Meter Timestamp",
+                                          #scan = "Scan Glucose(mmol/L)",
+                                          #hist = "Historic Glucose(mmol/L)",
+                                          #strip = "Strip Glucose(mmol/L)",
                                           scan = "Scan Glucose(mg/dL)",
                                           hist = "Historic Glucose(mg/dL)",
                                           strip = "Strip Glucose(mg/dL)",
