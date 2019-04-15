@@ -86,10 +86,10 @@ shinyServer( function(input, output, session) {
 
   #: ----define schema.tablename and colnames (header) in each table----
   # entity names
-  databaseName <- "postgres"
-  dbPassword <- "sprague"
-  dbPortNumber <- 5432
-  dbUsername <- "postgres"
+  databaseName <- Sys.getenv("CGMDBNAME")
+  dbPassword <- Sys.getenv("CGMDBPASSWORD")
+  dbPortNumber <- Sys.getenv("CGMDBPORTNUMBER")
+  dbUsername <-  Sys.getenv("CGMDBUSERNAME")
 
   table_name_librelink <- "raw.cgm_librelink" # always in the format of "schemaname.tablename"
   table_name_activity_track <- "raw.activity_track"
