@@ -22,6 +22,14 @@ shinyUI(
       
       sidebarPanel(
         
+        textInput("email_input_1", "Enter your email", value = "", width = NULL,
+                  placeholder = "e.g., richard.sprague@gmail.com"),
+        textInput("email_input_2", "Re-Enter your email", value = "", width = NULL,
+                  placeholder = "e.g., richard.sprague@gmail.com"),
+        uiOutput("print_email_check_consist_msg"),
+        textOutput("email_check_consist_msg"),
+
+        tags$hr(),
         #: ----1, input window for glucose measure data----
         fileInput('file_glucose_measure_librelink', 'Choose continuous glucose monitor (librelink) file to upload',
                   accept = c(
@@ -33,7 +41,6 @@ shinyUI(
                     '.tsv'
                   )
         ),
-        tags$hr(),
         checkboxInput('header_1', 'Header', TRUE),
         radioButtons('sep_1', 'Separator',
                      c(Comma=',',
@@ -58,7 +65,6 @@ shinyUI(
                     '.tsv'
                   )
         ),
-        tags$hr(),
         checkboxInput('header_2', 'Header', TRUE),
         radioButtons('sep_2', 'Separator',
                      c(Comma=',',
@@ -79,11 +85,18 @@ shinyUI(
           'files, and then try uploading them.'
         ),
         
-        
+        #--------submit button----------------------
         tags$hr(),
         
         actionButton("submit", "Submit"),
+        conditionalPanel(condition = "output.flag_fail_invalidMail_panel == true", # as javascript expression
+                         {
+                           span("Please fix email inputs and submit!", style = "color:red")
+                         }), 
         
+        
+        #--------data range---------------------------
+        tags$hr(),
         sliderInput("date_range",
                     "Choose Date Range:",
                     min = lubridate::as_datetime("2018-12-03"), max = lubridate::now(),
