@@ -160,7 +160,7 @@ shinyServer( function(input, output, session) {
     #: 2, start from 2nd row, columnar format.
     glucose_dt <- data.table::fread(inFile$datapath, header = input$header_1,
                         sep = input$sep_1, quote = input$quote_1, skip = 1) # skip the 1st row as it contains metaInfo.
-    #glucose_dt <- data.table::fread("Librelink_Export_03-25-2019.csv", skip = 1) # for debugging
+    #glucose_dt <- data.table::fread("Librelink.csv", skip = 1) # for debugging
 
     #: 3, insert the user_id column into the 1st column position in the data.table
     # a), extract the user_id_value first
@@ -199,6 +199,7 @@ shinyServer( function(input, output, session) {
     if (!is.null(inFile)) {
       activity_dt <- data.table::fread(inFile$datapath, header = input$header_2,
                            sep = input$sep_2, quote = input$quote_2)
+      # activity_dt <- data.table::fread("Rik Activity 2019.csv") # for debugging purpose
       # b), insert
       activity_dt[,  user_id := user_id_value]
       setkey(activity_dt, user_id)
