@@ -1,0 +1,6 @@
+library(shiny)
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
+library(RPostgreSQL)
+library(data.table)

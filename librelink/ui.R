@@ -3,9 +3,7 @@
 # run the application by clicking 'Run App' above.
 #
 # deploy: rsconnect::deployApp("Librelink")
-library(shiny)
-library(RPostgreSQL)
-library(tidyverse)
+
 
 # Define UI for application that draws a histogram
 
