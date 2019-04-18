@@ -61,7 +61,7 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                         glucose_df=glucose_raw,
                         ref_band = glucose_ref_band) {
   ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
-    geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
+    #geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
     ref_band +
     geom_rect(data=activity_df %>% dplyr::filter(Activity == "Sleep") %>%
                 select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
@@ -107,17 +107,17 @@ saveData <- function(data, drv = psql, table_name = table_name_librelink, colnam
   # "psql" from GlobalEnv.
   pcon <- dbConnect(drv, dbname = databaseName, host = "localhost", port = dbPortNumber,
                     user = dbUsername, password = dbPassword)
-  
+
   paranthesis_concatenated_string <- data %>% apply(., 1, paste, collapse = "','") %>% sprintf("('%s')", .) %>% paste(., collapse = ', ' ) %>% gsub("'NA'", "NULL", . )
-  
+
   # Construct the update query by looping over the data fields
   query <- sprintf( "INSERT INTO %s (%s) VALUES %s",
                     table_name,
                     colnames_table,
                     paranthesis_concatenated_string
   )
-  
-  
+
+
   # Submit the update query and disconnect
   dbSendQuery(pcon, query)
   # dbSendQuery(pcon, query, params=data[["message"]])
@@ -135,7 +135,7 @@ saveData <- function(data, drv = psql, table_name = table_name_librelink, colnam
 #'
 #' @return no return
 #' @export
-#' 
+#'
 #' @examples
 #' saveData_user_account(data = user_account_dt)
 saveData_user_account <- function(data, drv = psql, table_name = "raw.user_account",
@@ -144,11 +144,11 @@ saveData_user_account <- function(data, drv = psql, table_name = "raw.user_accou
   # "psql" from GlobalEnv.
   pcon <- dbConnect(drv, dbname = databaseName, host = "localhost", port = dbPortNumber,
                     user = dbUsername, password = dbPassword)
-  
+
   #: specialized concate string just for one row input for "raw.user_account" table
   # use email for both username and email as now.
   paranthesis_concatenated_string <- data %>% stringr::str_glue_data("('{email}','{password}','{email}', CURRENT_TIMESTAMP(2), NULL)")
-  
+
   #paranthesis_concatenated_string <- data %>% apply(., 1, paste, collapse = "','") %>% sprintf("('%s')", .) %>% paste(., collapse = ', ' ) %>% gsub("'NA'", "NULL", . )
   # Construct the update query by looping over the data fields
   query <- sprintf( "INSERT INTO %s (%s) VALUES %s",
@@ -157,7 +157,7 @@ saveData_user_account <- function(data, drv = psql, table_name = "raw.user_accou
                     paranthesis_concatenated_string
   )
   #
-  
+
   #
   # # Construct the update query by looping over the data fields
   # query <- sprintf( "INSERT INTO %s (%s) VALUES %s",
@@ -171,9 +171,9 @@ saveData_user_account <- function(data, drv = psql, table_name = "raw.user_accou
   #                               colnames_others,
   #                               "(CURRENT_TIMESTAMP(2), NULL)"
   # )
-  
-  
-  
+
+
+
   # Submit the update query and disconnect
   dbSendQuery(pcon, query)
   #dbSendQuery(pcon, query_not_from_dt)
@@ -233,12 +233,12 @@ loadData_checkExistingUser <- function(table_name = "raw.user_account", drv = ps
   # Construct the fetching query
   query <- stringr::str_glue("SELECT * FROM {table_name}
                                where {email_fieldname_table} = '{email_to_check}'" )
-  
+
   # Submit the fetch query and disconnect
   data <- dbGetQuery(pcon, query)
   dbDisconnect(pcon)
   # data
-  
+
   #: criteria: a data.table with 1 row (user found) or 0 row (no such user)
   dplyr::if_else(condition = nrow(data) > 0, true = TRUE, false = FALSE)
 }
@@ -265,16 +265,16 @@ loadData_extractExistingUserID <- function(table_name = "raw.user_account", drv 
   # Construct the fetching query
   query <- stringr::str_glue("SELECT * FROM {table_name}
                                where {email_fieldname_table} = '{email_to_check}'" )
-  
+
   # Submit the fetch query and disconnect
   data <- dbGetQuery(pcon, query)
   dbDisconnect(pcon)
-  
+
   stopifnot(nrow(data) < 2 ) # return 0 row or 1 row if user exists.
-  
+
   data$user_id # should return either NULL or 1 int if user exists.
-  
-  
+
+
 }
 #: example
 # loadData_extractExistingUserID(table_name = "raw.user_account", email_fieldname_table = "email", email_to_check = "xyy2006@msn.com")

@@ -166,6 +166,19 @@ shinyServer( function(input, output, session) {
                         skip = 1) # skip the 1st row as it contains metaInfo.
     #glucose_dt <- data.table::fread("Librelink_Export_03-25-2019.csv", skip = 1) # for debugging
 
+    libre_raw <- glucose_dt
+
+
+    glucose <- libre_raw %>% select(time = "Meter Timestamp",
+                                    scan = "Scan Glucose(mg/dL)",
+                                    hist = "Historic Glucose(mg/dL)",
+                                    strip = "Strip Glucose(mg/dL)",
+                                    food = "Notes")
+
+
+    glucose$value <- dplyr::if_else(is.na(glucose$scan),glucose$hist,glucose$scan)
+    glucose_raw <- glucose
+
     #: 3, insert the user_id column into the 1st column position in the data.table
     # a), extract the user_id_value first
     user_id_value <- loadData_extractExistingUserID(table_name = "raw.user_account", email_fieldname_table = "email",
@@ -198,12 +211,13 @@ shinyServer( function(input, output, session) {
 
 
     #: ----for "file_activity_track", it is optional----
-    inFile <- input$file_activity_track
+    inFile$file_activity_track <- file.path(here::here(),"librelink","Rik Activity 2019.csv")
+
+
     #
     if (!is.null(inFile)) {
-      activity_dt <- data.table::fread(inFile$datapath, header = input$header_2,
-                           sep = ",", # input$sep_2,
-                           quote = "") #input$quote_2)
+      activity_dt <- data.table::fread(inFile$file_activity_track , header = TRUE,
+                           sep = ",") #input$quote_2)
       # b), insert
       activity_dt[,  user_id := user_id_value]
       setkey(activity_dt, user_id)
@@ -271,10 +285,10 @@ shinyServer( function(input, output, session) {
       # activity$Activity <- factor(activity$Activity)
       #
       ggplot2::qplot(1:10,1:10, color = "red")
-      plot(1:10,1:10)
+      #plot(1:10,1:10)
 
       cat("trying to plot")
-      message("plotting...", glucose_dt$historic_glucose)
+      message("plotting...", glucose_raw$value)
 
       #: ----plotting----
       # if input$date_range changes, that will trigger renderPlot again.
@@ -282,6 +296,29 @@ shinyServer( function(input, output, session) {
       #             glucose_df = glucose_dt, ref_band = glucose_ref_band)
 
     })
+
+    output$glucoseLevelsPlot2 <- renderPlot({
+      #:----set the theme before plotting----
+      #theme_set(theme_stata())
+      # glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))
+      # activity <- dplyr::filter(activity_raw, Start >= input$date_range[1] &
+      #                             Start <= input$date_range[2] + lubridate::hours(6))
+      # activity$Activity <- factor(activity$Activity)
+      #
+      #ggplot2::qplot(1:10,1:10, color = "red")
+
+      ggplot(glucose_raw ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
+          glucose_ref_band +
+          geom_rect(data=activity_dt %>% dplyr::filter(Activity == "Sleep") %>%
+                      select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
+                    aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),
+                    fill="red",
+                    alpha=0.2,
+                    inherit.aes = FALSE)
+     # cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
+     #             glucose_df = glucose_raw, ref_band = glucose_ref_band)
+    })
+
   })
 
 

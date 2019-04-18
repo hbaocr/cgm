@@ -115,7 +115,8 @@ shinyUI(
 
         #dataTableOutput('rT_file_glucose_measure_librelink'),
         #dataTableOutput('rT_file_activity_track'),
-        plotOutput("glucoseLevelsPlot")
+        #plotOutput("glucoseLevelsPlot"),
+        plotOutput("glucoseLevelsPlot2")
       )
 
     )
