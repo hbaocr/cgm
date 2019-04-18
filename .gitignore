@@ -4,4 +4,5 @@
 .RData
 .Rhistory
 
-
+.Renviron
+packrat/lib*/
