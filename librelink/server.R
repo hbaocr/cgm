@@ -18,8 +18,8 @@ source("GlobalEnv_functions_n_variables.R")
 shinyServer( function(input, output, session) {
 
 
- 
- 
+
+
 
   #: ----check whether two email string inputs are consistent, if not, report error immediately and disable submit button function----
   # if (input$email_input_1 == input$email_input_2) {
@@ -63,7 +63,8 @@ shinyServer( function(input, output, session) {
 
   output$email_check_consist_msg <- renderText({
 
-    msg_print()
+   # msg_print()
+    "Works!"
 
   })
 
@@ -125,7 +126,8 @@ shinyServer( function(input, output, session) {
     }
 
     #: ----for "file_glucose_measure_librelink", it is necessary to upload----
-    inFile <- input$file_glucose_measure_librelink
+    inFile <- "start"
+    inFile$datapath <- file.path("Librelink.csv") #input$file_glucose_measure_librelink
     #
     if (is.null(inFile))
       return(NULL)
@@ -159,7 +161,9 @@ shinyServer( function(input, output, session) {
 
     #: 2, start from 2nd row, columnar format.
     glucose_dt <- data.table::fread(inFile$datapath, header = input$header_1,
-                        sep = input$sep_1, quote = input$quote_1, skip = 1) # skip the 1st row as it contains metaInfo.
+                        sep = ",",  #input$sep_1,
+                        quote = "", #input$quote_1,
+                        skip = 1) # skip the 1st row as it contains metaInfo.
     #glucose_dt <- data.table::fread("Librelink_Export_03-25-2019.csv", skip = 1) # for debugging
 
     #: 3, insert the user_id column into the 1st column position in the data.table
@@ -189,7 +193,7 @@ shinyServer( function(input, output, session) {
       # 'size', 'type', and 'datapath' columns. The 'datapath'
       # column will contain the local filenames where the data can
       # be found.
-      glucose_dt
+      head(glucose_dt)
     })
 
 
@@ -198,7 +202,8 @@ shinyServer( function(input, output, session) {
     #
     if (!is.null(inFile)) {
       activity_dt <- data.table::fread(inFile$datapath, header = input$header_2,
-                           sep = input$sep_2, quote = input$quote_2)
+                           sep = ",", # input$sep_2,
+                           quote = "") #input$quote_2)
       # b), insert
       activity_dt[,  user_id := user_id_value]
       setkey(activity_dt, user_id)
@@ -254,24 +259,29 @@ shinyServer( function(input, output, session) {
         activity_dt <- NULL # if no file provided, set the dt variable to NULL.
       }
 
-      #: ----renderPlot----
-      output$glucoseLevelsPlot <- renderPlot({
-        #:----set the theme before plotting----
-        theme_set(theme_stata())
-        # glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))
-        # activity <- dplyr::filter(activity_raw, Start >= input$date_range[1] &
-        #                             Start <= input$date_range[2] + lubridate::hours(6))
-        # activity$Activity <- factor(activity$Activity)
-        #
 
-        #: ----plotting----
-        # if input$date_range changes, that will trigger renderPlot again.
-        cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
-                    glucose_df = glucose_dt, ref_band = glucose_ref_band)
-
-      })
     }
+    #: ----renderPlot----
+    output$glucoseLevelsPlot <- renderPlot({
+      #:----set the theme before plotting----
+      #theme_set(theme_stata())
+      # glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))
+      # activity <- dplyr::filter(activity_raw, Start >= input$date_range[1] &
+      #                             Start <= input$date_range[2] + lubridate::hours(6))
+      # activity$Activity <- factor(activity$Activity)
+      #
+      ggplot2::qplot(1:10,1:10, color = "red")
+      plot(1:10,1:10)
 
+      cat("trying to plot")
+      message("plotting...", glucose_dt$historic_glucose)
+
+      #: ----plotting----
+      # if input$date_range changes, that will trigger renderPlot again.
+      # cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
+      #             glucose_df = glucose_dt, ref_band = glucose_ref_band)
+
+    })
   })
 
 
