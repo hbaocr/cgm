@@ -1,38 +1,58 @@
 Continuous Glucose Monitoring with Freestyle Libre
 ================
 Richard Sprague
-2019-04-17
+2019-04-20
 
-See [Continous Glucose Monitoring: Start Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)
+See [Continous Glucose Monitoring: Start
+Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)
 
-I've been tracking my glucose levels 24 x 7 using a continuous glucose monitor from Abbott Labs called the [Freestyle Libre](https://www.freestylelibre.us/index.html).
+I’ve been tracking my glucose levels 24 x 7 using a continuous glucose
+monitor from Abbott Labs called the [Freestyle
+Libre](https://www.freestylelibre.us/index.html).
 
-View a Shiny version of my current data at <https://personalscience.shinyapps.io/librelink/>. \[[Source](https://github.com/richardsprague/cgm/tree/master/librelink)\]
+View a Shiny version of my current data at
+<https://personalscience.shinyapps.io/librelink/>.
+\[[Source](https://github.com/richardsprague/cgm/tree/master/librelink)\]
 
-Read (and edit!) my [Continuous Glucose Monitoring Hackers Guide](https://docs.google.com/document/d/11DFx0E-ZQ-r_D1SqXvMtvkDCjx6j7NevrE43WSaKyJE/edit?usp=sharing) for details for how to get started, plus as many resources as I know about other apps and links that you might find useful for beginning your own CGM analysis.
+Read (and edit\!) my [Continuous Glucose Monitoring Hackers
+Guide](https://docs.google.com/document/d/11DFx0E-ZQ-r_D1SqXvMtvkDCjx6j7NevrE43WSaKyJE/edit?usp=sharing)
+for details for how to get started, plus as many resources as I know
+about other apps and links that you might find useful for beginning your
+own CGM analysis.
 
 This is a short R script I use for my analysis.
 
-------------------------------------------------------------------------
+-----
 
-Prerequisites
--------------
+## Prerequisites
 
-Besides the working sensor, to run this script you'll need:
+Besides the working sensor, to run this script you’ll need:
 
--   A registered account on Freestyle's official site: [libreview.com](https://www2.libreview.com/)
--   Data downloaded from the Libreview site. (I download it and convert to XLSX format in the file "Librelink.xlsx")
--   A separate activity file to register your food, exercise, sleep, and other events. (Another XLSX file I call "Activity.XLSX")
+  - A registered account on Freestyle’s official site:
+    [libreview.com](https://www2.libreview.com/)
+  - Data downloaded from the Libreview site. (I download it and convert
+    to XLSX format in the file “Librelink.xlsx”)
+  - A separate activity file to register your food, exercise, sleep, and
+    other events. (Another XLSX file I call “Activity.XLSX”)
 
-See examples of all my raw data files in the [librelink](https://github.com/richardsprague/cgm/tree/master/librelink) directory.
+See examples of all my raw data files in the
+[librelink](https://github.com/richardsprague/cgm/tree/master/librelink)
+directory.
 
-One you have downloaded the raw Librelink data and created the activity file, you must read the results into two dataframes:
+One you have downloaded the raw Librelink data and created the activity
+file, you must read the results into two dataframes:
 
-`libre_raw` : the raw output from a Librelink CSV file. You could just read.csv straight from the CSV if you like.
+`libre_raw` : the raw output from a Librelink CSV file. You could just
+read.csv straight from the CSV if you like.
 
-`activity_raw`: your file containing the metadata about whatever you'd like to track. The following script assumes you'll have variables for `Sleep`, `Exercise`, `Food`, and a catch-all called `Event`.
+`activity_raw`: your file containing the metadata about whatever you’d
+like to track. The following script assumes you’ll have variables for
+`Sleep`, `Exercise`, `Food`, and a catch-all called `Event`.
 
-Now clean up the data and then set up a few other useful variables. Be careful about time zones: the raw data comes as UTC time, so you'll need to convert everything to your local time zone if you want the following charts to match.
+Now clean up the data and then set up a few other useful variables. Be
+careful about time zones: the raw data comes as UTC time, so you’ll need
+to convert everything to your local time zone if you want the following
+charts to match.
 
 ``` r
 library(tidyverse)
@@ -67,7 +87,8 @@ glucose_raw <- glucose
 # libre_raw$`Meter Timestamp` %>% lubridate::parse_date_time(order = "ymd HMS",tz = "US/Pacific")
 ```
 
-Set up a few convenience functions.
+Set up a few convenience
+functions.
 
 ``` r
 # a handy ggplot object that draws a band through the "healthy" target zones across the width of any graph:
@@ -150,43 +171,44 @@ startDate <- now() - days(2) #min(glucose$time)
 cgm_display(startDate,startDate + days(2))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-Here's just for a single day. Note that the commented-out lines will let you output to a PDF file if you like.
+Here’s just for a single day. Note that the commented-out lines will let
+you output to a PDF file if you like.
 
 ``` r
 #pdf("icecream.pdf", width = 11, height = 8.5)
 cgm_display(start = min(glucose_raw$time),min(glucose_raw$time)+hours(24))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 #dev.off()
 ```
 
-The final full day of the dataset:
+The final full day of the
+dataset:
 
 ``` r
 cgm_display(start = max(glucose_raw$time)-days(1), end = max(glucose_raw$time))
 ```
 
-![](README_files/figure-markdown_github/lastestCGMResult-1.png)
+![](README_files/figure-gfm/lastestCGMResult-1.png)<!-- -->
 
-Food types
-----------
+## Food types
 
-Here's how I look when eating specific foods:
+Here’s how I look when eating specific
+foods:
 
-![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)![](README_files/figure-markdown_github/unnamed-chunk-6-2.png)![](README_files/figure-markdown_github/unnamed-chunk-6-3.png)![](README_files/figure-markdown_github/unnamed-chunk-6-4.png)![](README_files/figure-markdown_github/unnamed-chunk-6-5.png)![](README_files/figure-markdown_github/unnamed-chunk-6-6.png)![](README_files/figure-markdown_github/unnamed-chunk-6-7.png)![](README_files/figure-markdown_github/unnamed-chunk-6-8.png)![](README_files/figure-markdown_github/unnamed-chunk-6-9.png)![](README_files/figure-markdown_github/unnamed-chunk-6-10.png)![](README_files/figure-markdown_github/unnamed-chunk-6-11.png)![](README_files/figure-markdown_github/unnamed-chunk-6-12.png)![](README_files/figure-markdown_github/unnamed-chunk-6-13.png)
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-4.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-5.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-6.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-7.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-8.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-9.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-10.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-11.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-12.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-13.png)<!-- -->
 
     ## Scale for 'x' is already present. Adding another scale for 'x', which
     ## will replace the existing scale.
 
-![](README_files/figure-markdown_github/unnamed-chunk-6-14.png)![](README_files/figure-markdown_github/unnamed-chunk-6-15.png)![](README_files/figure-markdown_github/unnamed-chunk-6-16.png)
+![](README_files/figure-gfm/unnamed-chunk-6-14.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-15.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-16.png)<!-- -->
 
-Basic Statistics
-----------------
+## Basic Statistics
 
 What is my average glucose level while sleeping?
 
@@ -218,7 +240,7 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## ------------------------------------------------------------------------- 
     ## Describe . (tbl_df, tbl, data.frame):
     ## 
-    ## data.frame:  1518 obs. of  1 variables
+    ## data.frame:  1619 obs. of  1 variables
     ## 
     ##   Nr  ColName  Class    NAs  Levels
     ##   1   value    numeric  .          
@@ -228,19 +250,19 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## Glucose Values While Sleeping
     ## 
     ##   length       n    NAs  unique     0s   mean  meanCI
-    ##    1'518   1'518      0      85      0  77.73   76.98
-    ##           100.0%   0.0%           0.0%          78.48
+    ##    1'619   1'619      0      85      0  77.22   76.50
+    ##           100.0%   0.0%           0.0%          77.94
     ##                                                      
     ##      .05     .10    .25  median    .75    .90     .95
-    ##    49.00   58.00  71.00   79.00  86.00  94.30  101.00
+    ##    49.00   57.00  70.00   78.00  86.00  94.00  100.00
     ##                                                      
     ##    range      sd  vcoef     mad    IQR   skew    kurt
-    ##    92.00   14.81   0.19   11.86  15.00  -0.16    0.87
+    ##    92.00   14.76   0.19   11.86  16.00  -0.12    0.77
     ##                                                      
     ## lowest : 40.0 (31), 41.0 (5), 42.0 (4), 43.0 (3), 44.0 (3)
     ## highest: 122.0, 125.0, 126.0 (2), 131.0, 132.0 (2)
 
-![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 glucose %>% filter(apply(sapply(glucose$time,
@@ -253,29 +275,29 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## ------------------------------------------------------------------------- 
     ## Describe . (tbl_df, tbl, data.frame):
     ## 
-    ## data.frame:  5779 obs. of  1 variables
+    ## data.frame:  6118 obs. of  1 variables
     ## 
     ##   Nr  ColName  Class    NAs        Levels
-    ##   1   value    numeric  38 (0.7%)        
+    ##   1   value    numeric  46 (0.8%)        
     ## 
     ## 
     ## ------------------------------------------------------------------------- 
     ## Glucose Values While Awake
     ## 
     ##   length      n    NAs  unique     0s    mean  meanCI
-    ##    5'779  5'741     38     126      0   88.81   88.32
-    ##           99.3%   0.7%           0.0%           89.31
+    ##    6'118  6'072     46     126      0   88.21   87.72
+    ##           99.2%   0.8%           0.0%           88.69
     ##                                                      
     ##      .05    .10    .25  median    .75     .90     .95
-    ##    61.00  68.00  77.00   86.00  99.00  114.00  125.00
+    ##    61.00  67.00  76.00   86.00  98.00  113.00  125.00
     ##                                                      
     ##    range     sd  vcoef     mad    IQR    skew    kurt
-    ##   151.00  19.22   0.22   16.31  22.00    0.69    1.34
+    ##   151.00  19.21   0.22   16.31  22.00    0.70    1.32
     ##                                                      
     ## lowest : 40.0 (33), 41.0 (5), 42.0 (5), 43.0 (3), 44.0 (7)
     ## highest: 169.0 (2), 172.0, 187.0, 188.0, 191.0
 
-![](README_files/figure-markdown_github/unnamed-chunk-7-2.png)
+![](README_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
 
 ``` r
 glucose %>% filter(apply(sapply(glucose$time,
@@ -308,4 +330,4 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## lowest : 67.0, 69.0, 70.0, 71.0, 72.0
     ## highest: 110.0, 116.0, 120.0, 122.0, 144.0
 
-![](README_files/figure-markdown_github/unnamed-chunk-7-3.png)
+![](README_files/figure-gfm/unnamed-chunk-7-3.png)<!-- -->
