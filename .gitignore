@@ -6,3 +6,4 @@
 #
 Librelink_for_tableau.csv
 *.twb*
+*.RData
