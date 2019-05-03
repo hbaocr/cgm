@@ -173,7 +173,7 @@ shinyServer( function(input, output, session) {
     glucose_dt %>% setcolorder(., neworder = key(.)) # move the key to the front place.
 
 
-    datetime_value_vec <- glucose_dt[ , char_to_datetime(`Meter Timestamp`)] # convert to datetime column
+    datetime_value_vec <- glucose_dt[ , char_to_datetime(`Meter Timestamp`, format = timestampColformat_glucose_file)] # convert to datetime column
     glucose_dt[ , ("Meter Timestamp") := datetime_value_vec]
     #
     saveData(glucose_dt, table_name = table_name_librelink, colnames_table = colnames_librelink)
@@ -206,8 +206,8 @@ shinyServer( function(input, output, session) {
       # c), column reorder
       activity_dt %>% setcolorder(., neworder = key(.)) # move the key to the front place.
       #
-      activity_dt[ , `Start` := char_to_datetime(`Start`)] # convert to datetime column
-      activity_dt[ , `End` := char_to_datetime(`End`)] # convert to datetime column
+      activity_dt[ , `Start` := char_to_datetime(`Start`, format = timestampColformat_activity_file)] # convert to datetime column
+      activity_dt[ , `End` := char_to_datetime(`End`, format = timestampColformat_activity_file)] # convert to datetime column
       #
       saveData(activity_dt, table_name = table_name_activity_track, colnames_table = colnames_activity_track)
       #:----renderTable of file_glucose_measure_librelink----
@@ -227,7 +227,8 @@ shinyServer( function(input, output, session) {
 
       #: ----pre-process the data.tables before plotting----
       # 1, for glucose_dt
-      glucose_dt[ , `Meter Timestamp` := lubridate::force_tz(`Meter Timestamp`, tzone = "US/Pacific")]
+      # glucose_dt[ , lubridate::force_tz(`Meter Timestamp`, tzone = "US/Pacific")]
+      # glucose_dt[ , `Meter Timestamp` := lubridate::force_tz(`Meter Timestamp`, tzone = "US/Pacific")]
       glucose_dt <- glucose_dt %>% select(time = "Meter Timestamp",
                                           #scan = "Scan Glucose(mmol/L)",
                                           #hist = "Historic Glucose(mmol/L)",

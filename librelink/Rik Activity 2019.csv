@@ -1,4 +1,138 @@
 ﻿Start,End,Activity,Comment
+12/3/2018 22:00,12/4/2018 6:00,Sleep,
+12/4/2018 6:22,,Food,Latte
+12/4/2018 7:58,12/4/2018 8:15,Exercise,Weight-lifting
+12/4/2018 8:37,,Food,Apple smoothie
+12/4/2018 9:37,,Food,Walnuts
+12/4/2018 12:24,,Food,Apple
+12/4/2018 13:24,,Food,Sushi
+12/4/2018 15:39,,Food,chocolate
+12/4/2018 18:39,,Food,lasagna
+12/4/2018 19:09,,Food,beer
+12/4/2018 22:00,12/5/2018 6:00,Sleep,
+12/5/2018 3:09,,Event,awake
+12/5/2018 6:09,,Food,latte
+12/5/2018 8:39,,Food,Oatmeal w/milk
+12/5/2018 10:38,,Food,donut
+12/5/2018 12:45,,Food,Rice & Beans
+12/5/2018 18:40,,Food,Chicken + pesto + corn
+12/5/2018 22:00,12/6/2018 5:30,Sleep,
+12/6/2018 3:41,,Event,awake
+12/6/2018 6:11,,Food,latte
+12/6/2018 8:50,,Food,Blueberry-banana
+12/6/2018 12:36,,Food,Ramen
+12/6/2018 15:33,,Food,Nachos
+12/6/2018 17:10,,Food,Beer (empty stomach)
+12/6/2018 17:55,,Food,Coke
+12/6/2018 22:00,12/7/2018 6:00,Sleep,
+12/6/2018 20:15,,Food,lasagna + sauerkraut + nuts
+12/7/2018 6:14,,Food,latte
+12/7/2018 7:07,,Food,eggs
+12/7/2018 10:20,,Food,Apple juice
+12/7/2018 12:31,,Food,Pesto chicken pasta
+12/7/2018 16:31,,Food,blueberry kefir
+12/7/2018 19:23,,Food,Party
+12/7/2018 23:30,12/8/2018 6:00,Sleep,
+12/8/2018 0:38,,Event,awake
+12/8/2018 1:57,,Event,awake
+12/8/2018 4:16,,Event,awake
+12/8/2018 7:13,,Food,latte
+12/8/2018 11:57,,Food,meatball cabbage
+12/8/2018 12:27,,Food,blueberry kefir
+12/8/2018 14:51,,Food,coffee
+12/8/2018 16:15,,Food,pretzel peanut
+12/8/2018 20:42,,Food,seafood
+12/8/2018 22:02,,Food,bedtime
+12/8/2018 22:30,12/9/2018 5:30,Sleep,
+12/9/2018 4:11,,Event,awake
+12/9/2018 5:29,,Event,awake
+12/9/2018 5:43,,Food,latte
+12/9/2018 11:54,,Food,Grilled Cheese
+12/9/2018 10:28,,Food,Toast w/butter
+12/9/2018 14:54,,Food,Peppermint candy
+12/9/2018 16:13,,Food,Pineapple
+12/9/2018 18:38,,Food,Pasta shrimp
+12/9/2018 21:00,,Food,Ice Cream
+12/9/2018 22:32,12/10/2018 5:41,Sleep,
+12/10/2018 4:30,,Event,awake
+12/10/2018 6:13,,Food,Latte
+12/10/2018 8:05,12/10/2018 8:20,Exercise,
+12/10/2018 9:04,,Food,Tortilla + egg
+12/10/2018 7:33,,Food,Granola
+12/10/2018 10:44,,Food,Pear (half)
+12/10/2018 12:47,,Food,Chow Mein
+12/10/2018 12:26,12/10/2018 12:39,Exercise,Hike
+12/10/2018 10:13,12/10/2018 10:34,Exercise,Hike
+12/10/2018 17:53,,Food,Salmon
+12/10/2018 20:57,,Food,Asian pear
+12/10/2018 22:30,12/11/2018 5:30,Sleep,
+12/11/2018 6:00,,Food,Latte
+12/11/2018 7:03,,Food,Oatmeal (plain)
+12/11/2018 9:10,,Food,blueberry kefir
+12/11/2018 9:50,,Food,Chocolate (80%)
+12/11/2018 13:00,,Food,Beans w/sweet potato
+12/11/2018 14:15,,Food,Coffee w/ condensed milk (1TBS)
+12/11/2018 17:37,,Food,Pasta (chicken mushroom)
+12/11/2018 22:30,12/12/2018 6:00,Sleep,
+12/12/2018 3:00,,Event,awake
+12/12/2018 4:47,,Event,awake
+12/12/2018 6:14,,Food,Latte
+12/12/2018 8:10,,Food,Oatmeal w/butter
+12/12/2018 9:55,,Food,Cookie
+12/12/2018 12:30,,Food,Pasta whole wheat w/tomato
+12/12/2018 16:40,,Food,Tortilla chips + beans
+12/12/2018 18:35,,Food,Party
+12/12/2018 22:00,12/13/2018 5:45,Sleep,
+12/13/2018 6:00,,Food,Latte
+12/13/2018 7:00,,Food,Eggs
+12/13/2018 2:39,,Event,awake
+12/13/2018 8:05,12/13/2018 8:20,Exercise,Weight-lifting
+12/13/2018 9:15,,Food,Coffee w cream
+12/13/2018 8:45,,Food,blueberry kefir
+12/13/2018 12:20,,Food,Pesto pasta
+12/13/2018 14:45,,Food,Chocolate
+12/13/2018 18:15,,Food,Chicken + wine
+12/13/2018 19:44,,Food,Ice Cream
+12/13/2018 22:30,12/14/2018 6:00,Sleep,
+12/14/2018 6:15,,Food,Latte
+12/14/2018 6:45,,Food,eggs
+12/14/2018 3:31,,Event,awake
+12/14/2018 5:01,,Event,awake
+12/14/2018 8:16,,Food,Chai Latte
+12/14/2018 10:21,12/14/2018 10:40,Exercise,Hike
+12/14/2018 10:21,,Food,Pretzel peanut
+12/14/2018 12:15,,Food,Soba broccoli sausage
+12/14/2018 11:00,12/14/2018 11:18,Exercise,Hike
+12/14/2018 18:17,,Food,Pasta whole wheat w/beef
+12/14/2018 19:00,,Food,Beer
+12/14/2018 22:30,12/15/2018 6:00,Sleep,
+12/15/2018 6:15,,Food,Latte
+12/15/2018 3:15,,Event,awake
+12/15/2018 4:30,,Event,awake
+12/15/2018 9:45,,Food,latte
+12/15/2018 8:07,,Food,Blueberry Kefir w Cinnamon
+12/15/2018 14:29,,Food,Pasta beef
+12/15/2018 13:10,,Food,Roast beef sandwich 
+12/15/2018 17:19,,Food,Chocolate
+12/15/2018 17:48,,Food,cabbage w bacon
+12/15/2018 18:30,,Food,Jerky
+12/15/2018 22:30,12/16/2018 6:00,Sleep,
+12/16/2018 6:15,,Food,Latte
+12/16/2018 10:30,,Food, Oatmeal w/cinnamon
+12/16/2018 12:35,,Food,Mealball with udon
+12/16/2018 18:00,,Food,Beer (empty stomach)
+12/16/2018 18:45,,Food,Lamb + potato
+12/16/2018 20:00,12/16/2018 20:45,Exercise,
+12/16/2018 22:30,12/17/2018 5:30,Sleep,
+12/17/2018 5:45,,Food,Latte
+12/17/2018 2:28,,Event,awake
+12/17/2018 3:10,,Event,awake
+12/17/2018 7:30,,Food,Blueberry Kefir
+12/17/2018 9:30,,Food,Apple
+12/17/2018 12:10,,Food,Potato (reheated)
+12/17/2018 13:45,,Food,Triscuit
+12/17/2018 16:00,12/17/2018 16:30,Exercise,
+12/17/2018 18:45,,Food,Salmon + Rice
 1/9/2019 11:01,,Food,Bagel
 1/9/2019 12:01,,Food,Sweet potato beans
 1/9/2019 13:00,,Food,Chocolate cake

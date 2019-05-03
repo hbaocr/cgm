@@ -26,7 +26,9 @@ glucose_ref_band <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01"
                                      ymin=100,ymax=140),
                                  alpha = 0.01, fill = "#CCCCCC",
                                  inherit.aes = FALSE)
-
+#: ----character column converted to POSIXct column for timestamp. The format should be accordingly specified here to accomodate the format in each file.
+timestampColformat_activity_file <- "%m/%d/%Y %H:%M"
+timestampColformat_glucose_file <- "%m/%d/%y %H:%M" 
 
 # ====Global Functions===============================================
 #: ----char_to_datetime function----
@@ -41,7 +43,7 @@ glucose_ref_band <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01"
 #'
 #' @examples
 #' char_to_datetime("02/15/2019 15:30")
-char_to_datetime <- function(characters, tz = "US/Pacific", format = "%m/%d/%Y %H:%M" ){
+char_to_datetime <- function(characters, tz = "US/Pacific", format = "%m/%d/%y %H:%M" ){
   #: POSIXct is a numeric and can be operated `:=`; POSIXlt cannot.
   # so lubridate::as_datetime will not work here, as it will return POSIXlt.
   as.POSIXct(characters, tz = tz, format = format)
@@ -61,7 +63,7 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                         glucose_df=glucose_raw,
                         ref_band = glucose_ref_band) {
   ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
-    geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
+   # geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
     ref_band +
     geom_rect(data=activity_df %>% dplyr::filter(Activity == "Sleep") %>%
                 select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
