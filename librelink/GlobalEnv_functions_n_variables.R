@@ -62,8 +62,9 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                         activity_df=activity_raw,
                         glucose_df=glucose_raw,
                         ref_band = glucose_ref_band) {
-  ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
-   # geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
+  
+  p <- ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
+   # geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+ # check if all NA in column 'strip'
     ref_band +
     geom_rect(data=activity_df %>% dplyr::filter(Activity == "Sleep") %>%
                 select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
@@ -89,6 +90,9 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
               size = 6) +
     labs(title = "Glucose (mg/dL)", subtitle = start) +  theme(plot.title = element_text(size=22))+
     scale_x_datetime(limits = c(start,end))
+  
+  p <- ggplotly(p)
+  p
 
 }
 
