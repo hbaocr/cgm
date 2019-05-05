@@ -91,7 +91,10 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
     labs(title = "Glucose (mg/dL)", subtitle = start) +  theme(plot.title = element_text(size=22))+
     scale_x_datetime(limits = c(start,end))
   
-  p <- ggplotly(p)
+  #: this will enable convert to a plotly object, however, there are tricks/caveats to tackle.
+  p <- ggplotly(p, dynamicTicks = FALSE)
+  
+  #: return p
   p
 
 }

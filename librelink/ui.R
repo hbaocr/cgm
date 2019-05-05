@@ -95,14 +95,14 @@ shinyUI(
         
         #--------data range---------------------------
         tags$hr(),
-        sliderInput("date_range",
-                    "Choose Date Range:",
-                    min = lubridate::as_datetime("2018-12-03"), max = lubridate::now(),
-                    value = c(lubridate::as_datetime("2018-12-06"), lubridate::as_datetime("2018-12-07"))
-        ),
-      dateInput("date1", "Start Date:", value = lubridate::as_datetime("2018-12-06")),
-      dateInput("date2", "End Date:", value = lubridate::as_datetime("2018-12-07"))
-        
+        # sliderInput("date_range",
+        #             "Choose Date Range:",
+        #             min = lubridate::as_datetime("2018-12-03"), max = lubridate::now(),
+        #             value = c(lubridate::as_datetime("2018-12-06"), lubridate::as_datetime("2018-12-07"))
+        # ),
+        # dateInput("date1", "Start Date:", value = lubridate::as_datetime("2018-12-06")),
+        # dateInput("date2", "End Date:", value = lubridate::as_datetime("2018-12-07"))
+        dateRangeInput("date_range", "Date range:", start = "2018-12-06", end = "2018-12-07" )  
         
         
         

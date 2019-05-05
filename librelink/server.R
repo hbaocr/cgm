@@ -268,7 +268,9 @@ shinyServer( function(input, output, session) {
 
         #: ----plotting----
         # if input$date_range changes, that will trigger renderPlot again.
-        cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
+        # cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
+        #             glucose_df = glucose_dt, ref_band = glucose_ref_band)
+        cgm_display(start = lubridate::as_datetime(input$date_range[1]), end = lubridate::as_datetime(input$date_range[2]), activity_df = activity_dt,
                     glucose_df = glucose_dt, ref_band = glucose_ref_band)
 
       })
