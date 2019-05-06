@@ -260,8 +260,8 @@ shinyServer( function(input, output, session) {
       }
 
       #: ----renderPlot----
-      output$glucoseLevelsPlot <- renderPlot({# for regular plot with base plot or ggplot2
-      #output$glucoseLevelsPlot <- renderPlotly({ # for plotly plot
+      #output$glucoseLevelsPlot <- renderPlot({# for regular plot with base plot or ggplot2
+      output$glucoseLevelsPlot <- renderPlotly({ # for plotly plot
         #:----set the theme before plotting----
         theme_set(theme_stata())
         # glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))

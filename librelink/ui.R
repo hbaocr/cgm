@@ -114,8 +114,8 @@ shinyUI(
         
         dataTableOutput('rT_file_glucose_measure_librelink'),
         dataTableOutput('rT_file_activity_track'),
-        plotOutput("glucoseLevelsPlot") # for regular plot like base plot and ggplot2
-        #plotlyOutput("glucoseLevelsPlot") # for plotly plot
+        #plotOutput("glucoseLevelsPlot") # for regular plot like base plot and ggplot2
+        plotlyOutput("glucoseLevelsPlot") # for plotly plot
       )
 
     )
