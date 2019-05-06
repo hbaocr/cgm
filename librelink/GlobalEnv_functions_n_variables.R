@@ -21,11 +21,17 @@ colnames_activity_track <- c("user_id", "start_time", "end_time", "activity_cate
 #: ----glucose reference band----
 # static
 # a handy ggplot object that draws a band through the "healthy" target zones across the width of any graph:
+# pick a color here: http://sape.inf.usi.ch/quick-reference/ggplot2/colour
 glucose_ref_band <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01"),
                                      xmax=as.POSIXct(Inf,  origin= "1970-01-01"),
                                      ymin=100,ymax=140),
-                                 alpha = 0.01, fill = "#CCCCCC",
-                                 inherit.aes = FALSE)
+                                 alpha = 0.1, fill = "linen",# colour = "gold", # 
+                                 inherit.aes = TRUE, show.legend = TRUE)
+# glucose_ref_band <-   geom_rect(aes(xmin=min(time),# time is a required variable default in the data.frame to be plotted.
+#                                      xmax=max(time),
+#                                      ymin=100,ymax=140),
+#                                  alpha = 0.5, fill = "#CCCCCC",
+#                                  inherit.aes = FALSE, show.legend = TRUE)
 #: ----character column converted to POSIXct column for timestamp. The format should be accordingly specified here to accomodate the format in each file.
 timestampColformat_activity_file <- "%m/%d/%Y %H:%M"
 timestampColformat_glucose_file <- "%m/%d/%y %H:%M" 
@@ -43,7 +49,7 @@ timestampColformat_glucose_file <- "%m/%d/%y %H:%M"
 #'
 #' @examples
 #' char_to_datetime("02/15/2019 15:30")
-char_to_datetime <- function(characters, tz = "US/Pacific", format = "%m/%d/%y %H:%M" ){
+char_to_datetime <- function(characters, tz = "", format = "%m/%d/%y %H:%M" ){
   #: POSIXct is a numeric and can be operated `:=`; POSIXlt cannot.
   # so lubridate::as_datetime will not work here, as it will return POSIXlt.
   as.POSIXct(characters, tz = tz, format = format)
@@ -57,42 +63,75 @@ char_to_datetime <- function(characters, tz = "US/Pacific", format = "%m/%d/%y %
 
 #: ----cgm plotting function-----
 # show glucose levels between start and end times
-cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
-                        end=lubridate::now(),
-                        activity_df=activity_raw,
-                        glucose_df=glucose_raw,
+cgm_display <- function(start_datetime=lubridate::now()-lubridate::hours(18),
+                        end_datetime=lubridate::now(),
+                        activity_df=activity_dt,
+                        glucose_df=glucose_dt,
                         ref_band = glucose_ref_band) {
   
-  p <- ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
-   # geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+ # check if all NA in column 'strip'
+  p <- ggplot(glucose_df ,aes(x=time,y=value)) + 
+    # ref band of glucose level for normal range 
     ref_band +
+   
+    # points
+    # geom_point(stat = "identity", aes(x=time,y=strip), color = "blue", na.rm = FALSE, inherit.aes = TRUE) + # check if all NA in column 'strip'
+    
+    # sleep
     geom_rect(data=activity_df %>% dplyr::filter(Activity == "Sleep") %>%
-                select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
-              aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),
-              fill="red",
-              alpha=0.2,
-              inherit.aes = FALSE) +
+                select(Start,End),
+              aes(xmin = Start , xmax = End, ymin = -Inf, ymax = Inf),
+              fill="darkblue",
+              alpha=.1,
+              inherit.aes = FALSE, show.legend = TRUE) +
+    
+    # Exercise
     geom_rect(data=activity_df %>% dplyr::filter(Activity == "Exercise") %>%
-                select(xmin = Start,xmax = End),
-              aes(xmin=xmin,xmax=xmax,ymin=-Inf,ymax=Inf),
-              fill="blue",
-              alpha=0.2,
-              inherit.aes = FALSE) +
+                select(Start,End),
+              aes(xmin = Start, xmax = End, ymin = -Inf, ymax = Inf),
+              fill="hotpink",
+              alpha=.8,
+              inherit.aes = FALSE, show.legend = TRUE) +
+    
+    #----geom_vline below----
+    # awake timeline
     geom_vline(xintercept = activity_df %>%
                  dplyr::filter(Activity == "Event" & Comment == "awake") %>% select("Start") %>% unlist(),
-               color = "green") +
+               color = "green", show.legend = TRUE,size = 2) +
+    geom_text(data = activity_df %>% dplyr::filter(Activity == "Event" & Comment == "awake") %>% select("Start","Comment") ,
+              mapping = aes(x=Start,y=50, label = Comment), angle = 90, hjust = "center",vjust = "top", 
+              size = 3, 
+              check_overlap = TRUE, 
+              show.legend = TRUE, 
+              inherit.aes = FALSE ) +
+    
+    
+    # food start timeline
     geom_vline(xintercept = activity_df %>%
                  dplyr::filter(Activity == "Food") %>% select("Start") %>% unlist(),
-               color = "yellow")+
-    geom_text(data = activity_df %>%
-                dplyr::filter(Activity == "Food") %>% select("Start","Comment") ,
-              aes(x=Start,y=50, angle=90, hjust = FALSE,  label = Comment),
-              size = 6) +
-    labs(title = "Glucose (mg/dL)", subtitle = start) +  theme(plot.title = element_text(size=22))+
-    scale_x_datetime(limits = c(start,end))
+               color = "tomato1", size = 1.5)+
+    # food comment text
+    geom_text(data = activity_df %>% dplyr::filter(Activity == "Food") %>% select("Start","Comment") ,
+              mapping = aes(x=Start,y=50, label = Comment), angle = 90, hjust = "left",vjust = "top", 
+              size = 4, 
+              check_overlap = TRUE, 
+              show.legend = TRUE, 
+              inherit.aes = FALSE ) + 
+    
+    # draw cgm lines, put last, so line color is obvious.
+    geom_line(size=1, color = "dodgerblue3", show.legend = TRUE)+
+    
+    # axis annotation
+    labs(title = "Glucose (mg/dL)", subtitle = start_datetime) +
+    theme(plot.title = element_text(size=12), 
+          axis.text.x = element_text(angle = -45, hjust = 0),
+          legend.position="right") + 
+    # scale_x_datetime(limits = c(start_datetime,end_datetime), date_breaks = "1 day", date_minor_breaks = "1 hour")
+    # scale_x_datetime(limits = c(start_datetime,end_datetime), date_breaks = "1 hour")
+    scale_x_datetime( date_breaks = "1 hour")+
+    coord_cartesian(xlim = c(start_datetime, end_datetime), expand = TRUE)
   
   #: this will enable convert to a plotly object, however, there are tricks/caveats to tackle.
-  p <- ggplotly(p, dynamicTicks = FALSE)
+  # p <- ggplotly(p, dynamicTicks = FALSE)
   
   #: return p
   p

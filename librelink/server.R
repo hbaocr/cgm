@@ -190,7 +190,8 @@ shinyServer( function(input, output, session) {
       # column will contain the local filenames where the data can
       # be found.
       glucose_dt
-    })
+    }, options = list(pageLength = 10)
+    )
 
 
     #: ----for "file_activity_track", it is optional----
@@ -218,7 +219,8 @@ shinyServer( function(input, output, session) {
         # column will contain the local filenames where the data can
         # be found.
         activity_dt
-      })
+      }, options = list(pageLength = 10)
+      )
     }
 
     #: ----only plot if both files are present-----
@@ -249,15 +251,17 @@ shinyServer( function(input, output, session) {
 
       # 2, for activity_dt
       if (!is.null(input$file_activity_track) ) {
+        #: obsolete, not necessary to force_tz.
         # 2, for activity_dt
-        activity_dt[, Start := lubridate::force_tz(Start, tzone = "US/Pacific")]
-        activity_dt[, End := lubridate::force_tz(End, tzone = "US/Pacific")]
+        # activity_dt[, Start := lubridate::force_tz(Start, tzone = "US/Pacific")]
+        # activity_dt[, End := lubridate::force_tz(End, tzone = "US/Pacific")]
       } else {
         activity_dt <- NULL # if no file provided, set the dt variable to NULL.
       }
 
       #: ----renderPlot----
-      output$glucoseLevelsPlot <- renderPlot({
+      output$glucoseLevelsPlot <- renderPlot({# for regular plot with base plot or ggplot2
+      #output$glucoseLevelsPlot <- renderPlotly({ # for plotly plot
         #:----set the theme before plotting----
         theme_set(theme_stata())
         # glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))
@@ -270,7 +274,9 @@ shinyServer( function(input, output, session) {
         # if input$date_range changes, that will trigger renderPlot again.
         # cgm_display(start = lubridate::as_datetime(input$date1), end = lubridate::as_datetime(input$date2), activity_df = activity_dt,
         #             glucose_df = glucose_dt, ref_band = glucose_ref_band)
-        cgm_display(start = lubridate::as_datetime(input$date_range[1]), end = lubridate::as_datetime(input$date_range[2]), activity_df = activity_dt,
+        
+        #:  start_datetime and end_datetime need hours offset to compensate for difference between user date input (input$date_range[x], e.g., 12/06/2018) and wanted converted datetime (12/06/2018 00:00:00). 
+        cgm_display(start_datetime = as.POSIXct(input$date_range[1]) + lubridate::hours(8), end_datetime = as.POSIXct(input$date_range[2]) + lubridate::hours(8) , activity_df = activity_dt,
                     glucose_df = glucose_dt, ref_band = glucose_ref_band)
 
       })
