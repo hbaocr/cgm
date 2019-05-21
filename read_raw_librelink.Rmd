@@ -8,30 +8,39 @@ This is a sample notebook that lets you read raw Librelink CSV files and generat
 
 Start with a raw CSV file, as downloaded from the [Libreview](https://libreview.com) web application.
 
-```{r,  message = FALSE, warning = FALSE}
-library(readxl)
-libre_raw <- readr::read_csv(file.path("librelink","Librelink_Export_03-25-2019.csv.csv"),
-                             skip = 1)
-libre_raw$`Meter Timestamp` <- lubridate::force_tz(lubridate::mdy_hm(libre_raw$`Meter Timestamp`), "US/Pacific")
+Note that the file has lots of funny characters, so we're going to have to read it the old-fashioned way, char-by-char.
 
-glucose <- libre_raw %>% transmute(time = "Meter Timestamp", 
-                                scan = `Scan Glucose(mmol/L)` * 18 ,
-                                hist = `Historic Glucose(mmol/L)` * 18,
-                                strip = `Strip Glucose(mmol/L)` * 18,
-                                food = "Notes")
+```{r,  message = FALSE, warning = FALSE}
+library(tidyverse)
+
+## given a file path 'raw_file', produces the useful dataframes glucose_raw and activity_raw
+
+raw_file <- file.path(Sys.getenv("ONEDRIVE"),"Sprague 2019/Health 2019/Librelink.csv")
+colnames_librelink <- c("meter", "serial_number", "meter_timestamp", "record_type", "historic_glucose", "scan_glucose",
+                        "non_numeric_rapid_acting_insulin", "rapid_acting_insulin_unit",
+                        "non_numeric_food", "carbohydrates_gram", "carbohydrates_serving",
+                        "non_numeric_long_acting_insulin", "long_acting_insulin_unit",
+                        "notes", "strip_glucose", "ketone",
+                        "meal_insulin", "correction_insulin", "user_change_insulin")
+
+libre_raw <- read.csv(raw_file,
+                             skip = 2, col.names = colnames_librelink)
+libre_raw$meter_timestamp <- lubridate::force_tz(lubridate::mdy_hm(libre_raw$meter_timestamp), "US/Pacific")
+
+glucose <- libre_raw %>% select(meter_timestamp,scan_glucose, historic_glucose, strip_glucose)
 
 #glucose$time <- readr::parse_datetime(libre_raw$`Meter Timestamp`,locale = locale(tz="US/Pacific"))
 
-glucose$time <- as_datetime(libre_raw$`Meter Timestamp`, tz = "US/Pacific")
+glucose$time <- lubridate::as_datetime(libre_raw$meter_timestamp, tz = "US/Pacific")
 # 
 glucose$value <- dplyr::if_else(is.na(glucose$scan),glucose$hist,glucose$scan)
 # apply correction for faulty 2019-03-24 sensor
-glucose$value <- dplyr::if_else(glucose$time>as_datetime("2019-03-15"),glucose$value+20,glucose$value)
+glucose$value <- dplyr::if_else(glucose$time>lubridate::as_datetime("2019-03-15"),glucose$value+20,as.numeric(glucose$value))
 
 
 glucose_raw <- glucose
 
-activity_raw <- data_frame(Start=c(now()), End = c(now()), Activity = "", Comment = "", Z = 0)
+activity_raw <- data_frame(Start=lubridate::now(), End = lubridate::now(), Activity = "", Comment = "", Z = 0)
 activity_raw <- rbind(activity_raw,activity_raw)
 
 ```
