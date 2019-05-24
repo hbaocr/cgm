@@ -285,6 +285,13 @@ food_effect(c("CBD")) %>% group_by(experiment) %>% mutate(delta = (time - min(ti
 foodlist <- c("Salmon")
 food_effect(foodlist, timelength = hours(1)) %>% group_by(experiment) %>% mutate(delta = (time - min(time))/60) %>% ggplot(aes(x=delta,y=value, color = experiment)) + geom_line(size = 2) + scale_x_continuous() + labs(title = "Glucose after eating salmon", x = "Minutes", y = "mg/dL")
 # 
+
+foodlist <- c("Salmon + coconut rice (Reducose)","Salmon + coconut rice")
+foodlist <- c("Granola cereal w/milk","Granola cereal w/milk","Granola cereal w/milk (Reducose)")
+food_effect(foodlist, timelength = hours(2)) %>% group_by(experiment) %>% mutate(delta = (time - min(time))/60) %>% ggplot(aes(x=delta,y=value, color = experiment)) + geom_line(size = 2) + scale_x_continuous() + labs(title = "Glucose after eating Granola with milk", x = "Minutes", y = "mg/dL")
+# 
+
+
 ```
 
 

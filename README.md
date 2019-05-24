@@ -1,7 +1,7 @@
 Continuous Glucose Monitoring with Freestyle Libre
 ================
 Richard Sprague
-2019-05-21
+2019-05-24
 
 See [Continous Glucose Monitoring: Start
 Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)
@@ -203,7 +203,7 @@ Here’s how I look when eating specific foods:
     ## Scale for 'x' is already present. Adding another scale for 'x', which
     ## will replace the existing scale.
 
-![](README_files/figure-gfm/unnamed-chunk-6-14.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-15.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-16.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-14.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-15.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-16.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-17.png)<!-- -->
 
 ## Basic Statistics
 
@@ -237,7 +237,7 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## ------------------------------------------------------------------------- 
     ## Describe . (tbl_df, tbl, data.frame):
     ## 
-    ## data.frame:  1619 obs. of  1 variables
+    ## data.frame:  1826 obs. of  1 variables
     ## 
     ##   Nr  ColName  Class    NAs  Levels
     ##   1   value    numeric  .          
@@ -247,17 +247,17 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## Glucose Values While Sleeping
     ## 
     ##   length       n    NAs  unique     0s   mean  meanCI
-    ##    1'619   1'619      0      85      0  77.22   76.50
-    ##           100.0%   0.0%           0.0%          77.94
+    ##    1'826   1'826      0      89      0  78.15   77.47
+    ##           100.0%   0.0%           0.0%          78.83
     ##                                                      
     ##      .05     .10    .25  median    .75    .90     .95
-    ##    49.00   57.00  70.00   78.00  86.00  94.00  100.00
+    ##    51.00   58.50  71.00   78.50  86.00  96.00  102.00
     ##                                                      
     ##    range      sd  vcoef     mad    IQR   skew    kurt
-    ##    92.00   14.76   0.19   11.86  16.00  -0.12    0.77
+    ##    92.00   14.83   0.19   11.12  15.00  -0.02    0.96
     ##                                                      
     ## lowest : 40.0 (31), 41.0 (5), 42.0 (4), 43.0 (3), 44.0 (3)
-    ## highest: 122.0, 125.0, 126.0 (2), 131.0, 132.0 (2)
+    ## highest: 125.0 (2), 126.0 (2), 129.0, 131.0 (2), 132.0 (2)
 
 ![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
@@ -272,24 +272,24 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## ------------------------------------------------------------------------- 
     ## Describe . (tbl_df, tbl, data.frame):
     ## 
-    ## data.frame:  6689 obs. of  1 variables
+    ## data.frame:  7082 obs. of  1 variables
     ## 
     ##   Nr  ColName  Class    NAs        Levels
-    ##   1   value    numeric  88 (1.3%)        
+    ##   1   value    numeric  95 (1.3%)        
     ## 
     ## 
     ## ------------------------------------------------------------------------- 
     ## Glucose Values While Awake
     ## 
     ##   length      n    NAs  unique     0s    mean  meanCI
-    ##    6'689  6'601     88     132      0   88.41   87.94
-    ##           98.7%   1.3%           0.0%           88.88
+    ##    7'082  6'987     95     134      0   88.62   88.16
+    ##           98.7%   1.3%           0.0%           89.07
     ##                                                      
     ##      .05    .10    .25  median    .75     .90     .95
-    ##    60.00  67.00  76.00   86.00  99.00  114.00  125.00
+    ##    60.00  67.00  77.00   86.00  99.00  114.00  125.00
     ##                                                      
     ##    range     sd  vcoef     mad    IQR    skew    kurt
-    ##   151.00  19.53   0.22   16.31  23.00    0.71    1.35
+    ##   151.00  19.35   0.22   16.31  22.00    0.72    1.40
     ##                                                      
     ## lowest : 40.0 (33), 41.0 (5), 42.0 (5), 43.0 (3), 44.0 (7)
     ## highest: 174.0, 182.0 (2), 187.0, 188.0, 191.0
