@@ -1,7 +1,7 @@
 Continuous Glucose Monitoring with Freestyle Libre
 ================
 Richard Sprague
-2019-05-26
+2019-05-27
 
 See [Continous Glucose Monitoring: Start
 Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)
@@ -90,74 +90,7 @@ glucose_raw <- glucose
 Set up a few convenience functions.
 
 ``` r
-# a handy ggplot object that draws a band through the "healthy" target zones across the width of any graph:
-glucose_target_gg <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01"),
-                xmax=as.POSIXct(Inf,  origin= "1970-01-01"),
-                ymin=100,ymax=140),
-            alpha = 0.01, fill = "#CCCCCC",
-            inherit.aes = FALSE)
-
-
-# show glucose levels between start and end times
-cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
-                        end=now(),
-                        activity_df=activity_raw,
-                        glucose_df=glucose_raw) {
-  ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+ 
-  geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
-  glucose_target_gg + 
-  geom_rect(data=activity_df %>% dplyr::filter(Activity == "Sleep") %>%
-              select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
-            aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),
-            fill="red",
-            alpha=0.2,
-            inherit.aes = FALSE) +
-  geom_rect(data=activity_df %>% dplyr::filter(Activity == "Exercise") %>%
-              select(xmin = Start,xmax = End),
-            aes(xmin=xmin,xmax=xmax,ymin=-Inf,ymax=Inf),
-            fill="blue",
-            alpha=0.2,
-            inherit.aes = FALSE) +
-   geom_vline(xintercept = activity_df %>% 
-               dplyr::filter(Activity == "Event" & Comment == "awake") %>% select("Start") %>% unlist(),
-             color = "green") +
-  geom_vline(xintercept = activity_df %>% 
-               dplyr::filter(Activity == "Food") %>% select("Start") %>% unlist(),
-             color = "yellow")+
-  geom_text(data = activity_df %>%
-              dplyr::filter(Activity == "Food") %>% select("Start","Comment") ,
-            aes(x=Start,y=50, angle=90, hjust = FALSE,  label = Comment),
-            size = 6) +
-  labs(title = "Glucose (mg/dL)", subtitle = start) +  theme(plot.title = element_text(size=22))+
-    scale_x_datetime(limits = c(start,end),
-                     date_labels = "%m/%d %H:%M",
-                     timezone = "US/Pacific")
-  
-}
-
-# returns a dataframe giving all glucose values within "timelength" of a specific activity
-food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_df = activity_raw, glucose_df = glucose_raw, timelength = lubridate::hours(2)){
-  #food_df <- activity_df %>% dplyr::filter(str_detect(str_to_lower(activity_df$Comment),pattern = foodname))
-  food_df <- activity_df %>% dplyr::filter(Comment %in% foodlist)
-  food_df$Comment <- paste0(food_df$Comment,rownames(food_df))
-  food_df_interval <- interval(food_df$Start,food_df$Start + hours(1))
-  food_glucose <- glucose_df %>% dplyr::filter(apply(sapply(glucose_df$time,function(x) x %within% food_df_interval),2,any))
- # food_glucose <- glucose_df %>% dplyr::filter(sapply(glucose_df$time,function(x) x %within% food_df_interval))
-  f <- cbind(food_glucose[1,],experiment = "test")
-  
-  a = NULL
-  
-  for(i in food_df$Start){
-    i_time <- as_datetime(i, tz = "US/Pacific")
-    # < rbind(i,a)
-    g <- glucose_df %>% dplyr::filter(time %within% interval(i_time - minutes(10), i_time + timelength))
-    #print(g)
-    p = match(as_datetime(i),food_df$Start)
-    f <- rbind(f,cbind(g,experiment = food_df$Comment[p]))
-  }
-  foods_experiment <- f[-1,]
-  foods_experiment
-}
+source("cgm_display.R")
 ```
 
 View the last couple days of the dataset:
@@ -196,14 +129,8 @@ cgm_display(start = max(glucose_raw$time)-days(1), end = max(glucose_raw$time))
 
 ## Food types
 
-Here’s how I look when eating specific foods:
-
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-4.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-5.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-6.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-7.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-8.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-9.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-10.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-11.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-12.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-13.png)<!-- -->
-
-    ## Scale for 'x' is already present. Adding another scale for 'x', which
-    ## will replace the existing scale.
-
-![](README_files/figure-gfm/unnamed-chunk-6-14.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-15.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-6-16.png)<!-- -->
+I measured myself while trying various foods. Click
+[here](food_effects.md) to see the results.
 
 ## Basic Statistics
 
@@ -259,7 +186,7 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## lowest : 40.0 (31), 41.0 (5), 42.0 (4), 43.0 (3), 44.0 (3)
     ## highest: 125.0 (2), 126.0 (2), 129.0, 131.0 (2), 132.0 (2)
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 glucose %>% filter(apply(sapply(glucose$time,
@@ -294,7 +221,7 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## lowest : 40.0 (33), 41.0 (5), 42.0 (5), 43.0 (3), 44.0 (7)
     ## highest: 174.0, 182.0 (2), 187.0, 188.0, 191.0
 
-![](README_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 ``` r
 glucose %>% filter(apply(sapply(glucose$time,
@@ -327,4 +254,4 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## lowest : 67.0, 69.0, 70.0, 71.0, 72.0
     ## highest: 110.0, 116.0, 120.0, 122.0, 144.0
 
-![](README_files/figure-gfm/unnamed-chunk-7-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->

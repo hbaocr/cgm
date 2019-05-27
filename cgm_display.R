@@ -1,0 +1,77 @@
+# cgm_display.r  functions to display results from a CGM download
+# Assumes you already have these variables (see other notes for the specific formats)
+# glucose_raw: a dataframe of
+# activity_raw: a dataframe of activities
+
+library(tidyverse)
+library(lubridate)
+
+
+# a handy ggplot object that draws a band through the "healthy" target zones across the width of any graph:
+glucose_target_gg <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01"),
+                                     xmax=as.POSIXct(Inf,  origin= "1970-01-01"),
+                                     ymin=100,ymax=140),
+                                 alpha = 0.01, fill = "#CCCCCC",
+                                 inherit.aes = FALSE)
+
+
+# show glucose levels between start and end times
+cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
+                        end=now(),
+                        activity_df=activity_raw,
+                        glucose_df=glucose_raw) {
+  ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
+    geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
+    glucose_target_gg +
+    geom_rect(data=activity_df %>% dplyr::filter(Activity == "Sleep") %>%
+                select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
+              aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),
+              fill="red",
+              alpha=0.2,
+              inherit.aes = FALSE) +
+    geom_rect(data=activity_df %>% dplyr::filter(Activity == "Exercise") %>%
+                select(xmin = Start,xmax = End),
+              aes(xmin=xmin,xmax=xmax,ymin=-Inf,ymax=Inf),
+              fill="blue",
+              alpha=0.2,
+              inherit.aes = FALSE) +
+    geom_vline(xintercept = activity_df %>%
+                 dplyr::filter(Activity == "Event" & Comment == "awake") %>% select("Start") %>% unlist(),
+               color = "green") +
+    geom_vline(xintercept = activity_df %>%
+                 dplyr::filter(Activity == "Food") %>% select("Start") %>% unlist(),
+               color = "yellow")+
+    geom_text(data = activity_df %>%
+                dplyr::filter(Activity == "Food") %>% select("Start","Comment") ,
+              aes(x=Start,y=50, angle=90, hjust = FALSE,  label = Comment),
+              size = 6) +
+    labs(title = "Glucose (mg/dL)", subtitle = start) +  theme(plot.title = element_text(size=22))+
+    scale_x_datetime(limits = c(start,end),
+                     date_labels = "%m/%d %H:%M",
+                     timezone = "US/Pacific")
+
+}
+
+# returns a dataframe giving all glucose values within "timelength" of a specific activity
+food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_df = activity_raw, glucose_df = glucose_raw, timelength = lubridate::hours(2)){
+  #food_df <- activity_df %>% dplyr::filter(str_detect(str_to_lower(activity_df$Comment),pattern = foodname))
+  food_df <- activity_df %>% dplyr::filter(Comment %in% foodlist)
+  food_df$Comment <- paste0(food_df$Comment,rownames(food_df))
+  food_df_interval <- lubridate::interval(food_df$Start,food_df$Start + lubridate::hours(1))
+  food_glucose <- glucose_df %>% dplyr::filter(apply(sapply(glucose_df$time,function(x) x %within% food_df_interval),2,any))
+  # food_glucose <- glucose_df %>% dplyr::filter(sapply(glucose_df$time,function(x) x %within% food_df_interval))
+  f <- cbind(food_glucose[1,],experiment = "test")
+
+  a = NULL
+
+  for(i in food_df$Start){
+    i_time <- as_datetime(i, tz = "US/Pacific")
+    # < rbind(i,a)
+    g <- glucose_df %>% dplyr::filter(time %within% lubridate::interval(i_time - minutes(10), i_time + timelength))
+    #print(g)
+    p = match(as_datetime(i),food_df$Start)
+    f <- rbind(f,cbind(g,experiment = food_df$Comment[p]))
+  }
+  foods_experiment <- f[-1,]
+  foods_experiment
+}
