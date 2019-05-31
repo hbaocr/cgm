@@ -1,153 +1,330 @@
-﻿Start,End,Activity,Comment
-1/9/2019 11:01,,Food,Bagel
-1/9/2019 12:01,,Food,Sweet potato beans
-1/9/2019 13:00,,Food,Chocolate cake
-1/9/2019 15:31,,Food,Banana
-1/9/2019 17:32,,Food,chex mix
-1/9/2019 18:10,,Food,Sandwich salami
-1/9/2019 19:10,,Food,Sandwich salami
-1/9/2019 19:47,,Food,Mushroom onion pita
-1/9/2019 19:49,,Food,Brussels sprouts
-1/9/2019 22:30,1/10/2019 5:00,Sleep,
-1/10/2019 5:15,,Food,Latte
-1/10/2019 7:10,,Food,Granola + Banana
-1/10/2019 11:29,,Food,Pasta (tomato sauce)
-1/10/2019 20:58,,Food,Beer
-1/10/2019 21:15,,Food,Potato fries
-1/10/2019 23:20,1/11/2019 6:00,Sleep,
-1/11/2019 3:48,,Event,awake
-1/11/2019 8:10,,Food,Oaxtmeal
-1/11/2019 9:05,,Food,banana
-1/11/2019 9:10,,Food,eggs and sour cream
-1/11/2019 11:45,,Food,Lamb Pita Gyro
-1/11/2019 15:10,,Food,pistachio cake
-1/11/2019 15:50,1/11/2019 16:45,Exercise,
-1/11/2019 19:11,,Food,Beef Stroganoff
-1/11/2019 19:30,,Food,Wine
-1/11/2019 22:00,1/12/2019 5:30,Sleep,
-1/12/2019 4:21,,Event,awake
-1/12/2019 6:00,,Food,Latte
-1/12/2019 11:50,,Food,Thai soup + chips
-1/12/2019 12:15,1/12/2019 12:30,Exercise,walking
-1/12/2019 16:00,,Food,Chocolate chip cookie
-1/12/2019 18:00,,Food,Walnuts
-1/12/2019 22:00,1/13/2019 5:00,Sleep,
-1/13/2019 5:30,,Food,Latte
-1/13/2019 10:06,,Food,Apple juice + donut
-1/13/2019 12:35,,Food,Grilled Cheese
-1/13/2019 19:00,,Food,Chinese
-1/13/2019 22:00,1/14/2019 5:30,Sleep,
-1/14/2019 5:45,,Food,Latte
-1/14/2019 10:15,1/14/2019 10:35,Exercise,
-1/14/2019 11:35,1/14/2019 12:00,Exercise,
-1/14/2019 12:30,,Food,Grilled Cheese
-1/14/2019 18:45,,Food,"Chicken, mashed potato"
-1/14/2019 22:00,1/15/2019 5:30,Sleep,
-1/15/2019 6:00,,Food,Latte
-1/15/2019 7:00,,Food,Cacao kefir smoothie
-1/15/2019 12:45,,Food,Tofu and brown rice
-1/15/2019 18:50,,Food,Salmon
-1/15/2019 21:00,,Food,CBD
-1/15/2019 21:50,1/16/2019 6:00,Sleep,
-1/16/2019 3:05,,Event,awake
-1/16/2019 6:15,,Food,Latte
-1/16/2019 13:15,,Food,Pork tamale
-1/16/2019 18:30,,Food,Lamb Pita Gyro
-1/16/2019 22:00,,Food,CBD
-1/16/2019 22:30,1/17/2019 5:30,Sleep,
-1/17/2019 2:53,,Event,awake
-1/17/2019 4:00,,Event,awake
-1/17/2019 6:05,,Food,Latte
-1/17/2019 8:00,1/17/2019 8:30,Exercise,
-1/17/2019 8:40,,Food,Cacao kefir smoothie
-1/17/2019 12:10,,Food,Pork tamale
-1/17/2019 14:15,,Food,Coffee w/milk
-1/17/2019 18:30,,Food,Pasta (tomato sauce)
-1/17/2019 19:30,,Food,Kombucha
-1/17/2019 21:30,,Food ,CBD
-1/17/2019 22:30,1/18/2019 5:00,Sleep,
-1/18/2019 1:47,,Event,awake
-1/18/2019 4:32,,Event,awake
-1/18/2019 6:00,,Food,Latte
-1/18/2019 8:30,,Food,Eggs
-1/18/2019 13:15,,Food,Beans w/ham
-1/18/2019 17:30,,Food,Beer (empty stomach)
-1/18/2019 18:30,,Food,Tofu and coconut rice
-1/18/2019 22:00,1/19/2019 6:00,Sleep,
-1/19/2019 3:25,,Event,awake
-1/19/2019 4:36,,Event,awake
-1/19/2019 7:00,,Food,Latte
-1/19/2019 8:30,,Food,Grapefruit kefir smoothie
-1/19/2019 14:40,,Food,Royal milk tea
-1/19/2019 19:30,,Food,"Pork loin, cabbage"
-1/19/2019 22:00,1/20/2019 6:00,Sleep,
-1/20/2019 7:30,,Food,Latte
-1/20/2019 12:30,,Food,Hamburger
-1/20/2019 14:15,1/20/2019 15:00,Exercise,
-1/20/2019 15:39,,Food,Coffee
-1/20/2019 18:30,,Food,Coconut Shrimp and rice
-1/20/2019 19:30,,Food,CBD
-1/20/2019 22:30,1/21/2019 6:00,Sleep,
-1/21/2019 4:25,,Event,awake
-1/21/2019 6:30,,Food,Latte
-1/21/2019 12:15,,Food,"Pork loin, cabbage"
-1/21/2019 15:32,,Food,Coffee w/milk
-1/21/2019 18:21,,Food,Fish + bread 
-1/21/2019 20:19,,Food,CBD
-1/21/2019 22:30,1/22/2019 5:30,Sleep,
-1/22/2019 2:32,,Event,awake
-1/22/2019 6:00,,Food,Latte
-1/22/2019 9:30,,Food,Nuts
-1/22/2019 12:15,,Food,Pork loin
-1/22/2019 17:38,,Food,Beer (empty stomach)
-1/22/2019 18:35,,Food,Pasta (chicken mushroom)
-1/22/2019 21:31,,Food,CBD
-1/22/2019 22:00,1/23/2019 6:30,Sleep,
-1/23/2019 6:45,,Food,Latte
-1/23/2019 9:20,,Food,Nuts + banana
-3/22/2019 22:44,3/23/2019 5:16,Sleep,
-3/23/2019 22:03,3/24/2019 5:03,Sleep,
-3/24/2019 21:16,3/25/2019 5:44,Sleep,
-3/25/2019 10:37,,Food,Nuts
-3/26/2019 13:03,,Food,"Rice, stirfry"
-3/25/2019 18:00,,Food,CBD
-3/26/2019 18:07,,Food,CBD
-3/25/2019 18:30,,Food,Veg Stirfry + rice
-3/25/2019 21:26,3/26/2019 5:43,Sleep,
-3/26/2019 6:30,,Food,Latte
-3/26/2019 9:15,,Food,"Fiber, nuts"
-3/26/2019 22:03,3/27/2019 5:48,Sleep,
-3/27/2019 6:00,,Food,Latte
-3/27/2019 9:00,,Food,Blueberry Kefir
-3/27/2019 11:25,,Event,Blood donation
-3/27/2019 12:34,,Food,Clam Chowder
-3/26/2019 18:46,,Food,"Pizza, pork, salad"
-3/27/2019 16:49,,Food,Corn Chips (75g)
-3/27/2019 18:28,,Food,Pizza
-3/27/2019 19:00,,Food,CBD
-3/27/2019 22:20,3/28/2019 4:57,Sleep,
-3/28/2019 5:30,,Food,Latte
-3/28/2019 7:30,,Food,Rice + Eggs
-3/28/2019 22:06,3/29/2019 4:58,Sleep,
-3/28/2019 19:15,,Food,Pork ribs+beans+cornbread
-3/28/2019 20:00,,Food,CBD
-3/28/2019 12:45,,Food,Pizza
-3/29/2019 5:50,,Food,Latte
-3/29/2019 22:13,3/30/2019 4:20,Sleep,
-3/30/2019 5:30,,Food,Latte
-3/29/2019 15:26,,Food,Sprite
-3/29/2019 18:04,,Food,Kombucha + CBD
-3/29/2019 20:04,,Food,Kale salad + tofu
-3/29/2019 11:30,,Food,Pasta (pesto)
-3/30/2019 19:35,,Food,Cheese-stuffed chicken
-3/30/2019 22:10,3/31/2019 5:50,Sleep,
-3/30/2019 19:16,,Food,CBD
-3/30/2019 7:17,,Food,Egg + cornbread
-3/30/2019 12:29,,Food,Beans + cornbread
-3/31/2019 6:50,,Food,Latte
-3/30/2019 17:00,,Food,Clam Chowder
-3/31/2019 10:57,,Food,Baguette
-3/31/2019 12:10,,Food,Hamburger
-3/31/2019 19:00,,Food,"Chicken, coconut rice"
-3/31/2019 21:55,4/1/2019 5:40,Sleep,
-4/1/2019 6:30,,Food,Latte
+﻿Start,End,Activity,Comment,Z
+1/9/19 11:01,,Food,Bagel,NA
+1/9/19 12:01,,Food,Sweet potato beans,NA
+1/9/19 13:00,,Food,Chocolate cake,NA
+1/9/19 15:31,,Food,Banana,NA
+1/9/19 17:32,,Food,chex mix,NA
+1/9/19 18:10,,Food,Sandwich salami,NA
+1/9/19 19:10,,Food,Sandwich salami,NA
+1/9/19 19:47,,Food,Mushroom onion pita,NA
+1/9/19 19:49,,Food,Brussels sprouts,NA
+1/9/19 22:30,1/10/19 5:00,Sleep,,6.5
+1/10/19 5:15,,Food,Latte,NA
+1/10/19 7:10,,Food,Granola + Banana,NA
+1/10/19 11:29,,Food,Pasta (tomato sauce),NA
+1/10/19 20:58,,Food,Beer,NA
+1/10/19 21:15,,Food,Potato fries,NA
+1/10/19 23:20,1/11/19 6:00,Sleep,,6.666666667
+1/11/19 3:48,,Event,awake,NA
+1/11/19 8:10,,Food,Oaxtmeal,NA
+1/11/19 9:05,,Food,banana + breakfast,NA
+1/11/19 9:10,,Food,eggs and sour cream,NA
+1/11/19 11:45,,Food,Lamb Pita Gyro,NA
+1/11/19 15:10,,Food,pistachio cake,NA
+1/11/19 15:50,1/11/19 16:45,Exercise,,NA
+1/11/19 19:11,,Food,Beef Stroganoff,NA
+1/11/19 19:30,,Food,Wine,NA
+1/11/19 22:00,1/12/19 5:30,Sleep,,7.5
+1/12/19 4:21,,Event,awake,NA
+1/12/19 6:00,,Food,Latte,NA
+1/12/19 11:50,,Food,Thai soup + chips,NA
+1/12/19 12:15,1/12/19 12:30,Exercise,walking,NA
+1/12/19 16:00,,Food,Chocolate chip cookie,NA
+1/12/19 18:00,,Food,Walnuts,NA
+1/12/19 22:00,1/13/19 5:00,Sleep,,7
+1/13/19 5:30,,Food,Latte,NA
+1/13/19 10:06,,Food,Apple juice + donut,NA
+1/13/19 12:35,,Food,Grilled Cheese,NA
+1/13/19 19:00,,Food,Chinese,NA
+1/13/19 22:00,1/14/19 5:30,Sleep,,7.5
+1/14/19 5:45,,Food,Latte,NA
+1/14/19 10:15,1/14/19 10:35,Exercise,,NA
+1/14/19 11:35,1/14/19 12:00,Exercise,,NA
+1/14/19 12:30,,Food,Grilled Cheese,NA
+1/14/19 18:45,,Food,"Chicken, mashed potato",NA
+1/14/19 22:00,1/15/19 5:30,Sleep,,7.5
+1/15/19 6:00,,Food,Latte,NA
+1/15/19 7:00,,Food,Cacao kefir smoothie,NA
+1/15/19 12:45,,Food,Tofu and brown rice,NA
+1/15/19 18:50,,Food,Salmon,NA
+1/15/19 21:00,,Food,CBD,NA
+1/15/19 21:50,1/16/19 6:00,Sleep,,8.166666667
+1/16/19 3:05,,Event,awake,NA
+1/16/19 6:15,,Food,Latte,NA
+1/16/19 13:15,,Food,Pork tamale,NA
+1/16/19 18:30,,Food,Lamb Pita Gyro,NA
+1/16/19 22:00,,Food,CBD,NA
+1/16/19 22:30,1/17/19 5:30,Sleep,,7
+1/17/19 2:53,,Event,awake,NA
+1/17/19 4:00,,Event,awake,NA
+1/17/19 6:05,,Food,Latte,NA
+1/17/19 8:00,1/17/19 8:30,Exercise,,NA
+1/17/19 8:40,,Food,Cacao kefir smoothie,NA
+1/17/19 12:10,,Food,Pork tamale,NA
+1/17/19 14:15,,Food,Coffee w/milk,NA
+1/17/19 18:30,,Food,Pasta (tomato sauce),NA
+1/17/19 19:30,,Food,Kombucha,NA
+1/17/19 21:30,,Food ,CBD,NA
+1/17/19 22:30,1/18/19 5:00,Sleep,,6.5
+1/18/19 1:47,,Event,awake,NA
+1/18/19 4:32,,Event,awake,NA
+1/18/19 6:00,,Food,Latte,NA
+1/18/19 8:30,,Food,Eggs,NA
+1/18/19 13:15,,Food,Beans w/ham,NA
+1/18/19 17:30,,Food,Beer (empty stomach),NA
+1/18/19 18:30,,Food,Tofu and coconut rice,NA
+1/18/19 22:00,1/19/19 6:00,Sleep,,8
+1/19/19 3:25,,Event,awake,NA
+1/19/19 4:36,,Event,awake,NA
+1/19/19 7:00,,Food,Latte,NA
+1/19/19 8:30,,Food,Grapefruit kefir smoothie,NA
+1/19/19 14:40,,Food,Royal milk tea,NA
+1/19/19 19:30,,Food,"Pork loin, cabbage",NA
+1/19/19 22:00,1/20/19 6:00,Sleep,,8
+1/20/19 7:30,,Food,Latte,NA
+1/20/19 12:30,,Food,Hamburger,NA
+1/20/19 14:15,1/20/19 15:00,Exercise,,NA
+1/20/19 15:39,,Food,Coffee,NA
+1/20/19 18:30,,Food,Coconut Shrimp and rice,NA
+1/20/19 19:30,,Food,CBD,NA
+1/20/19 22:30,1/21/19 6:00,Sleep,,7.5
+1/21/19 4:25,,Event,awake,NA
+1/21/19 6:30,,Food,Latte,NA
+1/21/19 12:15,,Food,"Pork loin, cabbage",NA
+1/21/19 15:32,,Food,Coffee w/milk,NA
+1/21/19 18:21,,Food,Fish + bread ,NA
+1/21/19 20:19,,Food,CBD,NA
+1/21/19 22:30,1/22/19 5:30,Sleep,,7
+1/22/19 2:32,,Event,awake,NA
+1/22/19 6:00,,Food,Latte,NA
+1/22/19 9:30,,Food,Nuts,NA
+1/22/19 12:15,,Food,Pork loin,NA
+1/22/19 17:38,,Food,Beer (empty stomach),NA
+1/22/19 18:35,,Food,Pasta (chicken mushroom),NA
+1/22/19 21:31,,Food,CBD,NA
+1/22/19 22:00,1/23/19 6:30,Sleep,,8.5
+1/23/19 6:45,,Food,Latte,NA
+1/23/19 9:20,,Food,Nuts + banana,NA
+3/22/19 22:44,3/23/19 5:16,Sleep,,6.533333333
+3/23/19 22:03,3/24/19 5:03,Sleep,,7
+3/24/19 21:16,3/25/19 5:44,Sleep,,8.458333333
+3/25/19 10:37,,Food,Nuts,NA
+3/25/19 18:00,,Food,CBD,NA
+3/25/19 18:30,,Food,Veg Stirfry + rice,NA
+3/25/19 21:26,3/26/19 5:43,Sleep,,8.280277778
+3/26/19 6:30,,Food,Latte,NA
+3/26/19 9:15,,Food,"Fiber, nuts",NA
+3/26/19 13:03,,Food,"Rice, stirfry",NA
+3/26/19 18:07,,Food,CBD,NA
+3/26/19 18:46,,Food,"Pizza, pork, salad",NA
+3/26/19 22:03,3/27/19 5:48,Sleep,,7.737222222
+3/27/19 6:00,,Food,Latte,NA
+3/27/19 9:00,,Food,Blueberry Kefir,NA
+3/27/19 11:25,,Event,Blood donation,NA
+3/27/19 12:34,,Food,Clam Chowder,NA
+3/27/19 16:49,,Food,Corn Chips (75g),NA
+3/27/19 18:28,,Food,Pizza,NA
+3/27/19 19:00,,Food,CBD,NA
+3/27/19 22:20,3/28/19 4:57,Sleep,,6.603333333
+3/28/19 5:30,,Food,Latte,NA
+3/28/19 7:30,,Food,Rice + Eggs,NA
+3/28/19 12:45,,Food,Pizza,NA
+3/28/19 19:15,,Food,Pork ribs+beans+cornbread,NA
+3/28/19 20:00,,Food,CBD,NA
+3/28/19 22:06,3/29/19 4:58,Sleep,,6.855555555
+3/29/19 5:50,,Food,Latte,NA
+3/29/19 11:30,,Food,Pasta (pesto),NA
+3/29/19 15:26,,Food,Sprite,NA
+3/29/19 18:04,,Food,Kombucha + CBD,NA
+3/29/19 20:04,,Food,Kale salad + tofu,NA
+3/29/19 22:13,3/30/19 4:20,Sleep,,6.111666667
+3/30/19 5:30,,Food,Latte,NA
+3/30/19 7:17,,Food,Egg + cornbread,NA
+3/30/19 12:29,,Food,Beans + cornbread,NA
+3/30/19 17:00,,Food,Clam Chowder,NA
+3/30/19 19:16,,Food,CBD,NA
+3/30/19 19:35,,Food,Cheese-stuffed chicken,NA
+3/30/19 22:10,3/31/19 5:50,Sleep,,7.650555555
+3/31/19 6:50,,Food,Latte,NA
+3/31/19 10:57,,Food,Baguette,NA
+3/31/19 12:10,,Food,Hamburger,NA
+3/31/19 19:00,,Food,"Chicken, coconut rice",NA
+3/31/19 21:55,4/1/19 5:40,Sleep,,7.748333333
+4/1/19 6:30,,Food,Latte,NA
+4/1/19 7:29,,Food,Whole Wheat Bread,NA
+4/1/19 12:10,,Food,Beans + rice,NA
+4/1/19 13:30,,Food,Kombucha,NA
+4/1/19 15:30,,Food,Blueberry Kefir,NA
+4/1/19 17:00,,Food,Frappuccino,NA
+4/1/19 18:45,,Food,Beef,NA
+4/1/19 22:01,4/2/19 5:18,Sleep,,7.278888889
+4/2/19 6:30,,Food,Latte,NA
+4/2/19 11:21,,Food,Whole Wheat w/ Reducose,NA
+4/2/19 13:00,,Food,Blueberry Kefir,NA
+4/2/19 17:00,,Food,Fiber bar,NA
+4/2/19 17:14,,Food,Nuts,NA
+4/2/19 21:17,,Food,Pasta + cheese + bread,NA
+4/2/19 22:16,4/3/19 6:29,Sleep,,8.208055556
+4/3/19 6:45,,Food,Latte,NA
+4/3/19 9:00,,Food,Fiber bar,NA
+4/3/19 12:00,,Food,Pork Ramen,NA
+4/3/19 14:30,,Food,Kombucha,NA
+4/3/19 18:45,,Food,Enchilada,NA
+4/3/19 22:25,4/4/19 5:17,Sleep,,6.864722222
+4/4/19 6:15,,Food,Latte,NA
+4/4/19 8:11,,Food,Whole Wheat Bread,NA
+4/4/19 10:10,,Food,Blueberry Kefir,NA
+4/4/19 12:45,,Food,Enchilada,NA
+4/4/19 13:15,,Food,Banana + nuts,NA
+4/4/19 15:15,,Food,Kombucha,NA
+4/4/19 18:30,,Food,Pork + banana bread,NA
+4/4/19 22:43,4/5/19 5:22,Sleep,,6.639166667
+4/5/19 6:00,,Food,Latte,NA
+4/5/19 8:15,,Food,eggs + beans,NA
+4/5/19 12:30,,Food,Pesto Pasta,NA
+4/5/19 14:30,,Food,Banana bread,NA
+4/5/19 16:30,,Food,Banana bread,NA
+4/5/19 19:30,,Food,Vegetable Udon,NA
+4/5/19 21:52,4/6/19 5:15,Sleep,,7.371111111
+4/6/19 6:00,,Food,Latte,NA
+4/6/19 8:30,,Food,eggs,NA
+4/6/19 12:30,,Food,Whole wheat pasta,NA
+4/6/19 19:30,,Food,Pizza + breaded chicken,NA
+4/6/19 22:35,4/7/19 4:01,Sleep,,5.421388889
+4/7/19 4:20,,Food,Latte,NA
+4/7/19 9:45,,Food,eggs + cheese,NA
+4/7/19 22:33,4/8/19 5:29,Sleep,,6.933333333
+4/8/19 9:45,,Food,egg/banana/fiber,NA
+4/8/19 14:00,,Food,Clam Chowder,NA
+4/8/19 19:00,,Food,Beans + cabbage,NA
+4/8/19 21:46,4/9/19 4:47,Sleep,,7.000555556
+4/9/19 5:15,,Food,Latte,NA
+4/9/19 9:41,,Food,Bulletproof bar,NA
+4/9/19 12:15,,Food,McDonalds Hamburger,NA
+4/9/19 13:00,,Food,Burmese tofu salad,NA
+4/9/19 19:15,,Food,Ravioli spinach,NA
+4/9/19 20:15,,Food,Chocolate shake,NA
+4/9/19 23:14,4/10/19 6:14,Sleep,,6.988611111
+4/10/19 7:30,,Food,Latte,NA
+4/10/19 9:30,,Food,Protein Cacao Smoothie,NA
+4/10/19 11:37,,Food,Pastrami sandwich,NA
+4/10/19 20:22,,Food,"Chinese rice, noodles, eggs, pork",NA
+4/10/19 22:39,4/11/19 6:30,Sleep,,7.846111111
+4/11/19 17:00,,Food,Lemonade + Chips,NA
+4/11/19 23:49,4/12/19 6:31,Sleep,,6.689722222
+4/12/19 8:00,,Food,Cinnamon roll + creamy coffee,NA
+4/12/19 14:50,,Food,Acai bowl,NA
+4/12/19 16:26,,Food,Ginger Drink,NA
+4/12/19 18:00,,Food,Sushi + Udon,NA
+4/12/19 20:15,,Food,Protein bar,NA
+4/12/19 23:50,4/13/19 1:30,Event,Airplane,NA
+4/13/19 2:45,4/13/19 7:58,Sleep,,5.203888889
+4/13/19 9:05,,Food,Latte,NA
+4/13/19 12:30,,Food,"Chicken, white bread, cheese",NA
+4/13/19 16:30,,Food,Mushroom chips,NA
+4/13/19 18:00,,Food,Kombucha,NA
+4/13/19 19:00,,Food,Pasta (chicken mushroom),NA
+4/13/19 21:26,4/14/19 4:47,Sleep,,7.348888889
+4/14/19 5:10,,Food, Latte,NA
+4/14/19 18:00,,Food,Pork sandwich,NA
+4/14/19 21:45,4/15/19 4:15,Sleep,,6.499722222
+4/15/19 6:30,,Food,Latte,NA
+4/15/19 7:30,,Food,Eggs,NA
+4/15/19 12:30,,Food,Pasta (chicken mushroom),NA
+4/15/19 18:30,,Food,Coconut rice + beef,NA
+4/15/19 21:44,4/16/19 4:54,Sleep,,7.158611111
+4/16/19 5:53,,Food,Latte,NA
+4/16/19 12:00,,Food,Rice + Sushi + chicken,NA
+4/16/19 17:30,,Food,Fish + bread ,NA
+4/16/19 22:15,4/17/19 4:47,Sleep,,6.531388889
+4/17/19 6:30,,Food,Latte,NA
+4/17/19 9:00,,Food,banana,NA
+4/17/19 12:40,,Food,Beans + kombucha,NA
+4/17/19 18:45,,Food,Pizza,NA
+4/17/19 23:25,4/18/19 6:49,Sleep,,7.393055556
+4/18/19 7:00,,Food,Latte (Almond milk),NA
+4/18/19 9:00,,Food,Banana,NA
+4/18/19 10:51,,Food,FibeRx Smoothie,NA
+4/18/19 12:28,,Food,Beans + Chips,NA
+4/18/19 18:30,,Food, Pizza + Sprite,NA
+4/18/19 21:31,4/19/19 6:17,Sleep,,8.753611111
+4/19/19 21:36,4/20/19 6:25,Sleep,,8.800555556
+4/20/19 22:44,4/21/19 4:53,Sleep,,6.15
+4/21/19 5:30,,Food,Latte (Almond milk),NA
+4/21/19 5:48,,Food,Pea soup,NA
+5/16/19 22:09,5/17/19 5:55,Sleep,,7.753888889
+5/17/19 22:08,5/18/19 4:15,Sleep,,6.101111111
+5/18/19 19:22,5/19/19 3:56,Sleep,,8.559722222
+5/19/19 19:28,5/20/19 3:52,Sleep,,8.390833333
+5/20/19 21:43,5/21/19 3:05,Sleep,,5.366666667
+5/21/19 6:45,,Food,Latte,NA
+5/21/19 17:50,,Food,Mixed nuts,NA
+5/21/19 20:26,,Food,Tamale,NA
+5/21/19 21:25,5/22/19 4:41,Sleep,,7.261111111
+5/22/19 10:24,,Food,Granola cereal w/milk (Reducose),NA
+5/22/19 13:00,,Food,Mushrooms + Broccoli,NA
+5/22/19 15:30,,Food,coconut cookie,NA
+5/22/19 18:20,,Food,Salmon + coconut rice,NA
+5/22/19 21:46,5/23/19 5:26,Sleep,,7.664722222
+5/23/19 6:00,,Food,Latte,NA
+5/23/19 8:22,,Food,Granola cereal w/milk,NA
+5/23/19 11:46,,Food,Salmon + coconut rice (Reducose),NA
+5/23/19 13:58,,Food,Blueberry almond smoothie ,NA
+5/23/19 14:25,,Food,chips and guacamole,NA
+5/23/19 18:30,,Food,Pork loin,NA
+5/23/19 20:00,,Food,Kombucha,NA
+5/23/19 21:28,5/24/19 3:00,Sleep,,5.525
+5/24/19 4:30,5/24/19 7:15,Sleep,,2.75
+5/24/19 7:36,,Food,Latte (Almond milk),NA
+5/24/19 10:00,,Food,Egg tortilla,NA
+5/24/19 13:01,,Food,Pork loin,NA
+5/24/19 19:12,,Food,Roast Chicken + Beer,NA
+5/24/19 20:34,,Food,Pasta,NA
+5/24/19 22:47,5/25/19 6:14,,,NA
+5/25/19 6:30,,Food,Latte (Almond milk),NA
+5/25/19 9:17,,Food,Granola cereal w/milk (Reducose),NA
+5/25/19 12:05,,Food,Salmon pasta,NA
+5/25/19 13:23,,Food,coconut cookie,NA
+5/25/19 18:53,,Food,Clams + wine,NA
+5/25/19 22:10,5/26/19 5:59,Sleep,,7.808611111
+5/26/19 6:48,,Food,Latte (Almond milk),NA
+5/26/19 8:23,,Food,Oatmeal (Reducose),NA
+5/26/19 11:28,,Food,Coconut cookie,NA
+5/26/19 12:49,,Food,Chicken + Tamale,NA
+5/26/19 13:15,,Food,Smoothie (almond milk + banana),NA
+5/26/19 18:08,,Food,Pork Belly + Chips + beans,NA
+5/26/19 21:36,5/27/19 4:48,Sleep,,7.2
+5/27/19 6:00,,Food,Latte,NA
+5/27/19 7:30,,Food,banana,NA
+5/27/19 9:34,,Food,Pork belly + seeds,NA
+5/27/19 14:12,,Food,Burger (0 reducose),NA
+5/27/19 15:25,,Food,Blueberry smoothie (Reducose),NA
+5/27/19 15:28,,Food,CBD Chocolate,NA
+5/27/19 19:30,,Food,Mushroom bok choy,NA
+5/27/19 21:10,5/28/19 6:15,Sleep,,9.078611111
+5/28/19 6:31,,Food,Latte (Almond milk),NA
+5/28/19 8:27,,Food,Banana (Reducose T-10),NA
+5/28/19 10:22,,Food,Eggs + avocado,NA
+5/28/19 12:30,,Food,Burger (Reducose + 4 hrs),NA
+5/28/19 18:25,,Food,Pizza,NA
+5/28/19 21:29,5/29/19 5:21,Sleep,,7.857222222
+5/29/19 6:00,,Food,Latte,NA
+5/29/19 7:53,,Food,Banana,NA
+5/29/19 7:33,,Food,Reducose,NA
+5/29/19 12:43,,Food,Burger (1 hr after chips),NA
+5/29/19 11:06,,Food,Chips (Reducose),NA
+5/29/19 13:52,5/29/19 14:05,Exercise,Biking,NA
+5/29/19 14:15,,Food,Coffee w/milk,NA
+5/29/19 17:15,,Food,Mixed nuts,NA
+5/29/19 13:42,,Food,Kombucha,NA
+5/29/19 16:50,5/29/19 17:05,Exercise,Biking,NA
+5/29/19 22:27,5/30/19 6:39,Sleep,,8.2
+5/30/19 6:50,,Food,Latte,NA
+5/29/19 18:28,,Food,Pork + Nopales,NA
+5/29/19 18:35,5/29/19 19:05,Event,Scautoma,NA
+5/31/19 6:51,,Food,Apple pastry + Latte,NA
+5/30/19 22:12,5/31/19 6:34,Sleep,,8.358055555
+5/30/19 12:03,,Food,Chips,NA
+5/30/19 14:05,,Food,Pork,NA
+5/30/19 14:13,,Food,Yogurt,NA
+5/30/19 18:40,,Food,"Chicken, white bread, cheese",NA
