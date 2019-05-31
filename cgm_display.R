@@ -19,7 +19,9 @@ glucose_target_gg <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01
 cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                         end=now(),
                         activity_df=activity_raw,
-                        glucose_df=glucose_raw) {
+                        glucose_df=glucose_raw,
+                        title = "Glucose",
+                        show.label = TRUE) {
   ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
     geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
     glucose_target_gg +
@@ -43,14 +45,17 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                color = "yellow")+
     geom_text(data = activity_df %>%
                 dplyr::filter(Activity == "Food") %>% select("Start","Comment") ,
-              aes(x=Start,y=50, angle=90, hjust = FALSE,  label = Comment),
+              aes(x=Start,y=50, angle=90, hjust = FALSE,  label =  Comment),
               size = 6) +
-    labs(title = "Glucose (mg/dL)", subtitle = start) +  theme(plot.title = element_text(size=22))+
+    labs(title = title, subtitle = start,
+         y = "Glucose (mg/dL)",
+         x = "") +  theme(plot.title = element_text(size=22))+
     scale_x_datetime(limits = c(start,end),
                      date_labels = "%m/%d %H:%M",
                      timezone = "US/Pacific")
 
 }
+
 
 # returns a dataframe giving all glucose values within "timelength" of a specific activity
 food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_df = activity_raw, glucose_df = glucose_raw, timelength = lubridate::hours(2)){
@@ -74,4 +79,28 @@ food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_
   }
   foods_experiment <- f[-1,]
   foods_experiment
+}
+
+# display plot from startTime, timeLength
+cgm_start_plot <- function(startTime = lubridate::now(), timeLength = 24, title = paste("Glucose",timeLength,"Hours")){
+  cgm_display(startTime,
+              startTime + lubridate::hours(timeLength),
+              title = title,
+              show.label = TRUE) + if(exists("watch_data")){
+    geom_line(
+      data = watch_data %>% dplyr::filter(
+        type == "HeartRate" &
+          startDate > startTime &
+          endDate < startTime + lubridate::hours(timeLength)
+      )
+      %>% select(time = startDate, value = value),
+      inherit.aes = FALSE,
+      stat = "identity",
+      aes(x = time, y = value + 50 ),
+      color = "green"
+    ) +
+    scale_y_continuous(sec.axis = sec_axis( ~ .-50,
+                                            name = "Heart Rate (bpm)"))
+}
+
 }

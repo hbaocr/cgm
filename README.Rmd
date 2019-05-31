@@ -111,7 +111,7 @@ cgm_display(start = min(glucose_raw$time),min(glucose_raw$time)+hours(24))
 The final full day of the dataset:
 
 ```{r lastestCGMResult, warning = FALSE}
-cgm_display(start = max(glucose_raw$time)-days(1), end = max(glucose_raw$time))
+cgm_start_plot(startTime = max(glucose_raw$time)-days(1), timeLength = 24, title = "Latest Full Day")
 ```
 
 
