@@ -1,7 +1,7 @@
 How specific foods affect my glucose levels
 ================
 Richard Sprague
-2019-05-31
+2019-07-19
 
 Here are my glucose levels each time I eat a particular food.
 
