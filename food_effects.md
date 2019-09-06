@@ -1,7 +1,7 @@
 How specific foods affect my glucose levels
 ================
 Richard Sprague
-2019-08-27
+2019-09-04
 
 Here are my glucose levels each time I eat a particular food.
 
@@ -16,4 +16,4 @@ food_effect(foodlist) %>% group_by(experiment) %>% mutate(delta = (time - min(ti
 
 and a bunch of other foods:
 
-![](food_effects_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-3.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-4.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-5.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-6.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-7.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-8.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-9.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-10.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-11.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-12.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-13.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-14.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-15.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-16.png)<!-- -->
+![](food_effects_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-3.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-4.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-5.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-6.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-7.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-8.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-9.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-10.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-11.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-12.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-13.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-14.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-15.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-16.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-17.png)<!-- -->![](food_effects_files/figure-gfm/unnamed-chunk-2-18.png)<!-- -->

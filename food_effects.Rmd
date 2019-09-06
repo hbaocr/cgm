@@ -137,5 +137,11 @@ food_effect(foodlist, timelength = hours(1)) %>% group_by(experiment) %>% mutate
 foodlist <- c("Chips", "Chips (Reducose)", "chips and guacamole")
 food_effect(foodlist) %>% group_by(experiment) %>% mutate(delta = (time - min(time))/60) %>% ggplot(aes(x=delta,y=value, color = experiment)) + geom_line(size = 2) + scale_x_continuous() + labs(title = "Glucose after Chips", x = "Minutes", y = "mg/dL")
 
+foodlist <- c("FiberOne almond milk blueberries", "FiberOne yogurt", "FiberOne whole milk","FiberOne yogurt banana","FiberOne almond milk banana","FiberOne almond milk")
+food_effect(foodlist) %>% group_by(experiment) %>% mutate(delta = (time - min(time))/60) %>% ggplot(aes(x=delta,y=value, color = experiment)) + geom_line(size = 2) + scale_x_continuous() + labs(title = "FiberOne High Fiber Cereal", x = "Minutes", y = "mg/dL")
+
+foodlist <- c("Granola almond milk", "Granola yogurt banana", "Granola (110g) almond milk","Yogurt granola blueberries")
+food_effect(foodlist) %>% group_by(experiment) %>% mutate(delta = (time - min(time))/60) %>% ggplot(aes(x=delta,y=value, color = experiment)) + geom_line(size = 2) + scale_x_continuous() + labs(title = "Granola Cereal", x = "Minutes", y = "mg/dL")
+
 # 
 ```
