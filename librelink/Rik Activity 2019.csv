@@ -356,7 +356,7 @@
 7/17/19 19:30,,Food,"Sausage, bread",NA
 7/17/19 21:48,7/18/19 6:07,Sleep,,8.316666667
 7/18/19 7:29,7/18/19 8:26,Sleep,,0.95
-7/18/19 9:00,,Food,Oatmeal w/butter,NA
+7/18/19 9:00,,Food,Oatmeal + Butter (1 TBS),NA
 7/18/19 11:57,,Food,Peanut butter cookie,NA
 7/18/19 13:40,7/18/19 14:40,Exercise,,NA
 7/18/19 15:54,,Food,Fig bar,NA
@@ -370,7 +370,7 @@
 7/19/19 20:08,,Food,Lemonade,NA
 7/19/19 21:57,7/20/19 4:58,Sleep,,7.016666667
 7/20/19 9:30,,Food,Donut,NA
-7/20/19 14:57,,Food,Donut,NA
+7/20/19 14:57,,Food,Donut (Afternoon),NA
 7/20/19 18:05,,Food,"BBQ ribs, vegetables, garlic bread",NA
 7/20/19 22:19,7/21/19 5:15,Sleep,,6.925277778
 7/21/19 7:13,,Food,English muffin w/egg,NA
@@ -524,3 +524,150 @@
 8/31/19 22:51,9/1/19 5:13,Sleep,,6.366666667
 8/31/19 18:11,,Food,Banana,NA
 8/31/19 18:45,,Food,Shrimp + vegetables + quinoa,NA
+9/2/19 20:57,,Food,Taro,NA
+9/2/19 19:43,,Food,Mushroom dinner,NA
+9/2/19 13:35,,Food,Fried rice (on plane),NA
+9/2/19 13:53,9/2/19 15:41,Sleep,,1.8
+9/2/19 23:52,9/3/19 6:58,Sleep,,7.085
+9/3/19 10:00,,Food,Youtiao and soy milk,NA
+9/3/19 13:57,,Food,Plum juice,NA
+9/3/19 9:00,,Food,Starbucks Latte,NA
+9/3/19 22:00,,Food,Korean fried rice,NA
+9/4/19 0:36,9/4/19 7:50,Sleep,,7.218888889
+9/4/19 9:30,,Food,Starbucks Latte,NA
+9/4/19 14:30,,Food,Unagi rice,NA
+9/5/19 1:00,9/5/19 7:33,Sleep,,6.55
+9/5/19 17:50,,Food,Moon cake,NA
+9/5/19 12:30,,Food,Fish and duck lunch,NA
+9/5/19 8:30,,Food,Starbucks Latte,NA
+9/5/19 9:30,,Food,Croissant,NA
+9/5/19 18:10,,Food,Paleo bar,NA
+9/5/19 21:52,,Food,German sausage potato,NA
+9/5/19 23:37,9/6/19 6:45,Sleep,,7.118333333
+9/6/19 8:00,,Food,Starbucks Latte,NA
+9/6/19 15:00,,Food,Turkey ravioli,NA
+9/6/19 18:30,,Food,Pesto Pasta and broccoli,NA
+9/10/19 20:00,9/11/19 5:00,Sleep,,9
+9/11/19 6:45,,Food,Breakfast,NA
+9/10/19 14:07,,Food,Vietnamese rice noodles + beef,NA
+9/10/19 11:10,,Food,Bread,NA
+9/10/19 18:40,,Food,Lamb + potato + salad,NA
+9/11/19 13:49,,Food,Lasagne,NA
+9/11/19 23:00,9/12/19 6:00,Sleep,,7
+9/11/19 21:45,,Food,Chicken + fried rice,NA
+9/12/19 6:45,,Food,Breakfast,NA
+9/12/19 22:31,9/13/19 3:50,Sleep,,5.305277778
+9/13/19 5:00,9/13/19 7:29,Sleep,,2.483333333
+9/13/19 8:00,,Food,Breakfast,NA
+9/12/19 20:15,,Food,Pasta mushroom salad chicken,NA
+9/14/19 12:35,,Food,Airplane Beef Pasta Cheese,NA
+9/14/19 19:43,,Food,Airplane Sausage,NA
+9/14/19 7:02,,Food,Breakfast,NA
+9/25/19 22:36,9/26/19 5:46,Sleep,,7.155277778
+9/25/19 18:30,,Food,"Ravioli, salmon, beets",NA
+9/26/19 6:15,,Food,Latte,NA
+9/27/19 0:09,9/27/19 7:16,Sleep,,7.111111111
+9/27/19 23:11,9/28/19 6:58,Sleep,,7.775555556
+9/27/19 13:47,,Food,Tofu udon,NA
+9/27/19 14:30,,Food,Latte (afternoon),NA
+9/27/19 17:42,,Food,Afghan Restaurant,NA
+9/27/19 8:45,,Food,Egg avocado sandwich,NA
+9/28/19 8:15,,Food,Latte (16oz),NA
+9/28/19 23:35,9/29/19 6:30,Sleep,,6.914722222
+9/28/19 12:17,,Food,Collagen,NA
+9/28/19 21:14,,Food,Hummus salad,NA
+9/28/19 13:07,,Food,Beef burrito,NA
+9/28/19 9:00,,Food,Steamed Bun,NA
+9/28/19 16:15,,Food,Chai Latte,NA
+9/29/19 18:45,,Food,Chicken + bread + Salad,NA
+9/29/19 13:15,,Food,"Barley soup, beets",NA
+9/29/19 10:30,,Food,eggs + vegetables,NA
+9/29/19 14:30,,Food,Snickers,NA
+9/29/19 22:31,9/30/19 6:15,Sleep,,7.733333333
+9/30/19 18:35,,Food,Shrimp + rice,NA
+9/30/19 12:50,,Food,Impossible Burger,NA
+9/30/19 21:44,10/1/19 6:07,Sleep,,8.382222222
+10/1/19 6:30,,Food,Latte,NA
+10/1/19 15:55,,Food,Banana peanut butter pretzels ,NA
+10/1/19 16:02,10/1/19 16:25,Exercise,,NA
+10/1/19 18:30,,Food,Tofu salad,NA
+10/1/19 9:00,,Food,Costco Stuffed Salmon,NA
+10/1/19 21:25,10/2/19 3:43,Sleep,,6.294722222
+10/2/19 21:32,10/3/19 5:30,Sleep,,7.966666667
+10/3/19 18:35,,Food,"Salad, pork, bread, raspberry pie",NA
+10/2/19 14:45,,Food,Taco Bell Beef Burrito,NA
+10/2/19 18:30,,Food,"Pork, bread",NA
+10/3/19 12:00,,Food,Leek Soup,NA
+10/3/19 9:15,,Food,Ezekiel Cereal + goat milk,NA
+10/3/19 14:25,,Food,Chocolate covered almonds,NA
+10/3/19 21:49,10/4/19 6:03,Sleep,,8.2275
+10/4/19 6:30,,Food,Coffee w cream,NA
+10/4/19 9:15,,Food,Donuts (two buttermilk),NA
+10/4/19 10:30,,Food,Ezekiel Cereal + goat milk,NA
+10/4/19 22:37,10/5/19 6:13,Sleep,,7.590277778
+10/4/19 13:00,,Food,Sandwich turkey + dessert raspberry pie,NA
+10/4/19 16:00,,Food,Cookie peanut butter,NA
+10/4/19 17:45,,Food,Indian curry vegetables,NA
+10/5/19 6:20,,Food,Coffee w coconut cream,NA
+10/5/19 13:35,,Food,Poutine,NA
+10/5/19 18:40,,Food,Chicken + beans + greens + chocolate raspberry,NA
+10/5/19 16:00,,Food, Apple Cider,NA
+10/5/19 8:15,,Food,Ezekiel Cereal + goat milk,NA
+10/5/19 22:19,10/6/19 5:51,Sleep,,7.533333333
+10/6/19 19:00,,Food,Pizza,NA
+10/6/19 13:15,,Food,Cabbage soup + beans,NA
+10/6/19 9:00,,Food,Cornbread w butter and honey,NA
+10/6/19 22:10,10/7/19 6:34,Sleep,,8.386944444
+10/7/19 22:00,10/8/19 6:01,Sleep,,8.016666667
+10/8/19 21:34,10/9/19 5:29,Sleep,,7.902222222
+10/8/19 12:55,,Food,Nature s Table Avocado Ginger Snap,NA
+10/8/19 11:17,,Food,Chick-Fil-A,NA
+10/9/19 12:30,,Food,"Barley soup, pasta",NA
+10/8/19 18:00,10/8/19 22:00,Event,Airplane,NA
+10/21/19 22:17,10/22/19 5:45,Sleep,,7.466666667
+10/22/19 5:58,,Food,Glucose Drink (75g),NA
+10/22/19 8:58,,Food,Smoothie (banana + peanut butter) V1,NA
+10/22/19 11:09,,Food,Chickpeas,NA
+10/22/19 14:25,,Food,Tofu + herring,NA
+10/23/19 6:30,,Food,Latte,NA
+10/22/19 22:45,10/23/19 6:10,Sleep,,7.416666667
+10/22/19 17:30,,Food,Pasta (chicken mushroom),NA
+10/23/19 12:49,,Food,Veggie Noodle Bowl + Kombucha,NA
+10/23/19 15:12,,Food,Banana peanut butter,NA
+10/23/19 18:14,,Food,Ravioli squash and alfredo sauce,NA
+10/23/19 22:48,10/24/19 6:52,Sleep,,8.058055556
+10/24/19 6:51,,Food,Latte,NA
+10/24/19 11:00,,Food,Smoothie (Banana blueberry),NA
+10/24/19 13:35,,Food,Pasta (Pesto),NA
+10/24/19 15:45,,Food,Banana,NA
+10/24/19 21:47,10/25/19 6:41,Sleep,,8.9
+10/24/19 19:30,,Food,Red Wine,NA
+10/25/19 8:05,,Food,Croissant,NA
+10/25/19 6:50,,Food,Latte,NA
+10/25/19 13:56,,Food,Pasta (tomato sauce),NA
+10/25/19 16:07,,Food,Chickpeas,NA
+10/24/19 18:45,,Food,Fried chicken,NA
+10/25/19 18:50,,Food,Salmon + mushrooms + wine,NA
+10/25/19 21:58,10/26/19 6:30,Sleep,,8.533333333
+10/26/19 6:50,,Food,Latte,NA
+10/26/19 10:35,,Food,Smoothie (banana + peanut butter) V2,NA
+10/26/19 13:20,,Food,"Barley soup, brussel sprouts",NA
+10/26/19 21:41,10/27/19 6:17,Sleep,,8.6
+10/26/19 18:52,,Food,Chicken tagine + couscous,NA
+10/27/19 7:00,,Food,Latte,NA
+10/27/19 10:30,,Food,Granola (90g) almond milk,NA
+10/27/19 12:47,,Food,Coconut rice + Chicken,NA
+10/27/19 22:34,10/28/19 5:27,Sleep,,6.883333333
+10/28/19 8:45,,Food,Latte,NA
+10/28/19 10:15,,Food,Granola (90g) almond milk + banana,NA
+10/28/19 14:15,,Food,Chickpeas,NA
+10/28/19 12:15,,Food,Couscous and chili,NA
+10/28/19 18:30,,Food,"Baked cod, sauteed vegetables",NA
+10/28/19 17:30,,Food,Kombucha,NA
+10/29/19 6:30,,Food,Latte,NA
+10/29/19 12:15,,Food,Veggie bowl,NA
+10/29/19 17:30,,Food,Ravioli with tomato sauce,NA
+10/29/19 17:00,,Food,Pea crisps,NA
+10/28/19 21:58,10/29/19 6:14,Sleep,,8.266666667
+10/29/19 22:17,10/30/19 5:56,Sleep,,7.65
+10/30/19 6:10,,Food,Latte,NA

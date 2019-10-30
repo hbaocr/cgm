@@ -1,7 +1,7 @@
 Continuous Glucose Monitoring with Freestyle Libre
 ================
 Richard Sprague
-2019-10-28
+2019-10-30
 
 See [Continous Glucose Monitoring: Start
 Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)
@@ -164,8 +164,8 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## ------------------------------------------------------------------------- 
     ## Describe . (tbl_df, tbl, data.frame):
     ## 
-    ## data frame:  3787 obs. of  1 variables
-    ##      3787 complete cases (100.0%)
+    ## data frame:  3854 obs. of  1 variables
+    ##      3854 complete cases (100.0%)
     ## 
     ##   Nr  ColName  Class    NAs  Levels
     ##   1   value    numeric  .          
@@ -175,14 +175,14 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## Glucose Values While Sleeping
     ## 
     ##   length       n    NAs  unique     0s   mean  meanCI
-    ##    3'787   3'787      0      99      0  80.64   80.21
+    ##    3'854   3'854      0      99      0  80.64   80.22
     ##           100.0%   0.0%           0.0%          81.06
     ##                                                      
     ##      .05     .10    .25  median    .75    .90     .95
-    ##    58.00   66.00  74.00   80.00  87.00  96.00  103.00
+    ##    58.00   66.00  74.00   80.00  87.00  96.00  102.00
     ##                                                      
     ##    range      sd  vcoef     mad    IQR   skew    kurt
-    ##   119.00   13.35   0.17   10.38  13.00   0.22    2.37
+    ##   119.00   13.24   0.16   10.38  13.00   0.22    2.45
     ##                                                      
     ## lowest : 40.0 (31), 41.0 (5), 42.0 (4), 43.0 (3), 44.0 (3)
     ## highest: 142.0, 145.0, 152.0, 155.0, 159.0
@@ -200,8 +200,8 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## ------------------------------------------------------------------------- 
     ## Describe . (tbl_df, tbl, data.frame):
     ## 
-    ## data frame:  14475 obs. of  1 variables
-    ##      14346 complete cases (99.1%)
+    ## data frame:  14663 obs. of  1 variables
+    ##      14534 complete cases (99.1%)
     ## 
     ##   Nr  ColName  Class    NAs         Levels
     ##   1   value    numeric  129 (0.9%)        
@@ -211,14 +211,14 @@ glucose %>% filter(apply(sapply(glucose$time,
     ## Glucose Values While Awake
     ## 
     ##   length       n    NAs  unique      0s    mean  meanCI
-    ##   14'475  14'346    129     155       0   91.45   91.14
-    ##            99.1%   0.9%            0.0%           91.76
+    ##   14'663  14'534    129     155       0   91.46   91.15
+    ##            99.1%   0.9%            0.0%           91.77
     ##                                                        
     ##      .05     .10    .25  median     .75     .90     .95
-    ##    66.00   72.00  80.00   88.00  100.00  116.00  128.00
+    ##    66.00   72.00  80.00   88.00  100.00  116.00  127.00
     ##                                                        
     ##    range      sd  vcoef     mad     IQR    skew    kurt
-    ##   181.00   19.03   0.21   14.83   20.00    1.06    2.81
+    ##   181.00   18.96   0.21   14.83   20.00    1.06    2.83
     ##                                                        
     ## lowest : 40.0 (33), 41.0 (5), 42.0 (5), 43.0 (3), 44.0 (7)
     ## highest: 207.0, 210.0, 211.0 (2), 217.0 (2), 221.0
