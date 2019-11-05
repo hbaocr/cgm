@@ -61,8 +61,10 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
 food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_df = activity_raw, glucose_df = glucose_raw, timelength = lubridate::hours(2)){
   #food_df <- activity_df %>% dplyr::filter(str_detect(str_to_lower(activity_df$Comment),pattern = foodname))
   food_df <- activity_df %>% dplyr::filter(Comment %in% foodlist)
-  food_df$Comment <- paste0(food_df$Comment,rownames(food_df))
-  food_df_interval <- lubridate::interval(food_df$Start,food_df$Start + lubridate::hours(1))
+  #food_df$Comment <- paste0(food_df$Comment,"(",rownames(food_df),")")
+  food_df$Comment <-
+    paste0(food_df$Comment,"(",date(food_df$Start) %>% strftime(format = "%m%d"),")")
+  food_df_interval <- interval(food_df$Start,food_df$Start + hours(1))
   food_glucose <- glucose_df %>% dplyr::filter(apply(sapply(glucose_df$time,function(x) x %within% food_df_interval),2,any))
   # food_glucose <- glucose_df %>% dplyr::filter(sapply(glucose_df$time,function(x) x %within% food_df_interval))
   f <- cbind(food_glucose[1,],experiment = "test")
@@ -70,9 +72,9 @@ food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_
   a = NULL
 
   for(i in food_df$Start){
-    i_time <- as_datetime(i, tz = "US/Pacific")
+    i_time <- as_datetime(i, tz = Sys.timezone())
     # < rbind(i,a)
-    g <- glucose_df %>% dplyr::filter(time %within% lubridate::interval(i_time - minutes(10), i_time + timelength))
+    g <- glucose_df %>% dplyr::filter(time %within% interval(i_time - minutes(10), i_time + timelength))
     #print(g)
     p = match(as_datetime(i),food_df$Start)
     f <- rbind(f,cbind(g,experiment = food_df$Comment[p]))
@@ -80,6 +82,34 @@ food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_
   foods_experiment <- f[-1,]
   foods_experiment
 }
+
+# calculate area under the curve for each item in foodlist
+food_auc <- function(foodlist = foodlist,
+                     timelength = 120,
+                     activity_df = activity_raw,
+                     glucose_df = glucose_raw
+){
+  food_effect(foodlist, activity_df = activity_df, glucose_df = glucose_df, timelength = minutes(timelength)) %>%
+    select(time,value,experiment) %>%
+    group_by(experiment) %>%
+    mutate(sec = as.numeric(time)-as.numeric(first(time))) %>%
+    summarise(auc = DescTools::AUC(as.numeric(sec),value)/60/60)
+
+}
+
+
+food_compare_display <-  function(foodlist = foodlist,
+                                  timelength = 120,
+                                  foodtype = "food") {
+  food_effect(foodlist, timelength = minutes(timelength)) %>%
+    group_by(experiment) %>%
+    mutate(delta = (time - min(time)) /60) %>%
+    ggplot(aes(x = delta, y = value, color = experiment)) +
+    geom_line(size = 2) +
+    scale_x_continuous() +
+    labs(title = paste("Glucose after eating",foodtype), x = "Minutes", y = "mg/dL")
+}
+
 
 # display plot from startTime, timeLength
 cgm_start_plot <- function(startTime = lubridate::now(), timeLength = 24, title = paste("Glucose",timeLength,"Hours")){

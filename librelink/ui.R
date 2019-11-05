@@ -11,7 +11,9 @@ library(shiny)
 shinyUI(fluidPage(
 
     # Application title
-    titlePanel("Glucose levels for https://psm.personalscience.com"),
+    # Application title
+    titlePanel("Richard Sprague Continuous Monitoring", windowTitle = "Richard Sprague"),
+    tags$a(href="https://richardsprague.com", "More details"),
 
 
     # Sidebar with a slider input for number of bins
