@@ -1,0 +1,18 @@
+Package: cgmr
+Type: Package
+Title: Continuous Glucose Monitor Data Analysis
+Version: 0.1.0
+Author: Richard Sprague
+Authors@R: person("Richard", "Sprague", email = "sprague@personalscience.com",
+  role = c("aut", "cre"))
+Maintainer: Richard Sprague <sprague@personalscience.com>
+Description: Read raw data output from a continuous glucose monitor.
+    Perform calculations on the data, graph it, and more.
+License: MIT License
+Encoding: UTF-8
+LazyData: true
+Imports:
+    tidyverse
+RoxygenNote: 6.1.1
+Suggests: testthat
+Depends: R (>= 2.10)  
