@@ -78,7 +78,7 @@ Set up a few convenience functions.
 
 ```{r, message = FALSE, warning = FALSE}
 
-source("cgm_display.R")
+library(cgmr) # loads my private package that includes all the functions for analysis
 
 ```
 
@@ -144,22 +144,22 @@ activity_intervals <- function(activity_raw_df, activity_name){
 }
 
 
+# 
+# glucose %>% dplyr::filter(apply(sapply(glucose$time,
+#                                 function(x) x %within% activity_intervals(activity_raw,"Sleep")),2,any)) %>% select(value) %>% 
+#   DescTools::Desc(main = "Glucose Values While Sleeping")
 
-glucose %>% filter(apply(sapply(glucose$time,
-                                function(x) x %within% activity_intervals(activity_raw,"Sleep")),2,any)) %>% select(value) %>% 
-  DescTools::Desc(main = "Glucose Values While Sleeping")
-
-glucose %>% filter(apply(sapply(glucose$time,
-                                function(x) !(x %within% activity_intervals(activity_raw,"Sleep"))),
-                         2,
-                         any)) %>% select(value) %>% 
-  DescTools::Desc(main = "Glucose Values While Awake")
+# glucose %>% filter(apply(sapply(glucose$time,
+#                                 function(x) !(x %within% activity_intervals(activity_raw,"Sleep"))),
+#                          2,
+#                          any)) %>% select(value) %>% 
+#   DescTools::Desc(main = "Glucose Values While Awake")
 
 
 
-glucose %>% filter(apply(sapply(glucose$time,
-                                function(x) x %within% activity_intervals(activity_raw,"Exercise")),2,any)) %>% select(value) %>% 
-  DescTools::Desc(main = "Glucose Values While Exercising")
+# glucose %>% filter(apply(sapply(glucose$time,
+#                                 function(x) x %within% activity_intervals(activity_raw,"Exercise")),2,any)) %>% select(value) %>% 
+#   DescTools::Desc(main = "Glucose Values While Exercising")
 
 
 ```
