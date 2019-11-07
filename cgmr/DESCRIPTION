@@ -12,7 +12,10 @@ License: MIT License
 Encoding: UTF-8
 LazyData: true
 Imports:
-    tidyverse
+    tidyverse,
+    DescTools,
+    dplr,
+    lubridate
 RoxygenNote: 6.1.1
 Suggests: testthat
 Depends: R (>= 2.10)  

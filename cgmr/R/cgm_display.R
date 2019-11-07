@@ -17,7 +17,7 @@ glucose_target_gg <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01
 
 # show glucose levels between start and end times
 cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
-                        end=now(),
+                        end=lubridate::now(),
                         activity_df=activity_raw,
                         glucose_df=glucose_raw,
                         title = "Glucose",
