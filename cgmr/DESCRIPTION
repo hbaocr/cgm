@@ -14,7 +14,7 @@ LazyData: true
 Imports:
     tidyverse,
     DescTools,
-    dplr,
+    dplyr,
     lubridate
 RoxygenNote: 6.1.1
 Suggests: testthat

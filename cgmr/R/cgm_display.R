@@ -5,9 +5,11 @@
 
 library(tidyverse)
 library(lubridate)
+library(ggplot2)
 
 
-# a handy ggplot object that draws a band through the "healthy" target zones across the width of any graph:
+#' @title glucose_target_gg
+#' @description a handy ggplot object that draws a band through the "healthy" target zones across the width of any graph:
 glucose_target_gg <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01"),
                                      xmax=as.POSIXct(Inf,  origin= "1970-01-01"),
                                      ymin=100,ymax=140),
@@ -15,7 +17,15 @@ glucose_target_gg <-   geom_rect(aes(xmin=as.POSIXct(-Inf,  origin = "1970-01-01
                                  inherit.aes = FALSE)
 
 
-# show glucose levels between start and end times
+#' @title CGM display
+#' @description  show glucose levels between start and end times
+#' @param start datetime for the start of the plot
+#' @param end datetime for the end of the plot
+#' @param activity_df activity dataframe
+#' @param glucose_df glucose dataframe
+#' @param title (optional) title for the plot
+#' @param show.label (optional) show food names if TRUE
+#' @export
 cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                         end=lubridate::now(),
                         activity_df=activity_raw,
@@ -57,52 +67,20 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
 }
 
 
-#
-#' @title Calculate glucose levels for a restricted timeframe
-#' @description returns a dataframe giving all glucose values within "timelength" of a specific activity
-#' @param DF data frame with columns: SSR, tax_name, count, (optional) tax_rank
+#' @title Food compare display
+#' @description  Plot foods compared against one another
+#' @param foodlist character vector of the foods you want to plot
+#' @param timelength time in minutes to plot
+#' @param activity_df activity dataframe
+#' @param glucose_df glucose dataframe
+#' @param foodtype character vector of the label you want on the chart
 #' @export
-food_effect <- function( foodlist = c("Oatmeal","Oatmeal w cinnamon"), activity_df = activity_raw, glucose_df = glucose_raw, timelength = lubridate::hours(2)){
-  food_df <- activity_df %>% dplyr::filter(Comment %in% foodlist)
-  food_df$Comment <-
-    paste0(food_df$Comment,"(",date(food_df$Start) %>% strftime(format = "%m%d"),")")
-  food_df_interval <- interval(food_df$Start,food_df$Start + hours(1))
-  food_glucose <- glucose_df %>% dplyr::filter(apply(sapply(glucose_df$time,function(x) x %within% food_df_interval),2,any))
-  f <- cbind(food_glucose[1,],experiment = "test")
-
-  a = NULL
-
-  for(i in food_df$Start){
-    i_time <- as_datetime(i, tz = Sys.timezone())
-    # < rbind(i,a)
-    g <- glucose_df %>% dplyr::filter(time %within% interval(i_time - minutes(10), i_time + timelength))
-    #print(g)
-    p = match(as_datetime(i),food_df$Start)
-    f <- rbind(f,cbind(g,experiment = food_df$Comment[p]))
-  }
-  foods_experiment <- f[-1,]
-  foods_experiment
-}
-
-# calculate area under the curve for each item in foodlist
-food_auc <- function(foodlist = foodlist,
-                     timelength = 120,
-                     activity_df = activity_raw,
-                     glucose_df = glucose_raw
-){
-  food_effect(foodlist, activity_df = activity_df, glucose_df = glucose_df, timelength = minutes(timelength)) %>%
-    select(time,value,experiment) %>%
-    group_by(experiment) %>%
-    mutate(sec = as.numeric(time)-as.numeric(first(time))) %>%
-    summarise(auc = DescTools::AUC(as.numeric(sec),value)/60/60)
-
-}
-
-
 food_compare_display <-  function(foodlist = foodlist,
                                   timelength = 120,
+                                  activity_df,
+                                  glucose_df,
                                   foodtype = "food") {
-  food_effect(foodlist, timelength = minutes(timelength)) %>%
+  food_effect(foodlist, timelength = minutes(timelength), activity_df = activity_df, glucose_df = glucose_df) %>%
     group_by(experiment) %>%
     mutate(delta = (time - min(time)) /60) %>%
     ggplot(aes(x = delta, y = value, color = experiment)) +
@@ -112,26 +90,31 @@ food_compare_display <-  function(foodlist = foodlist,
 }
 
 
-# display plot from startTime, timeLength
+#' @title Start Plot
+#' @description display plot from startTime, timeLength
+#' @param startTime datetime for the start of the plot
+#' @param timeLength number of hours to display
+#' @param title title of the plot
+#' @export
 cgm_start_plot <- function(startTime = lubridate::now(), timeLength = 24, title = paste("Glucose",timeLength,"Hours")){
   cgm_display(startTime,
               startTime + lubridate::hours(timeLength),
               title = title,
               show.label = TRUE) + if(exists("watch_data")){
-    geom_line(
-      data = watch_data %>% dplyr::filter(
-        type == "HeartRate" &
-          startDate > startTime &
-          endDate < startTime + lubridate::hours(timeLength)
-      )
-      %>% select(time = startDate, value = value),
-      inherit.aes = FALSE,
-      stat = "identity",
-      aes(x = time, y = value + 50 ),
-      color = "green"
-    ) +
-    scale_y_continuous(sec.axis = sec_axis( ~ .-50,
-                                            name = "Heart Rate (bpm)"))
-}
+                geom_line(
+                  data = watch_data %>% dplyr::filter(
+                    type == "HeartRate" &
+                      startDate > startTime &
+                      endDate < startTime + lubridate::hours(timeLength)
+                  )
+                  %>% select(time = startDate, value = value),
+                  inherit.aes = FALSE,
+                  stat = "identity",
+                  aes(x = time, y = value + 50 ),
+                  color = "green"
+                ) +
+                  scale_y_continuous(sec.axis = sec_axis( ~ .-50,
+                                                          name = "Heart Rate (bpm)"))
+              }
 
 }
