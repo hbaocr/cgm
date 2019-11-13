@@ -1,7 +1,7 @@
 Continuous Glucose Monitoring with Freestyle Libre
 ================
 Richard Sprague
-2019-11-06
+2019-11-13
 
 See [Continous Glucose Monitoring: Start
 Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)
@@ -20,7 +20,8 @@ for details for how to get started, plus as many resources as I know
 about other apps and links that you might find useful for beginning your
 own CGM analysis.
 
-This is a short R script I use for my analysis.
+This is a short R script I use for my analysis. (also available as an R
+Package: [cgmr](https://github.com/richardsprague/cgm/tree/master/cgmr))
 
 -----
 
