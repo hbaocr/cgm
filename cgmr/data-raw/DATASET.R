@@ -1,5 +1,6 @@
 ## code to prepare `DATASET` dataset goes here
 library(readxl)
+library(tidyverse)
 libre_raw <- readxl::read_excel(file.path("inst","extdata","Librelink.xlsx"))
 
 libre_raw$`Meter Timestamp` <- lubridate::force_tz(libre_raw$`Meter Timestamp`, "US/Pacific")

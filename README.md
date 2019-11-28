@@ -1,7 +1,7 @@
 Continuous Glucose Monitoring with Freestyle Libre
 ================
 Richard Sprague
-2019-11-25
+2019-11-27
 
 See [Continous Glucose Monitoring: Start
 Here](http://richardsprague.com/notes/continuous-glucose-monitoring/)

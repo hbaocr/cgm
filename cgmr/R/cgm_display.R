@@ -7,6 +7,7 @@ library(tidyverse)
 library(lubridate)
 library(ggplot2)
 
+globalVariables(c("ggplot","select","aes"))
 
 #' @title glucose_target_gg
 #' @description a handy ggplot object that draws a band through the "healthy" target zones across the width of any graph:
@@ -35,26 +36,26 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
   ggplot(glucose_df ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
     geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
     glucose_target_gg +
-    geom_rect(data=activity_df %>% dplyr::filter(Activity == "Sleep") %>%
-                select(xmin = Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
+    geom_rect(data=activity_df %>% dplyr::filter(.data$Activity == "Sleep") %>%
+                select(xmin = .data$Start,xmax = End) %>% cbind(ymin = -Inf, ymax = Inf),
               aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),
               fill="red",
               alpha=0.2,
               inherit.aes = FALSE) +
-    geom_rect(data=activity_df %>% dplyr::filter(Activity == "Exercise") %>%
-                select(xmin = Start,xmax = End),
+    geom_rect(data=activity_df %>% dplyr::filter(.data$Activity == "Exercise") %>%
+                select(xmin = .data$Start,xmax = .data$End),
               aes(xmin=xmin,xmax=xmax,ymin=-Inf,ymax=Inf),
               fill="blue",
               alpha=0.2,
               inherit.aes = FALSE) +
     geom_vline(xintercept = activity_df %>%
-                 dplyr::filter(Activity == "Event" & Comment == "awake") %>% select("Start") %>% unlist(),
+                 dplyr::filter(.data$Activity == "Event" & .data$Comment == "awake") %>% select("Start") %>% unlist(),
                color = "green") +
     geom_vline(xintercept = activity_df %>%
-                 dplyr::filter(Activity == "Food") %>% select("Start") %>% unlist(),
+                 dplyr::filter(.data$Activity == "Food") %>% select("Start") %>% unlist(),
                color = "yellow")+
     geom_text(data = activity_df %>%
-                dplyr::filter(Activity == "Food") %>% select("Start","Comment") ,
+                dplyr::filter(.data$Activity == "Food") %>% select("Start","Comment") ,
               aes(x=Start,y=50, angle=90, hjust = FALSE,  label =  Comment),
               size = 6) +
     labs(title = title, subtitle = start,
