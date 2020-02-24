@@ -13,27 +13,35 @@ library(tidyverse)
 library(lubridate)
 library(ggthemes)
 library(cgmr)
+
+library(DBI)
+library(RPostgres)
 # one-time setup creates a few dataframes for glucose levels and activity
-
-libre_raw <- readxl::read_excel("Librelink.xlsx")
-libre_raw$`Meter Timestamp` <- lubridate::force_tz(libre_raw$`Meter Timestamp`, "US/Pacific")
+# now connect to the glucose db and write to it
 
 
-activity_raw <- dplyr::full_join(readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2018"),
-                                 readxl::read_excel("Rik Activity 2019.xlsx", sheet = "2019"))
+con <-DBI::dbConnect(RPostgres::Postgres(),
+                     # driver = "/usr/local/lib/psqlodbcw.so",
+                     host = "psdev.ctmxeolrv0ba.us-east-1.rds.amazonaws.com",
+                     user = "postgres",
+                     dbname = "glucose_db",
+                     password = "testtest",
+                     port = 5432)
 
-activity_raw$Start <- lubridate::force_tz(activity_raw$Start, "US/Pacific")
-activity_raw$End <- lubridate::force_tz(activity_raw$End, "US/Pacific")
+glucose_raw <- tbl(con,"glucose_records") %>% collect()
 
-glucose <- libre_raw %>% select(time = "Meter Timestamp",
-                                scan = "Scan Glucose(mg/dL)",
-                                hist = "Historic Glucose(mg/dL)",
-                                strip = "Strip Glucose(mg/dL)",
-                                food = "Notes")
+con <-DBI::dbConnect(RPostgres::Postgres(),
+                     # driver = "/usr/local/lib/psqlodbcw.so",
+                     host = "psdev.ctmxeolrv0ba.us-east-1.rds.amazonaws.com",
+                     user = "postgres",
+                     dbname = "notes_db",
+                     password = "testtest",
+                     port = 5432)
 
 
-glucose$value <- dplyr::if_else(is.na(glucose$scan),glucose$hist,glucose$scan)
-glucose_raw <- glucose
+activity_raw <- tbl(con,"notes_records") %>% collect()
+
+DBI::dbDisconnect(con)
 
 theme_set(theme_stata())
 
