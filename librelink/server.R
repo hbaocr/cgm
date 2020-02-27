@@ -23,49 +23,16 @@ library(RPostgres)
 
 USER_ID = 13
 
+source("read_data_utils.R")
+
+
 Sys.setenv(R_CONFIG_ACTIVE = "p4mi")
 
-conn_args <- config::get("dataconnection")
-conn_args
+glucose_raw <- read_glucose(config::get("dataconnection"),ID=USER_ID)
 
-# first time only. Connect to the server, but not to a specific database
-con <- DBI::dbConnect(drv = conn_args$driver,
-                      user = conn_args$user,
-                      host = conn_args$host,
-                      port = conn_args$port,
-                      dbname = conn_args$dbname,
-                      password = conn_args$password)
-
-# list the tables in this database
-# should include "notes_records" and "glucose_records"
-# DBI::dbListTables(con)
+notes_records <- read_notes(config::get("dataconnection"),ID=USER_ID,glucose_raw)
 
 
-glucose_df <- tbl(con, "glucoses_glucose") %>% select(-created,-modified) %>%
-    filter(user_id == USER_ID & record_date > "2019-11-01") %>% collect()# & top_n(record_date,2))# %>%
-
-glucose_raw <- glucose_df %>% transmute(time = force_tz(as_datetime(record_date) + record_time, Sys.timezone()),
-                                        scan = value, hist = value, strip = NA, value = value,
-                                        food = as.character(stringr::str_match(notes,"Notes=.*")),
-                                        user_id = user_id)
-
-notes_df <- tbl(con, "notes_records") %>%   filter(user_id == USER_ID ) %>%
-    collect() %>% mutate(Activity = factor(Activity))
-
-nr <- glucose_raw %>%
-    filter(!is.na(food)) %>%
-    select(Start = time, Comment= food) %>%
-    mutate(Activity=factor("Food"),
-           Comment = stringr::str_replace(as.character(Comment),"Notes=",""),
-           End=as_datetime(NA), Z=as.numeric(NA),
-           user_id = USER_ID)
-
-notes_records <- nr %>% bind_rows(notes_df) %>% mutate(Activity=factor(Activity))
-# DBI::dbWriteTable(con, name = "notes_records",
-#                   value = notes_records,
-#                   row.names = FALSE, overwrite = TRUE)
-
-DBI::dbDisconnect(con)
 Sys.setenv(R_CONFIG_ACTIVE = "cloud")
 
 conn_args <- config::get("dataconnection")
@@ -80,10 +47,6 @@ con <- DBI::dbConnect(drv = conn_args$driver,
 
 watch_data <- DBI::dbReadTable(con, "watch_records") %>% as_tibble()
 DBI::dbDisconnect(con)
-
-rm(nr)
-rm(notes_df)
-rm(glucose_df)
 
 
 # Functions ----
@@ -102,7 +65,7 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                         end=now(),
                         notes_df,
                         glucose_df,
-                        title = "Glucose",
+                        title = paste0("Glucose for User:",USER_ID),
                         show.label = TRUE) {
 
     ndf <- notes_df %>% dplyr::filter(Start >= start & End <=end) %>%
@@ -166,8 +129,8 @@ shinyServer(function(input, output) {
         #             activity_raw,
         #             glucose_raw)
 
-        cgm_display(start=lubridate::as_datetime(input$date1),
-                          end=lubridate::as_datetime(input$date2),
+        cgm_display(start=lubridate::as_datetime(input$date1, tz="America/Los_Angeles"),
+                          end=lubridate::as_datetime(input$date2, tz="America/Los_Angeles"),
                           notes_records,
                           glucose_raw) +
             geom_vline(xintercept = notes_records %>% dplyr::filter(.data$Activity == "Food") %>% pull("Start"),
@@ -184,7 +147,7 @@ shinyServer(function(input, output) {
                       aes(x=Start,y=50, angle=90, hjust = FALSE,  label =  Comment),
                       size = 6) +
             geom_line(data=watch_data %>% dplyr::filter(type == "HeartRate" &
-                                                            startDate > now() - hours(36) &
+                                                            startDate > now() - weeks(2) &
                                                             endDate < now()) %>%
                           select(time = startDate, value = heart_rate), inherit.aes = FALSE,
                       stat = "identity",

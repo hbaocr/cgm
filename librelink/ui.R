@@ -10,13 +10,13 @@ library(shiny)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
 
-    # Application title
+
     # Application title
     titlePanel("Richard Sprague Continuous Monitoring", windowTitle = "Richard Sprague"),
     tags$a(href="https://richardsprague.com", "More details"),
 
 
-    # Sidebar with a slider input for number of bins
+    # Sidebar
     sidebarLayout(
         sidebarPanel(
             # sliderInput("date_range",
@@ -24,13 +24,15 @@ shinyUI(fluidPage(
             #             min = lubridate::as_datetime("2018-12-03"), max = lubridate::now(),
             #             value = c(lubridate::as_datetime("2019-10-16"), lubridate::as_datetime("2019-10-16"))
             # ),
-            dateInput("date1", "Start Date:", value = lubridate::as_datetime("2020-02-22")),
-            dateInput("date2", "End Date:", value = lubridate::as_datetime("2020-02-25"))
+            dateInput("date1", "Start Date:", value = now()-days(2)),
+            dateInput("date2", "End Date:", value = now()),
+            numericInput(inputId="a_user", label="User ID", value=13)
 
         ),
 
-        # Show a plot of the generated distribution
+        # Show a plot of the  results
         mainPanel(
+            verbatimTextOutput(outputId="a_user"),
 
             plotOutput("glucoseLevelsPlot")
         )
