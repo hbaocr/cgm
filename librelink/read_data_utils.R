@@ -5,6 +5,9 @@
 # Note: only works with p4mi database (or any db that includes a user_id)
 # Sys.setenv(R_CONFIG_ACTIVE = "p4mi")
 
+library(tidyverse)
+library(lubridate)
+
 # returns a dataframe of glucose values for user_id ID
 read_glucose <- function(conn_args=config::get("dataconnection"),
                          ID=13,
@@ -21,7 +24,7 @@ read_glucose <- function(conn_args=config::get("dataconnection"),
   glucose_df <- tbl(con, conn_args$glucose_table)  %>%
     filter(user_id == ID & record_date > fromDate) %>% collect()# & top_n(record_date,2))# %>%
 
-  glucose_raw <- glucose_df %>% transmute(time = force_tz(as_datetime(record_date) + record_time, Sys.timezone()),
+  glucose_raw <- glucose_df %>% transmute(time = force_tz(as_datetime(record_date) + record_time, "America/Los_Angeles"),
                                           scan = value, hist = value, strip = NA, value = value,
                                           food = as.character(stringr::str_match(notes,"Notes=.*")),
                                           user_id = user_id)
