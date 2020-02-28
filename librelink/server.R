@@ -30,7 +30,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "p4mi")
 
 glucose_raw <- read_glucose(config::get("dataconnection"),ID=USER_ID)
 
-notes_records <- read_notes(config::get("dataconnection"),ID=USER_ID,glucose_raw)
+notes_records <- read_notes(config::get("dataconnection"),ID=USER_ID)
 
 
 Sys.setenv(R_CONFIG_ACTIVE = "cloud")
@@ -118,6 +118,8 @@ shinyServer(function(input, output) {
 
 #    renderPrint(input$date1)
     output$glucoseLevelsPlot <- renderPlot({
+        
+        input$loadUser
 
         #glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))
         # activity <- dplyr::filter(activity_raw, Start >= input$date_range[1] &

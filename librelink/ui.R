@@ -24,9 +24,10 @@ shinyUI(fluidPage(
             #             min = lubridate::as_datetime("2018-12-03"), max = lubridate::now(),
             #             value = c(lubridate::as_datetime("2019-10-16"), lubridate::as_datetime("2019-10-16"))
             # ),
-            dateInput("date1", "Start Date:", value = now()-days(2)),
-            dateInput("date2", "End Date:", value = now()),
-            numericInput(inputId="a_user", label="User ID", value=13)
+            dateInput("date1", "Start Date:", value = as_datetime(now()-days(2), tz="America/Los_Angeles")),
+            dateInput("date2", "End Date:", value = as_datetime(now(),tz="America/Los_Angeles")),
+            numericInput(inputId="a_user", label="User ID", value=13),
+            submitButton( text="Submit"),
 
         ),
 
