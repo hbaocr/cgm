@@ -26,28 +26,6 @@ USER_ID = 13
 source("read_data_utils.R")
 
 
-Sys.setenv(R_CONFIG_ACTIVE = "p4mi")
-
-glucose_raw <- read_glucose(config::get("dataconnection"),ID=USER_ID)
-
-notes_records <- read_notes(config::get("dataconnection"),ID=USER_ID)
-
-
-Sys.setenv(R_CONFIG_ACTIVE = "cloud")
-
-conn_args <- config::get("dataconnection")
-con <- DBI::dbConnect(drv = conn_args$driver,
-                      user = conn_args$user,
-                      host = conn_args$host,
-                      dbname = conn_args$dbname,
-                      port = conn_args$port,
-                      password = conn_args$password)
-
-
-
-watch_data <- DBI::dbReadTable(con, "watch_records") %>% as_tibble()
-DBI::dbDisconnect(con)
-
 
 # Functions ----
 
@@ -107,8 +85,6 @@ heartRate_display <- function (start=lubridate::now()-lubridate::hours(18),
 # activity_raw <- tbl(con,"notes_records") %>% collect()
 # activity_raw$Activity <- factor(activity_raw$Activity)
 
-DBI::dbDisconnect(con)
-
 theme_set(theme_stata())
 
 # Server ----
@@ -119,7 +95,8 @@ shinyServer(function(input, output) {
 #    renderPrint(input$date1)
     output$glucoseLevelsPlot <- renderPlot({
         
-        input$loadUser
+        USER_ID <- input$a_user
+        message("user=",USER_ID)
 
         #glucose <- dplyr::filter(glucose, time >= input$date_range[1] & time <= input$date_range[2] + lubridate::hours(6))
         # activity <- dplyr::filter(activity_raw, Start >= input$date_range[1] &
@@ -130,6 +107,33 @@ shinyServer(function(input, output) {
         #             lubridate::as_datetime("2019-10-30"),
         #             activity_raw,
         #             glucose_raw)
+        
+        Sys.setenv(R_CONFIG_ACTIVE = "p4mi")
+        
+        message("reading glucose from db")
+        glucose_raw <- read_glucose(config::get("dataconnection"),ID=USER_ID)
+        
+        notes_records1 <- read_notes(config::get("dataconnection"),ID=USER_ID)
+        fake_sleep = tibble(Start=as_datetime("2000-01-01"),End=as_datetime("2000-01-02"),Comment=NA,Activity="Sleep",Z=0,user_id=USER_ID)
+        notes_records <- bind_rows(notes_records1,fake_sleep)
+        notes_records$Activity <- factor(notes_records$Activity)
+        
+        Sys.setenv(R_CONFIG_ACTIVE = "cloud")
+        
+        conn_args <- config::get("dataconnection")
+        con <- DBI::dbConnect(drv = conn_args$driver,
+                              user = conn_args$user,
+                              host = conn_args$host,
+                              dbname = conn_args$dbname,
+                              port = conn_args$port,
+                              password = conn_args$password)
+        
+        
+        message('reading watch data from db')
+        watch_data <- DBI::dbReadTable(con, "watch_records") %>% as_tibble()
+        DBI::dbDisconnect(con)
+        
+        message('ready to display data')
 
         cgm_display(start=lubridate::as_datetime(input$date1, tz="America/Los_Angeles"),
                           end=lubridate::as_datetime(input$date2, tz="America/Los_Angeles"),
