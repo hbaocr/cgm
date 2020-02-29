@@ -27,7 +27,7 @@ read_glucose <- function(conn_args=config::get("dataconnection"),
   glucose_raw <- glucose_df %>% transmute(time = force_tz(as_datetime(record_date) + record_time, "America/Los_Angeles"),
                                           scan = value, hist = value, strip = NA, value = value,
                                           food = as.character(stringr::str_match(notes,"Notes=.*")),
-                                          user_id = user_id)
+                                          user_id = factor(user_id))
   glucose_raw
 }
 
@@ -60,7 +60,7 @@ read_notes <- function(conn_args=config::get("dataconnection"),
     mutate(Activity=factor("Food"),
            Comment = stringr::str_replace(as.character(Comment),"Notes=",""),
            End=as_datetime(NA), Z=as.numeric(NA),
-           user_id = user_id)
+           user_id = factor(user_id))
 
   notes_records <- nr %>% bind_rows(notes_df) %>% mutate(Activity=factor(Activity))
 
@@ -99,7 +99,7 @@ read_glucose_for_users_at_time <- function(conn_args=config::get("dataconnection
   glucose_raw <- glucose_df %>% transmute(time = force_tz(as_datetime(record_date) + record_time, Sys.timezone()),
                                           scan = value, hist = value, strip = NA, value = value,
                                           food = as.character(stringr::str_match(notes,"Notes=.*")),
-                                          user_id = user_id)
+                                          user_id = factor(user_id))
 
 
 
@@ -121,7 +121,8 @@ records_with_food <- function(conn_args=config::get("dataconnection"),
                         dbname = conn_args$dbname,
                         password = conn_args$password)
 
-  gf = read_glucose(ID=ID) %>% mutate(food=str_to_lower(stringr::str_replace(food,"Notes=","")))
+  gf = read_glucose(ID=ID) %>% mutate(food=str_to_lower(stringr::str_replace(food,"Notes=","")),
+                                      user_id=factor(user_id))
 
   return(slice(gf,str_which(gf$food,foodname)))
 
@@ -157,13 +158,16 @@ normalize_value <- function(df){
 food_times_df <- function(ID=13, timeLength=120, foodname="apple juice"){
   f <- records_with_food(ID=ID, foodname=foodname)
   
+  original_levels <- levels(f$user_id) # to prevent a conversion of id_user to char later
+  
   df <- NULL
   for(user in ID){
     g <- f %>% filter(user_id==user)
     for(t in g$time){
       new_segment_df <- read_glucose_for_users_at_time(ID=user, startTime = t) %>%
-        mutate(meal=paste0(user,"-",month(as_datetime(t)),"/",day(as_datetime(t))))
-      df <- bind_rows(df,make_zero_time_df(new_segment_df))
+        mutate(meal=paste0(user,"-",month(as_datetime(t)),"/",day(as_datetime(t))),
+               user_id=factor(user_id, levels = original_levels))
+      df <- bind_rows(df,make_zero_time_df(new_segment_df)) 
     }
   }
   
