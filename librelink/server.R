@@ -127,8 +127,7 @@ shinyServer(function(input, output) {
         
         
         message('reading watch data from db')
-        watch_data <- DBI::dbReadTable(con, "watch_records") %>% as_tibble()
-        DBI::dbDisconnect(con)
+        watch_data <- tbl(con, "watch_records") 
         
         message('ready to display data')
 
@@ -149,10 +148,11 @@ shinyServer(function(input, output) {
                           dplyr::filter(.data$Activity == "Food") %>% select("Start","Comment") ,
                       aes(x=Start,y=50, angle=90, hjust = FALSE,  label =  Comment),
                       size = 6) +
-            geom_line(data=watch_data %>% dplyr::filter(type == "HeartRate" &
-                                                            startDate > now() - weeks(2) &
-                                                            endDate < now()) %>%
-                          select(time = startDate, value = heart_rate), inherit.aes = FALSE,
+            geom_line(data=watch_data %>% 
+                          dplyr::filter(type == "HeartRate" &
+                                            startDate >= lubridate::as_datetime(input$date1, tz="America/Los_Angeles") &
+                                            endDate <= lubridate::as_datetime(input$date2, tz="America/Los_Angeles")) %>%
+                          select(time = startDate, value = heart_rate) %>% as_tibble(), inherit.aes = FALSE,
                       stat = "identity",
                       aes(x = time, y = value*2),
                       color = "brown") +
