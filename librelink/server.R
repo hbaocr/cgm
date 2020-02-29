@@ -22,6 +22,7 @@ library(RPostgres)
 # now connect to the glucose db and write to it
 
 USER_ID = 13
+USER_LIST = c(9, 8, 22, 17)
 
 source("read_data_utils.R")
 
@@ -162,6 +163,18 @@ shinyServer(function(input, output) {
             scale_y_continuous(sec.axis = sec_axis(~./2,
                                                    name = "Heart Rate (bpm)"))
 
+    })
+    
+    output$foodComparePlot <- renderPlot({
+        
+        Sys.setenv(R_CONFIG_ACTIVE = "p4mi")
+        d = food_times_df(ID=USER_LIST,foodname=stringr::str_to_lower(input$foodname))
+        message("made foodtimes df")
+        
+        d %>% mutate(user=factor(meal)) %>%
+            ggplot(aes(x=t,y=value,color=user)) + geom_line() + labs(title=input$foodname)
+        
+        
     })
 
 

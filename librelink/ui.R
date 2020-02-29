@@ -28,6 +28,7 @@ shinyUI(fluidPage(
             dateInput("date1", "Start Date:", value = as_datetime(now()-days(2), tz="America/Los_Angeles")),
             dateInput("date2", "End Date:", value = as_datetime(now(),tz="America/Los_Angeles")),
             numericInput(inputId="a_user", label="User ID", value=13),
+            textInput(inputId="foodname", label="Compare food:", value="Apple Juice"),
             submitButton( text="Submit"),
 
         ),
@@ -36,7 +37,8 @@ shinyUI(fluidPage(
         mainPanel(
             verbatimTextOutput(outputId="a_user"),
 
-            plotOutput("glucoseLevelsPlot")
+            plotOutput("glucoseLevelsPlot"),
+            plotOutput("foodComparePlot")
         )
     )
 ))

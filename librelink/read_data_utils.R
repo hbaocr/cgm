@@ -130,3 +130,35 @@ records_with_food <- function(conn_args=config::get("dataconnection"),
   # slice(gf,str_which(str_to_lower(nf$Comment),str_to_lower(foodname))) %>% pull(time)
 }
 
+# converts the timestamp into time objects
+zero_time <- function(times_vector){
+  start <- min(times_vector)
+  
+  return(as.numeric((times_vector-start)/60))
+  
+}
+
+make_zero_time_df <- function(df){
+  return(arrange(df,time) %>% transmute(t=zero_time(time),
+                                        value=value,
+                                        meal=meal,
+                                        user_id=user_id))
+}
+
+# return a dataframe of the first timeLength glucose values for every record that includes foodname
+food_times_df <- function(ID=13, timeLength=120, foodname="apple juice"){
+  f <- records_with_food(ID=ID, foodname=foodname)
+  
+  df <- NULL
+  for(user in ID){
+    g <- f %>% filter(user_id==user)
+    for(t in g$time){
+      new_segment_df <- read_glucose_for_users_at_time(ID=user, startTime = t) %>%
+        mutate(meal=paste0(user,"-",month(as_datetime(t)),"/",day(as_datetime(t))))
+      df <- bind_rows(df,make_zero_time_df(new_segment_df))
+    }
+  }
+  
+  return(df)
+}
+
