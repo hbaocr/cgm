@@ -22,7 +22,7 @@ read_glucose <- function(conn_args=config::get("dataconnection"),
 
 
   glucose_df <- tbl(con, conn_args$glucose_table)  %>%
-    filter(user_id %in% ID & record_date > fromDate) %>% collect()# & top_n(record_date,2))# %>%
+    filter(user_id %in% ID & record_date >= fromDate) %>% collect()# & top_n(record_date,2))# %>%
 
   glucose_raw <- glucose_df %>% transmute(time = force_tz(as_datetime(record_date) + record_time, "America/Los_Angeles"),
                                           scan = value, hist = value, strip = NA, value = value,
@@ -47,7 +47,7 @@ read_notes <- function(conn_args=config::get("dataconnection"),
     collect() %>% mutate(Activity = factor(Activity))
 
   glucose_df <- tbl(con, conn_args$glucose_table)  %>%
-    filter(user_id %in% ID & record_date > fromDate) %>% collect() %>%
+    filter(user_id %in% ID & record_date >= fromDate) %>% collect() %>%
     transmute(time = force_tz(as_datetime(record_date) + record_time, Sys.timezone()),
                                           scan = value, hist = value, strip = NA, value = value,
                                           food = as.character(stringr::str_match(notes,"Notes=.*")),
@@ -91,8 +91,8 @@ read_glucose_for_users_at_time <- function(conn_args=config::get("dataconnection
   cutoff_2 <- as_datetime(startTime + minutes(timelength))
 
   glucose_df <- tbl(con, conn_args$glucose_table)  %>%
-    filter(user_id %in% ID & record_date_time > cutoff_1 &
-             record_date_time < cutoff_2) %>% collect()
+    filter(user_id %in% ID & record_date_time >= cutoff_1 &
+             record_date_time <= cutoff_2) %>% collect()
 
   #  filter(user_id == ID & (record_date+record_time) >= startTime & (record_date+record_time) <= (startTime + timelength)) %>% collect()# & top_n(record_date,2))# %>%
 

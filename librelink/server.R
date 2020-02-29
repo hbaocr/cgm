@@ -108,9 +108,9 @@ shinyServer(function(input, output) {
         Sys.setenv(R_CONFIG_ACTIVE = "p4mi")
         
         message("reading glucose from db")
-        glucose_raw <- read_glucose(config::get("dataconnection"),ID=USER_ID)
+        glucose_raw <- read_glucose(config::get("dataconnection"),ID=USER_ID,fromDate = input$date1)
         
-        notes_records1 <- read_notes(config::get("dataconnection"),ID=USER_ID)
+        notes_records1 <- read_notes(config::get("dataconnection"),ID=USER_ID,fromDate = input$date1)
         fake_sleep = tibble(Start=as_datetime("2000-01-01"),End=as_datetime("2000-01-02"),Comment=NA,Activity="Sleep",Z=0,user_id=USER_ID)
         notes_records <- bind_rows(notes_records1,fake_sleep)
         notes_records$Activity <- factor(notes_records$Activity)
