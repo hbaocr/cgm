@@ -145,6 +145,14 @@ make_zero_time_df <- function(df){
                                         user_id=user_id))
 }
 
+# return a new df where value are normalized to start from zero.
+normalize_value <- function(df){
+  return(df %>% mutate(value=value-first(value)))
+  
+  
+}
+
+
 # return a dataframe of the first timeLength glucose values for every record that includes foodname
 food_times_df <- function(ID=13, timeLength=120, foodname="apple juice"){
   f <- records_with_food(ID=ID, foodname=foodname)

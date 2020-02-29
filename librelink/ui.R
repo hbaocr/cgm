@@ -34,7 +34,8 @@ shinyUI(fluidPage(
             submitButton( text="Submit"),
             checkboxGroupInput(inputId="user_list",label="Users to compare:",
                                choices=USER_LIST,
-                               selected=USER_LIST)
+                               selected=USER_LIST),
+            checkboxInput(inputId="norm_value",label="Normalize?",value=TRUE)
 
         ),
 

@@ -44,7 +44,6 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
                         end=now(),
                         notes_df,
                         glucose_df,
-                        title = paste0("Glucose for User:",USER_ID),
                         show.label = TRUE) {
 
     ndf <- notes_df %>% dplyr::filter(Start >= start & End <=end) %>%
@@ -53,9 +52,6 @@ cgm_display <- function(start=lubridate::now()-lubridate::hours(18),
     ggplot(gdf ,aes(x=time,y=value)) + geom_line(size=2, color = "red")+
         #geom_point(stat = "identity", aes(x=time,y=strip), color = "blue")+
         glucose_target_gg +
-        labs(title = title, subtitle = start,
-             y = "Glucose (mg/dL)",
-             x = "") +  theme(plot.title = element_text(size=22))+
         scale_x_datetime(limits = c(start,end),
                          date_labels = "%m/%d %H:%M",
                          timezone = "US/Pacific")
@@ -161,7 +157,12 @@ shinyServer(function(input, output) {
                       aes(x = time, y = value*2),
                       color = "brown") +
             scale_y_continuous(sec.axis = sec_axis(~./2,
-                                                   name = "Heart Rate (bpm)"))
+                                                   name = "Heart Rate (bpm)")) +
+            labs(title = paste("Glucose values for user:",USER_ID),
+                 subtitle = as.character(input$date1),
+                 y = "Glucose (mg/dL)",
+                 x = "") +
+            theme(plot.title = element_text(size=22))
 
     })
     
@@ -171,7 +172,14 @@ shinyServer(function(input, output) {
         d = food_times_df(ID=input$user_list,foodname=stringr::str_to_lower(input$foodname))
         message("made foodtimes df")
         
-        d %>% mutate(user=factor(meal)) %>%
+        g <- d
+        
+        if(input$norm_value) {
+            g <- d %>%  group_by(meal) %>% normalize_value()
+        }
+        
+        
+        g %>% mutate(user=factor(meal)) %>%
             ggplot(aes(x=t,y=value,color=user)) + geom_line(size=2) + labs(title=input$foodname)
         
         
