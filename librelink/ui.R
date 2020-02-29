@@ -8,13 +8,15 @@ library(lubridate)
 
 library(shiny)
 
+USER_LIST = c(9, 8, 13, 22, 17)
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
 
 
     # Application title
-    titlePanel("Richard Sprague Continuous Monitoring", windowTitle = "Richard Sprague"),
-    tags$a(href="https://richardsprague.com", "More details"),
+    titlePanel("Personal Science Experiments", windowTitle = "Personal Science, Inc."),
+    tags$a(href="https://personalscience.com", "More details"),
 
 
     # Sidebar
@@ -30,6 +32,9 @@ shinyUI(fluidPage(
             numericInput(inputId="a_user", label="User ID", value=13),
             textInput(inputId="foodname", label="Compare food:", value="Apple Juice"),
             submitButton( text="Submit"),
+            checkboxGroupInput(inputId="user_list",label="Users to compare:",
+                               choices=USER_LIST,
+                               selected=USER_LIST)
 
         ),
 
