@@ -44,14 +44,15 @@ read_notes <- function(conn_args=config::get("dataconnection"),
                         password = conn_args$password)
 
   notes_df <- tbl(con, "notes_records") %>%   filter(user_id %in% ID ) %>%
-    collect() %>% mutate(Activity = factor(Activity))
+    collect() %>% mutate(Activity = factor(Activity),
+                         user_id = factor(user_id))
 
   glucose_df <- tbl(con, conn_args$glucose_table)  %>%
     filter(user_id %in% ID & record_date >= fromDate) %>% collect() %>%
     transmute(time = force_tz(as_datetime(record_date) + record_time, Sys.timezone()),
                                           scan = value, hist = value, strip = NA, value = value,
                                           food = as.character(stringr::str_match(notes,"Notes=.*")),
-                                          user_id = user_id)
+                                          user_id = factor(user_id))
 
 
   nr <- glucose_df %>%
@@ -62,7 +63,13 @@ read_notes <- function(conn_args=config::get("dataconnection"),
            End=as_datetime(NA), Z=as.numeric(NA),
            user_id = factor(user_id))
 
-  notes_records <- nr %>% bind_rows(notes_df) %>% mutate(Activity=factor(Activity))
+  # consider 
+  all_levels <- forcats::lvls_union(list(nr$user_id,notes_df$user_id))
+  
+  notes_records <- nr %>% mutate(user_id=factor(user_id,all_levels)) %>%
+                                   bind_rows(notes_df %>% mutate(user_id=factor(user_id,all_levels))) %>%
+                                   mutate(Activity=factor(Activity),
+                                          user_id=factor(user_id, all_levels))
 
   return(notes_records)
 

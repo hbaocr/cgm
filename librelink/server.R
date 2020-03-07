@@ -89,6 +89,9 @@ theme_set(theme_stata())
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
 
+    
+    
+    message("back to the server")
 #    renderPrint(input$date1)
     output$glucoseLevelsPlot <- renderPlot({
         
@@ -111,7 +114,7 @@ shinyServer(function(input, output) {
         glucose_raw <- read_glucose(config::get("dataconnection"),ID=USER_ID,fromDate = input$date1)
         
         notes_records1 <- read_notes(config::get("dataconnection"),ID=USER_ID,fromDate = input$date1)
-        fake_sleep = tibble(Start=as_datetime("2000-01-01"),End=as_datetime("2000-01-02"),Comment=NA,Activity="Sleep",Z=0,user_id=USER_ID)
+        fake_sleep = tibble(Start=as_datetime("2000-01-01"),End=as_datetime("2000-01-02"),Comment=NA,Activity="Sleep",Z=0,user_id=factor(USER_ID))
         notes_records <- bind_rows(notes_records1,fake_sleep)
         notes_records$Activity <- factor(notes_records$Activity)
         
